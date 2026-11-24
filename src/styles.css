@@ -1062,6 +1062,42 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 
 .big-caption { margin-top: 12px; font-size: 14px; font-weight: 500; opacity: 0.9; }
 
+.big-result-link {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(4, 11, 23, 0.34);
+  color: #fef000;
+  border: 1px solid rgba(254, 240, 0, 0.35);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: "Oswald", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.big-result-link:hover {
+  transform: translateY(-1px);
+  background: #fef000;
+  color: #040b17;
+}
+
+[data-theme="light"] .big-result-link {
+  background: rgba(3, 112, 185, 0.1);
+  color: #0370b9;
+  border-color: rgba(3, 112, 185, 0.25);
+}
+
+[data-theme="light"] .big-result-link:hover {
+  background: #0370b9;
+  color: #ffffff;
+}
+
 /* Bar Chart */
 .chart-card .chart-big { font-size: 34px; font-weight: 700; letter-spacing: 0.02em; margin-top: 4px; }
 .chart-delta { font-size: 13px; font-weight: 700; color: var(--accent-green); margin-top: 4px; }

@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowRight } from "lucide-react";
 
 export default function HighlightMetricCard({ selected }) {
   return (
@@ -25,6 +26,12 @@ export default function HighlightMetricCard({ selected }) {
         {selected.participant} • {selected.pace} • Rank{" "}
         {typeof selected.rank === "number" ? `#${selected.rank.toLocaleString()}` : selected.rank}
       </div>
+      {selected.url && selected.url !== "#" && (
+        <a className="big-result-link" href={selected.url} target="_blank" rel="noreferrer">
+          <span>View Official Result</span>
+          <ArrowRight size={15} />
+        </a>
+      )}
     </div>
   );
 }
