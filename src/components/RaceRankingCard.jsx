@@ -1,5 +1,6 @@
 import React from "react";
 import { Award } from "lucide-react";
+import SourceLogo from "./SourceLogo.jsx";
 
 export default function RaceRankingCard({ sortedBySpeed, selectedIdx, onSelectRace }) {
   return (
@@ -31,12 +32,12 @@ export default function RaceRankingCard({ sortedBySpeed, selectedIdx, onSelectRa
             </span>
             <div className="rank-meta">
               <div className="rank-name">{r.name}</div>
-              <div className="rank-sub">
-                {r.subEvent ? `${r.subEvent} • ` : ""}
-                {r.shortDate} •{" "}
-                <span className="feed-source-tag" style={{ verticalAlign: "middle" }}>
-                  {r.source}
+              <div className="rank-sub rank-sub-row">
+                <span>
+                  {r.subEvent ? `${r.subEvent} • ` : ""}
+                  {r.dateLabel}
                 </span>
+                <SourceLogo source={r.source} />
               </div>
             </div>
             <div className="rank-score">{r.officialTime}</div>

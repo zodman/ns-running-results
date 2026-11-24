@@ -1,4 +1,5 @@
 import React from "react";
+import SourceLogo from "./SourceLogo.jsx";
 
 export default function RaceFeedCard({ visibleFeed, selectedIdx, onSelectRace }) {
   return (
@@ -17,7 +18,7 @@ export default function RaceFeedCard({ visibleFeed, selectedIdx, onSelectRace })
           <div className="feed-body">
             <div className="feed-date">
               <span>{r.dateLabel}</span>
-              <span className="feed-source-tag">{r.source}</span>
+              <SourceLogo source={r.source} />
             </div>
             <div className="feed-metric">
               <span>{r.officialTime}</span>
