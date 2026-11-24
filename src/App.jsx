@@ -1,15 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Clock,
-  Home,
-  Moon,
-  Search,
-  Sun,
-  Trophy,
-  Users
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Moon, Search, Sun, Users } from "lucide-react";
 import { searchRunner } from "./lib/pocketbase";
 import CommunityDashboard from "./CommunityDashboard.jsx";
 import SiteFooter from "./SiteFooter.jsx";
@@ -17,6 +7,8 @@ import LandingPage from "./components/LandingPage.jsx";
 import TimelineGraph from "./components/TimelineGraph.jsx";
 import RaceDetailsColumn from "./components/RaceDetailsColumn.jsx";
 import RaceFeedColumn from "./components/RaceFeedColumn.jsx";
+import CategoryFilterBar from "./components/CategoryFilterBar.jsx";
+import BottomNav from "./components/BottomNav.jsx";
 import {
   CATEGORY_ORDER,
   computeHistoryStats,
@@ -262,37 +254,12 @@ export default function App() {
 
       {/* Distance Category Classifier Bar */}
       {races.length > 0 && (
-        <div className="category-bar" role="tablist" aria-label="Filter races by distance">
-          <button
-            type="button"
-            className={`cat-pill ${filterTab === "all" ? "active" : ""}`}
-            onClick={() => setFilterTab("all")}
-          >
-            <span>All Distances</span>
-            <span className="cat-pill-count">{categoryCounts.All}</span>
-          </button>
-          {CATEGORY_ORDER.filter((cat) => categoryCounts[cat] > 0).map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              className={`cat-pill ${filterTab === cat ? "active" : ""}`}
-              onClick={() => setFilterTab(cat)}
-            >
-              <span>{cat}</span>
-              <span className="cat-pill-count">{categoryCounts[cat]}</span>
-            </button>
-          ))}
-          {races.some((r) => r.isPB) && (
-            <button
-              type="button"
-              className={`cat-pill ${filterTab === "fastest" ? "active" : ""}`}
-              onClick={() => setFilterTab("fastest")}
-            >
-              <span>Personal Bests</span>
-              <span className="cat-pill-count">{races.filter((r) => r.isPB).length}</span>
-            </button>
-          )}
-        </div>
+        <CategoryFilterBar
+          races={races}
+          categoryCounts={categoryCounts}
+          filterTab={filterTab}
+          onSelectTab={setFilterTab}
+        />
       )}
 
       {/* Full-Width Top Progression Graph */}
@@ -336,37 +303,12 @@ export default function App() {
       )}
 
       {/* Floating Bottom Nav */}
-      <nav className="bottom-nav" aria-label="Filter races">
-        <button
-          type="button"
-          className={`nav-btn ${filterTab === "all" ? "active" : ""}`}
-          onClick={() => setFilterTab("all")}
-        >
-          <Home size={19} />
-          <span>All ({races.length})</span>
-        </button>
-        {["5K", "10K", "Half Marathon", "Marathon"]
-          .filter((cat) => categoryCounts[cat] > 0)
-          .map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              className={`nav-btn ${filterTab === cat ? "active" : ""}`}
-              onClick={() => setFilterTab(cat)}
-            >
-              <Clock size={19} />
-              <span>{cat === "Half Marathon" ? "Half" : cat}</span>
-            </button>
-          ))}
-        <button
-          type="button"
-          className={`nav-btn ${filterTab === "fastest" ? "active" : ""}`}
-          onClick={() => setFilterTab("fastest")}
-        >
-          <Trophy size={19} />
-          <span>PBs</span>
-        </button>
-      </nav>
+      <BottomNav
+        totalCount={races.length}
+        categoryCounts={categoryCounts}
+        filterTab={filterTab}
+        onSelectTab={setFilterTab}
+      />
       <SiteFooter />
     </div>
   );
