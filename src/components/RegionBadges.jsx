@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { CheckCircle2, HelpCircle, Lock, MapPin } from "lucide-react";
+import { CheckCircle2, HelpCircle, Lock, MapPin, Share2 } from "lucide-react";
 import { NS_REGIONS } from "../utils/passportCatalog";
 import InfoModal from "./InfoModal.jsx";
 
-export default function RegionBadges({ regionStats, activeRegion, onSelectRegion }) {
+export default function RegionBadges({ regionStats, activeRegion, onSelectRegion, onShareRegion }) {
   const [showInfo, setShowInfo] = useState(false);
 
   return (
@@ -30,8 +30,22 @@ export default function RegionBadges({ regionStats, activeRegion, onSelectRegion
             Wall below.
           </p>
         </div>
-        <div className="region-score-pill">
-          <strong>{regionStats.unlockedCount}</strong> / {regionStats.totalRegions} Regions
+        <div className="trophy-head-actions">
+          <div className="region-score-pill">
+            <strong>{regionStats.unlockedCount}</strong> / {regionStats.totalRegions} Regions
+          </div>
+
+          {onShareRegion && regionStats.unlockedCount > 0 && (
+            <button
+              type="button"
+              className="trophy-head-share-btn"
+              onClick={() => onShareRegion({ id: "regions:all" })}
+              title="Share your Captured Nova Scotia Regions"
+            >
+              <Share2 size={13} />
+              <span>Share</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -58,11 +72,11 @@ export default function RegionBadges({ regionStats, activeRegion, onSelectRegion
                 {reg.mastered ? (
                   <span className="pm-tier-pill gold">Mastered</span>
                 ) : reg.unlocked ? (
-                  <span className="region-check">
+                  <span className="region-check" title="Captured">
                     <CheckCircle2 size={15} />
                   </span>
                 ) : (
-                  <span className="region-lock">
+                  <span className="region-lock" title="Locked">
                     <Lock size={13} />
                   </span>
                 )}

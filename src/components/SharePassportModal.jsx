@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Award, Check, Download, Facebook, Instagram, Link2, Loader2, Share2, Trophy } from "lucide-react";
+import { Award, Check, Download, ExternalLink, Facebook, Globe, Instagram, Link2, Loader2, Share2, Trophy } from "lucide-react";
 import InfoModal from "./InfoModal.jsx";
 import { renderPassportShareCard } from "../utils/shareCardCanvas";
 
@@ -20,6 +20,8 @@ function StravaIcon({ size = 14, className = "" }) {
 
 function resolveInitialId(item) {
   if (!item) return "all";
+  if (item.towns && item.id) return `region:${item.id}`;
+  if (item.id === "regions:all") return "regions:all";
   if (item.title && item.id && item.id !== "shelf") return `trophy:${item.id}`;
   if (item.id === "shelf") return "all";
   return item.id || "all";
@@ -63,7 +65,18 @@ export default function SharePassportModal({
     }
   }, [open, initialMedal]);
 
+  const isRegion = selectedMedalId.startsWith("region:") || selectedMedalId === "regions:all";
   const isTrophy = selectedMedalId.startsWith("trophy:");
+
+  const activeRegion = useMemo(() => {
+    if (!isRegion) return null;
+    if (selectedMedalId === "regions:all") {
+      return { id: "all", title: "All 7 Nova Scotia Regions", icon: "🗺️", towns: "Across Nova Scotia" };
+    }
+    const rId = selectedMedalId.replace(/^region:/, "");
+    return regionStats?.regions?.find((r) => r.id === rId) || null;
+  }, [isRegion, selectedMedalId, regionStats?.regions]);
+
   const activeTrophy = useMemo(() => {
     if (!isTrophy) return null;
     const tId = selectedMedalId.replace(/^trophy:/, "");
@@ -71,9 +84,9 @@ export default function SharePassportModal({
   }, [isTrophy, selectedMedalId, unlockedTrophies]);
 
   const activeMedal = useMemo(() => {
-    if (selectedMedalId === "all" || isTrophy) return null;
+    if (selectedMedalId === "all" || isTrophy || isRegion) return null;
     return caughtMedals.find((m) => m.id === selectedMedalId) || null;
-  }, [selectedMedalId, isTrophy, caughtMedals]);
+  }, [selectedMedalId, isTrophy, isRegion, caughtMedals]);
 
   const shareOrigin = useMemo(() => {
     if (typeof window === "undefined") return "https://ns-running-results.opensrc.mx";
@@ -85,17 +98,45 @@ export default function SharePassportModal({
 
   const passportUrl = useMemo(() => {
     const params = new URLSearchParams({ name: runnerName, tab: "passport" });
-    if (activeTrophy) {
+    if (activeRegion) {
+      params.set("region", activeRegion.id);
+    } else if (activeTrophy) {
       params.set("trophy", activeTrophy.id);
     } else if (activeMedal) {
       params.set("medal", activeMedal.id);
     }
     return `${shareOrigin}/?${params.toString()}`;
-  }, [shareOrigin, runnerName, activeTrophy, activeMedal]);
+  }, [shareOrigin, runnerName, activeRegion, activeTrophy, activeMedal]);
+
+  const fbPassportUrl = useMemo(() => {
+    const url = new URL(passportUrl);
+    url.searchParams.set("utm_source", "facebook");
+    url.searchParams.set("utm_medium", "social");
+    url.searchParams.set("utm_campaign", "passport_share");
+    if (activeRegion) {
+      url.searchParams.set("utm_content", `region_${activeRegion.id.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`);
+    } else if (activeTrophy) {
+      url.searchParams.set("utm_content", `trophy_${activeTrophy.id}`);
+    } else if (activeMedal) {
+      url.searchParams.set("utm_content", `medal_${activeMedal.id}`);
+    } else {
+      url.searchParams.set("utm_content", "medal_wall");
+    }
+    return url.toString();
+  }, [passportUrl, activeRegion, activeTrophy, activeMedal]);
+
+  const opensrcPromoUrl = "https://app.opensrc.mx/?utm_source=facebook&utm_medium=social&utm_campaign=passport_share";
 
   const shareSummary = useMemo(() => {
+    if (activeRegion) {
+      if (activeRegion.id === "all") {
+        return `${runnerName} has captured ${regionStats.unlockedCount} of 7 Nova Scotia Running Regions (${regionStats.percent}%) on Nova Scotia Race Passport! Explore at app.opensrc.mx`;
+      }
+      const mastery = activeRegion.mastered ? "★ Mastered" : "Captured";
+      return `${runnerName} captured the ${activeRegion.id} Region (${mastery} • ${activeRegion.raceCount} ${activeRegion.raceCount === 1 ? "finish" : "finishes"} • ${activeRegion.caughtMedals}/${activeRegion.totalMedals} Medals) on Nova Scotia Race Passport! Explore at app.opensrc.mx`;
+    }
     if (activeTrophy) {
-      return `${runnerName} unlocked the "${activeTrophy.title}" Achievement Trophy! 🏆 Achievement: ${activeTrophy.desc} • Milestone: ${activeTrophy.progress} • Nova Scotia Race Passport`;
+      return `${runnerName} unlocked the "${activeTrophy.title}" Achievement Trophy! 🏆 Achievement: ${activeTrophy.desc} • Milestone: ${activeTrophy.progress} • Nova Scotia Race Passport — app.opensrc.mx`;
     }
     if (activeMedal) {
       const tierName =
@@ -104,10 +145,10 @@ export default function SharePassportModal({
           : activeMedal.tier === "silver"
             ? "Silver Loyalist (2 finishes)"
             : "Official Finisher";
-      return `${runnerName} earned the ${activeMedal.name} Finisher Medal (${activeMedal.bestTime}) • ${tierName} on Nova Scotia Race Passport!`;
+      return `${runnerName} earned the ${activeMedal.name} Finisher Medal (${activeMedal.bestTime}) • ${tierName} on Nova Scotia Race Passport! View results at app.opensrc.mx`;
     }
-    return `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title}`;
-  }, [activeTrophy, activeMedal, runnerName, passport, regionStats, trophyStats]);
+    return `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title} — app.opensrc.mx`;
+  }, [activeRegion, activeTrophy, activeMedal, runnerName, passport, regionStats, trophyStats]);
 
   // Silently generate & upload this runner's 1200x630 personalized OG preview card (medal, trophy, or passport)
   useEffect(() => {
@@ -122,6 +163,7 @@ export default function SharePassportModal({
       trophyStats,
       selectedMedal: activeMedal,
       selectedTrophy: activeTrophy,
+      selectedRegion: activeRegion,
       format: "og"
     })
       .then((res) => {
@@ -143,7 +185,7 @@ export default function SharePassportModal({
     return () => {
       cancelled = true;
     };
-  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats, activeMedal, activeTrophy, shareSummary]);
+  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats, activeMedal, activeTrophy, activeRegion, shareSummary]);
 
   // Render selected card format (fb landscape 1200x630, 9:16 story, or 1:1 square)
   useEffect(() => {
@@ -158,6 +200,7 @@ export default function SharePassportModal({
       trophyStats,
       selectedMedal: activeMedal,
       selectedTrophy: activeTrophy,
+      selectedRegion: activeRegion,
       format
     })
       .then((res) => {
@@ -171,16 +214,18 @@ export default function SharePassportModal({
     return () => {
       cancelled = true;
     };
-  }, [open, format, activeMedal, activeTrophy, runnerName, seasonLabel, passport, regionStats, trophyStats]);
+  }, [open, format, activeMedal, activeTrophy, activeRegion, runnerName, seasonLabel, passport, regionStats, trophyStats]);
 
   function handleDownload() {
     if (!previewUrl) return;
     const slug = runnerName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    const itemSlug = activeTrophy
-      ? `trophy-${activeTrophy.id}`
-      : activeMedal
-        ? activeMedal.id
-        : "passport-wall";
+    const itemSlug = activeRegion
+      ? `region-${activeRegion.id}`
+      : activeTrophy
+        ? `trophy-${activeTrophy.id}`
+        : activeMedal
+          ? `medal-${activeMedal.id}`
+          : "full-passport";
     const ext = format === "fb" ? "jpg" : "png";
     const a = document.createElement("a");
     a.href = previewUrl;
@@ -192,34 +237,40 @@ export default function SharePassportModal({
     if (!blob || !navigator.share) return;
     try {
       const slug = runnerName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-      const itemSlug = activeTrophy
-        ? `trophy-${activeTrophy.id}`
-        : activeMedal
-          ? activeMedal.id
-          : "passport-wall";
+      const itemSlug = activeRegion
+        ? `region-${activeRegion.id}`
+        : activeTrophy
+          ? `trophy-${activeTrophy.id}`
+          : activeMedal
+            ? activeMedal.id
+            : "passport-wall";
       const ext = format === "fb" ? "jpg" : "png";
       const file = new File([blob], `ns-race-${itemSlug}-${slug || "runner"}-${format}.${ext}`, {
         type: format === "fb" ? "image/jpeg" : "image/png"
       });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
-          title: activeTrophy
-            ? `${runnerName}'s ${activeTrophy.title} Trophy`
-            : activeMedal
-              ? `${runnerName}'s ${activeMedal.name} Medal`
-              : `${runnerName}'s Nova Scotia Race Passport`,
+          title: activeRegion
+            ? `${runnerName}'s ${activeRegion.id === "all" ? "Nova Scotia 7 Regions" : `${activeRegion.id} Region`} Capture`
+            : activeTrophy
+              ? `${runnerName}'s ${activeTrophy.title} Trophy`
+              : activeMedal
+                ? `${runnerName}'s ${activeMedal.name} Medal`
+                : `${runnerName}'s Nova Scotia Race Passport`,
           text: shareSummary,
           files: [file]
         });
       } else {
         await navigator.share({
-          title: activeTrophy
-            ? `${runnerName}'s ${activeTrophy.title} Trophy`
-            : activeMedal
-              ? `${runnerName}'s ${activeMedal.name} Medal`
-              : `${runnerName}'s Nova Scotia Race Passport`,
+          title: activeRegion
+            ? `${runnerName}'s ${activeRegion.id === "all" ? "Nova Scotia 7 Regions" : `${activeRegion.id} Region`} Capture`
+            : activeTrophy
+              ? `${runnerName}'s ${activeTrophy.title} Trophy`
+              : activeMedal
+                ? `${runnerName}'s ${activeMedal.name} Medal`
+                : `${runnerName}'s Nova Scotia Race Passport`,
           text: shareSummary,
-          url: passportUrl
+          url: fbPassportUrl
         });
       }
     } catch (_) {
@@ -233,25 +284,28 @@ export default function SharePassportModal({
     setTimeout(() => setCopiedKey(""), 2000);
   }
 
-  const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(passportUrl)}`;
+  const fbShareQuote = `${shareSummary} • Explore Nova Scotia Race Passport at https://app.opensrc.mx/`;
+  const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fbPassportUrl)}&quote=${encodeURIComponent(fbShareQuote)}`;
   const canNativeShare = typeof navigator !== "undefined" && Boolean(navigator.share);
 
   return (
     <InfoModal
       open={open}
       title={
-        activeTrophy
-          ? `Share ${activeTrophy.title} Trophy`
-          : activeMedal
-            ? `Share ${activeMedal.name} Finisher Medal`
-            : "Share Your NS Race Passport"
+        activeRegion
+          ? `Share ${activeRegion.id === "all" ? "Nova Scotia 7 Regions" : `${activeRegion.id} Region`}`
+          : activeTrophy
+            ? `Share ${activeTrophy.title} Trophy`
+            : activeMedal
+              ? `Share ${activeMedal.name} Finisher Medal`
+              : "Share Your NS Race Passport"
       }
       icon={activeTrophy ? <Trophy size={18} /> : <Share2 size={18} />}
       onClose={onClose}
     >
       <div className="share-image-panel">
-        {/* Item Selection Filter: Medal Wall, Finisher Medals, or Achievement Trophies */}
-        {(caughtMedals.length > 0 || unlockedTrophies.length > 0) && (
+        {/* Item Selection Filter: Medal Wall, Finisher Medals, Regions, or Achievement Trophies */}
+        {(caughtMedals.length > 0 || unlockedTrophies.length > 0 || regionStats?.unlockedCount > 0) && (
           <div className="share-target-bar">
             <span className="share-target-label">
               <Award size={14} />
@@ -277,6 +331,21 @@ export default function SharePassportModal({
                 </optgroup>
               )}
 
+              {regionStats?.regions && regionStats.regions.some((r) => r.unlocked) && (
+                <optgroup label="📍 Captured Nova Scotia Regions">
+                  <option value="regions:all">
+                    🗺️ All 7 NS Regions ({regionStats.unlockedCount}/7 Captured)
+                  </option>
+                  {regionStats.regions
+                    .filter((r) => r.unlocked)
+                    .map((r) => (
+                      <option key={`region:${r.id}`} value={`region:${r.id}`}>
+                        {r.icon} {r.id} ({r.mastered ? "★ Mastered" : "Captured"} • {r.raceCount} {r.raceCount === 1 ? "finish" : "finishes"})
+                      </option>
+                    ))}
+                </optgroup>
+              )}
+
               {unlockedTrophies.length > 0 && (
                 <optgroup label="🏆 Your Achievement Trophies">
                   {unlockedTrophies.map((t) => (
@@ -287,6 +356,34 @@ export default function SharePassportModal({
                 </optgroup>
               )}
             </select>
+          </div>
+        )}
+
+        {/* Dedicated Regional Highlight Box */}
+        {activeRegion && (
+          <div className="share-trophy-highlight-box" role="region" aria-label="Region capture details">
+            <div className="share-trophy-highlight-head">
+              <span className="share-trophy-highlight-icon" aria-hidden="true">{activeRegion.icon || "📍"}</span>
+              <div className="share-trophy-highlight-meta">
+                <span className="share-trophy-highlight-badge">
+                  {activeRegion.id === "all" ? "Nova Scotia Province" : activeRegion.mastered ? "★ Mastered Region" : "Captured Region"}
+                </span>
+                <h4 className="share-trophy-highlight-title">
+                  {activeRegion.id === "all" ? "Capture Nova Scotia — 7 Regions" : `${activeRegion.id} Region`}
+                </h4>
+              </div>
+            </div>
+            <p className="share-trophy-highlight-desc">
+              <strong>Towns:</strong> {activeRegion.towns || "Across Nova Scotia"}
+            </p>
+            <div className="share-trophy-highlight-milestone">
+              <Check size={13} />
+              <span>
+                {activeRegion.id === "all"
+                  ? `${regionStats.unlockedCount} of 7 regions captured (${regionStats.percent}% of Nova Scotia)`
+                  : `${activeRegion.raceCount} ${activeRegion.raceCount === 1 ? "finish" : "finishes"} • ${activeRegion.caughtMedals}/${activeRegion.totalMedals} medals caught`}
+              </span>
+            </div>
           </div>
         )}
 
@@ -426,11 +523,13 @@ export default function SharePassportModal({
         <div className="share-link-section">
           <div className="share-link-header">
             <span className="share-link-label">
-              {activeTrophy
-                ? `Direct Link to ${activeTrophy.title} Trophy`
-                : activeMedal
-                  ? `Direct Link to ${activeMedal.name} Medal`
-                  : "Direct Passport Link"}
+              {activeRegion
+                ? `Direct Link to ${activeRegion.id === "all" ? "7 Regions" : `${activeRegion.id} Region`}`
+                : activeTrophy
+                  ? `Direct Link to ${activeTrophy.title} Trophy`
+                  : activeMedal
+                    ? `Direct Link to ${activeMedal.name} Medal`
+                    : "Direct Passport Link"}
             </span>
             {ogSynced && (
               <span className="share-sync-badge">
@@ -439,17 +538,35 @@ export default function SharePassportModal({
             )}
           </div>
           <div className="share-code-box">
-            <code>{passportUrl}</code>
+            <code>{fbPassportUrl}</code>
             <button
               type="button"
               className="share-copy-btn"
-              onClick={() => handleCopy("url", passportUrl)}
+              onClick={() => handleCopy("url", fbPassportUrl)}
               aria-label="Copy direct passport link"
             >
               {copiedKey === "url" ? <Check size={14} /> : <Link2 size={14} />}
-              <span>{copiedKey === "url" ? "Copied!" : "Copy"}</span>
+              <span>{copiedKey === "url" ? "Copied!" : "Copy Link"}</span>
             </button>
           </div>
+        </div>
+
+        {/* OpenSrc Ecosystem Banner */}
+        <div className="share-opensrc-banner-row">
+          <span className="share-opensrc-tagline">
+            Powered by <strong>app.opensrc.mx</strong> • Open-Source Nova Scotia Running Ecosystem
+          </span>
+          <a
+            href="https://app.opensrc.mx/?utm_source=facebook&utm_medium=social&utm_campaign=passport_share"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="share-opensrc-pill-link"
+            title="Visit app.opensrc.mx"
+          >
+            <Globe size={13} className="share-opensrc-icon" />
+            <span>app.opensrc.mx</span>
+            <ExternalLink size={12} />
+          </a>
         </div>
 
         <p className="im-footnote">

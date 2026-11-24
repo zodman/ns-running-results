@@ -268,6 +268,10 @@ export default function RacePassport({
           regionStats={regionStats}
           activeRegion={regionFilter}
           onSelectRegion={setRegionFilter}
+          onShareRegion={(region) => {
+            setSelectedMedalForShare(region);
+            setShowShareModal(true);
+          }}
         />
       )}
 
@@ -320,14 +324,14 @@ export default function RacePassport({
                     type="button"
                     className="pm-share-btn"
                     title={`Share ${item.name} medal on Facebook`}
+                    aria-label={`Share ${item.name} medal on Facebook`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedMedalForShare(item);
                       setShowShareModal(true);
                     }}
                   >
-                    <Facebook size={11} />
-                    <span>Share</span>
+                    <Facebook size={12} />
                   </button>
                 </div>
               ) : (

@@ -41,14 +41,28 @@ export async function renderPassportShareCard({
   trophyStats,
   selectedMedal = null,
   selectedTrophy = null,
+  selectedRegion = null,
   format = "story" // "story" (1080x1920) | "square" (1080x1080) | "fb" / "og" (1200x630)
 }) {
+  if (selectedRegion) {
+    return renderSingleRegionCard({
+      runnerName,
+      seasonLabel,
+      region: selectedRegion,
+      passport,
+      regionStats,
+      trophyStats,
+      format
+    });
+  }
+
   if (selectedTrophy) {
     return renderSingleTrophyCard({
       runnerName,
       seasonLabel,
       trophy: selectedTrophy,
       passport,
+      regionStats,
       trophyStats,
       format
     });
@@ -60,6 +74,8 @@ export async function renderPassportShareCard({
       seasonLabel,
       medal: selectedMedal,
       passport,
+      regionStats,
+      trophyStats,
       format
     });
   }
@@ -815,6 +831,8 @@ async function renderSingleMedalCard({
   seasonLabel,
   medal,
   passport,
+  regionStats,
+  trophyStats,
   format = "fb"
 }) {
   const isFb = format === "fb" || format === "og" || format === "facebook";
@@ -1028,6 +1046,58 @@ async function renderSingleMedalCard({
     ctx.textBaseline = "middle";
     const passSummary = `PASSPORT: ${passport.caughtCount}/${passport.totalCount} MEDALS (${passport.percent}%) • ${passport.rank?.current?.title?.toUpperCase() || "EXPLORER"}`;
     ctx.fillText(passSummary, rx + 18, 433);
+
+    // Fill bottom space: 3-column Nova Scotia Ecosystem Strip
+    const botStripY = 478;
+    const botStripH = 68;
+    drawRoundedRect(ctx, rx, botStripY, rw, botStripH, 14);
+    ctx.fillStyle = "rgba(15, 23, 42, 0.68)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.35)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    const colW = rw / 3;
+    // Col 1: Running Region
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 13px Oswald, Arial, sans-serif";
+    ctx.fillText("RUNNING REGION", rx + 16, botStripY + 12);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "700 20px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, medal.region || "Nova Scotia", colW - 20), rx + 16, botStripY + 34);
+
+    // Col 2: Captured Regions
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 13px Oswald, Arial, sans-serif";
+    ctx.fillText("REGIONS CAPTURED", rx + colW + 12, botStripY + 12);
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 22px Oswald, Arial, sans-serif";
+    ctx.fillText(`${regionStats?.unlockedCount || 0} / 7 Regions`, rx + colW + 12, botStripY + 32);
+
+    // Col 3: Unlocked Trophies
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 13px Oswald, Arial, sans-serif";
+    ctx.fillText("TROPHIES UNLOCKED", rx + colW * 2 + 12, botStripY + 12);
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "700 22px Oswald, Arial, sans-serif";
+    ctx.fillText(`${trophyStats?.unlockedCount || 0} / ${trophyStats?.totalCount || 15} Trophies`, rx + colW * 2 + 12, botStripY + 32);
+
+    // Left side under coin: Pill
+    const coinPillW = 210;
+    drawRoundedRect(ctx, coinCx - coinPillW / 2, 514, coinPillW, 34, 17);
+    ctx.fillStyle = "rgba(4, 11, 23, 0.72)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.4)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 15px Oswald, Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${seasonLabel.toUpperCase()} FINISHER`, coinCx, 531);
+    ctx.textAlign = "left";
   } else {
     // Vertical / Square layout: details below coin
     let dy = coinCy + coinR + 32;
@@ -1258,6 +1328,51 @@ async function renderSingleTrophyCard({
       rx,
       418
     );
+
+    // Fill bottom space: 3-column Runner Achievement Showcase
+    const botBoxY = 454;
+    const botBoxH = 88;
+    drawRoundedRect(ctx, rx, botBoxY, rw, botBoxH, 16);
+    ctx.fillStyle = "rgba(15, 23, 42, 0.68)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.35)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    const colW = rw / 3;
+    // Col 1: Runner Rank
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 14px Oswald, Arial, sans-serif";
+    ctx.fillText("RUNNER RANK", rx + 18, botBoxY + 14);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "700 24px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, rankTitle.toUpperCase(), colW - 24), rx + 18, botBoxY + 38);
+
+    // Col 2: NS Medals Caught
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 14px Oswald, Arial, sans-serif";
+    ctx.fillText("MEDALS CAUGHT", rx + colW + 12, botBoxY + 14);
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 26px Oswald, Arial, sans-serif";
+    ctx.fillText(`${medalsCount} / ${passport?.totalCount || 32}`, rx + colW + 12, botBoxY + 36);
+
+    // Col 3: Regions Captured
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 14px Oswald, Arial, sans-serif";
+    ctx.fillText("REGIONS CAPTURED", rx + colW * 2 + 12, botBoxY + 14);
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "700 26px Oswald, Arial, sans-serif";
+    ctx.fillText(`${regionStats?.unlockedCount || 0} / 7`, rx + colW * 2 + 12, botBoxY + 36);
+
+    // Left side under trophy pill: status label
+    ctx.fillStyle = "rgba(248, 250, 252, 0.75)";
+    ctx.font = "600 14px Jost, Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("Auto-Unlocked Milestone", discX, 526);
+    ctx.textAlign = "left";
   } else {
     // Portrait (Story) or Square Layout
     let cy = isStory ? 250 : 150;
@@ -1369,6 +1484,439 @@ async function renderSingleTrophyCard({
   ctx.font = isFb ? "600 18px Jost, Arial, sans-serif" : isStory ? "600 22px Jost, Arial, sans-serif" : "600 20px Jost, Arial, sans-serif";
   ctx.fillText("app.opensrc.mx • Open-Source Athletic Ecosystem", W - padX, H - 34);
   ctx.textAlign = "left";
+  ctx.textAlign = "left";
+
+  const mime = isFb ? "image/jpeg" : "image/png";
+  const dataUrl = canvas.toDataURL(mime, 0.92);
+  const blob = await new Promise((res) => canvas.toBlob(res, mime, 0.92));
+  return { dataUrl, blob, jpegBase64: dataUrl };
+}
+
+/**
+ * Render single Nova Scotia Region card (Facebook 1200x630, Story 1080x1920, or Square 1080x1080).
+ * Handles individual captured regions as well as the 7-Regions overview.
+ */
+async function renderSingleRegionCard({
+  runnerName,
+  seasonLabel,
+  region,
+  passport,
+  regionStats,
+  trophyStats,
+  format = "fb"
+}) {
+  const isFb = format === "fb" || format === "og" || format === "facebook";
+  const isStory = format === "story";
+  const W = isFb ? 1200 : 1080;
+  const H = isFb ? 630 : isStory ? 1920 : 1080;
+  const isAllRegions = region?.id === "all" || region?.id === "regions:all";
+
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  // Run NS Deep Navy -> Ocean Blue gradient background
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, "#040b17");
+  bg.addColorStop(0.55, "#072047");
+  bg.addColorStop(1, "#0370b9");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Atmospheric athletic glows
+  const glow1 = ctx.createRadialGradient(W * 0.8, H * 0.25, 10, W * 0.8, H * 0.25, 360);
+  glow1.addColorStop(0, "rgba(254, 240, 0, 0.16)");
+  glow1.addColorStop(1, "rgba(254, 240, 0, 0)");
+  ctx.fillStyle = glow1;
+  ctx.fillRect(0, 0, W, H);
+
+  const glow2 = ctx.createRadialGradient(W * 0.2, H * 0.85, 10, W * 0.2, H * 0.85, 420);
+  glow2.addColorStop(0, "rgba(56, 189, 248, 0.22)");
+  glow2.addColorStop(1, "rgba(56, 189, 248, 0)");
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Top kinetic accent bar
+  const topBar = ctx.createLinearGradient(0, 0, W, 0);
+  topBar.addColorStop(0, "#38bdf8");
+  topBar.addColorStop(0.5, "#fef000");
+  topBar.addColorStop(1, "#38bdf8");
+  ctx.fillStyle = topBar;
+  ctx.fillRect(0, 0, W, isFb ? 8 : 12);
+
+  const padX = isFb ? 52 : 72;
+
+  // Eyebrow
+  const eyebrow = isAllRegions
+    ? `NOVA SCOTIA RACE PASSPORT  •  CAPTURE NOVA SCOTIA (7 REGIONS)`
+    : `NOVA SCOTIA RACE PASSPORT  •  REGIONAL CAPTURE`;
+  ctx.font = isFb ? "700 20px Oswald, Arial, sans-serif" : isStory ? "700 28px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + (isFb ? 36 : 48);
+  const eyeY = isFb ? 30 : isStory ? 90 : 56;
+  drawRoundedRect(ctx, padX, eyeY, eyeW, isFb ? 36 : 50, isFb ? 18 : 25);
+  ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.fillStyle = "#fef000";
+  ctx.textBaseline = "middle";
+  ctx.fillText(eyebrow, padX + (isFb ? 18 : 24), eyeY + (isFb ? 18 : 25));
+
+  if (isFb) {
+    if (isAllRegions) {
+      // All 7 regions overview (Landscape 1200x630)
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "700 24px Oswald, Arial, sans-serif";
+      ctx.fillText(`${runnerName.toUpperCase()}'S PROVINCE PROGRESS`, padX, 82);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "800 56px Oswald, Arial, sans-serif";
+      ctx.fillText("CAPTURE NOVA SCOTIA — 7 REGIONS", padX, 114);
+
+      // Score banner
+      drawRoundedRect(ctx, padX, 184, W - padX * 2, 70, 16);
+      ctx.fillStyle = "rgba(15, 23, 42, 0.65)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(254, 240, 0, 0.4)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = "#fef000";
+      ctx.font = "700 32px Oswald, Arial, sans-serif";
+      ctx.textBaseline = "middle";
+      ctx.fillText(
+        `${regionStats?.unlockedCount || 0} / ${regionStats?.totalRegions || 7} REGIONS CAPTURED (${regionStats?.percent || 0}%)`,
+        padX + 24,
+        184 + 35
+      );
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "600 22px Jost, Arial, sans-serif";
+      ctx.fillText(
+        `${passport?.caughtCount || 0} Medals • ${passport?.rank?.current?.title || "Explorer"}`,
+        W - padX - 24,
+        184 + 35
+      );
+      ctx.textAlign = "left";
+
+      // 7 region cards grid
+      const regList = regionStats?.regions || [];
+      const cols = 4;
+      const gap = 14;
+      const cardW = (W - padX * 2 - gap * (cols - 1)) / cols;
+      const cardH = 124;
+      regList.forEach((r, idx) => {
+        const col = idx % cols;
+        const row = Math.floor(idx / cols);
+        const cx = padX + col * (cardW + gap);
+        const cy = 274 + row * (cardH + gap);
+
+        drawRoundedRect(ctx, cx, cy, cardW, cardH, 14);
+        ctx.fillStyle = r.unlocked ? "rgba(4, 11, 23, 0.6)" : "rgba(4, 11, 23, 0.35)";
+        ctx.fill();
+        ctx.strokeStyle = r.mastered
+          ? "rgba(254, 240, 0, 0.65)"
+          : r.unlocked
+            ? "rgba(56, 189, 248, 0.45)"
+            : "rgba(255, 255, 255, 0.12)";
+        ctx.lineWidth = r.mastered ? 2 : 1.5;
+        ctx.stroke();
+
+        ctx.font = "32px Apple Color Emoji, Segoe UI Emoji, sans-serif";
+        ctx.textBaseline = "top";
+        ctx.fillText(r.icon || "📍", cx + 14, cy + 14);
+
+        ctx.fillStyle = r.mastered ? "#fef000" : r.unlocked ? "#ffffff" : "rgba(255, 255, 255, 0.5)";
+        ctx.font = "700 20px Oswald, Arial, sans-serif";
+        ctx.fillText(truncateText(ctx, r.id.toUpperCase(), cardW - 68), cx + 58, cy + 18);
+
+        ctx.fillStyle = "rgba(248, 250, 252, 0.75)";
+        ctx.font = "500 13px Jost, Arial, sans-serif";
+        ctx.fillText(truncateText(ctx, r.towns, cardW - 28), cx + 14, cy + 56);
+
+        ctx.fillStyle = r.mastered ? "#fef000" : r.unlocked ? "#38bdf8" : "rgba(148, 163, 184, 0.6)";
+        ctx.font = "700 14px Oswald, Arial, sans-serif";
+        const statusTxt = r.mastered
+          ? `★ MASTERED (${r.raceCount} FINISHES)`
+          : r.unlocked
+            ? `CAPTURED (${r.raceCount} FINISHES)`
+            : "LOCKED";
+        ctx.fillText(statusTxt, cx + 14, cy + 88);
+      });
+    } else {
+      // Individual Region Landscape (1200x630)
+      const discX = padX + 160;
+      const discY = 320;
+      const discR = 125;
+
+      // Glow ring
+      ctx.beginPath();
+      ctx.arc(discX, discY, discR + 14, 0, Math.PI * 2);
+      ctx.fillStyle = region.mastered ? "rgba(254, 240, 0, 0.16)" : "rgba(56, 189, 248, 0.16)";
+      ctx.fill();
+
+      // Disc background
+      ctx.beginPath();
+      ctx.arc(discX, discY, discR, 0, Math.PI * 2);
+      const discGrad = ctx.createLinearGradient(discX - discR, discY - discR, discX + discR, discY + discR);
+      discGrad.addColorStop(0, "#1e293b");
+      discGrad.addColorStop(1, "#0f172a");
+      ctx.fillStyle = discGrad;
+      ctx.fill();
+      ctx.strokeStyle = region.mastered ? "rgba(254, 240, 0, 0.85)" : "rgba(56, 189, 248, 0.75)";
+      ctx.lineWidth = 5;
+      ctx.stroke();
+
+      // Region Emoji
+      ctx.font = "96px Apple Color Emoji, Segoe UI Emoji, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(region.icon || "📍", discX, discY + 4);
+
+      // Status pill below disc
+      const pillY = discY + discR + 18;
+      const pillW = 220;
+      const isMast = region.mastered;
+      drawRoundedRect(ctx, discX - pillW / 2, pillY, pillW, 36, 18);
+      ctx.fillStyle = isMast ? "rgba(254, 240, 0, 0.18)" : "rgba(56, 189, 248, 0.18)";
+      ctx.fill();
+      ctx.strokeStyle = isMast ? "rgba(254, 240, 0, 0.7)" : "rgba(56, 189, 248, 0.6)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = isMast ? "#fef000" : "#38bdf8";
+      ctx.font = "700 16px Oswald, Arial, sans-serif";
+      ctx.fillText(isMast ? "★ MASTERED REGION" : "CAPTURED REGION", discX, pillY + 18);
+
+      // Towns note under disc
+      ctx.fillStyle = "rgba(248, 250, 252, 0.75)";
+      ctx.font = "600 14px Jost, Arial, sans-serif";
+      ctx.fillText(truncateText(ctx, region.towns, 300), discX, pillY + 54);
+
+      // Right Side: Details
+      const rx = discX + discR + 56;
+      const rw = W - padX - rx;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top";
+
+      // Runner Name Callout
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "700 24px Oswald, Arial, sans-serif";
+      ctx.fillText(`${runnerName.toUpperCase()} CAPTURED`, rx, 116);
+
+      // Region Title
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "800 62px Oswald, Arial, sans-serif";
+      ctx.fillText(truncateText(ctx, `${region.id.toUpperCase()} REGION`, rw), rx, 146);
+
+      // Towns line
+      ctx.fillStyle = "#fef000";
+      ctx.font = "700 17px Oswald, Arial, sans-serif";
+      ctx.fillText(`KEY TOWNS: ${region.towns.toUpperCase()}`, rx, 222);
+
+      // 2 Big Stat Boxes
+      const boxW = Math.floor((rw - 16) / 2);
+      const boxH = 124;
+      const boxY = 256;
+
+      // Box 1: Finishes
+      drawRoundedRect(ctx, rx, boxY, boxW, boxH, 16);
+      ctx.fillStyle = "rgba(15, 23, 42, 0.68)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = "#93c5fd";
+      ctx.font = "700 16px Oswald, Arial, sans-serif";
+      ctx.fillText("OFFICIAL REGIONAL FINISHES", rx + 18, boxY + 16);
+      ctx.fillStyle = "#fef000";
+      ctx.font = "700 46px Oswald, Arial, sans-serif";
+      ctx.fillText(`${region.raceCount} ${region.raceCount === 1 ? "FINISH" : "FINISHES"}`, rx + 18, boxY + 40);
+      ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
+      ctx.font = "600 15px Jost, Arial, sans-serif";
+      const mastSub = isMast
+        ? "★ Region Mastery Unlocked"
+        : `${Math.max(1, (region.masteryAt || 2) - region.raceCount)} more finishes for Mastery`;
+      ctx.fillText(mastSub, rx + 18, boxY + 92);
+
+      // Box 2: Medals
+      const bx2 = rx + boxW + 16;
+      drawRoundedRect(ctx, bx2, boxY, boxW, boxH, 16);
+      ctx.fillStyle = "rgba(15, 23, 42, 0.68)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = "#93c5fd";
+      ctx.font = "700 16px Oswald, Arial, sans-serif";
+      ctx.fillText("REGION MEDALS COLLECTED", bx2 + 18, boxY + 16);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "700 46px Oswald, Arial, sans-serif";
+      ctx.fillText(`${region.caughtMedals || 0} / ${region.totalMedals || 0} MEDALS`, bx2 + 18, boxY + 40);
+      ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
+      ctx.font = "600 15px Jost, Arial, sans-serif";
+      const pct = Math.round(((region.caughtMedals || 0) / (region.totalMedals || 1)) * 100);
+      ctx.fillText(`${pct}% of catalog medals in ${region.id}`, bx2 + 18, boxY + 92);
+
+      // Bottom Row: 3-column Nova Scotia Ecosystem summary
+      const botStripY = 398;
+      const botStripH = 92;
+      drawRoundedRect(ctx, rx, botStripY, rw, botStripH, 16);
+      ctx.fillStyle = "rgba(15, 23, 42, 0.68)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(254, 240, 0, 0.35)";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      const colW = rw / 3;
+      // Col 1: Province Total
+      ctx.fillStyle = "#93c5fd";
+      ctx.font = "700 14px Oswald, Arial, sans-serif";
+      ctx.fillText("PROVINCE TOTAL", rx + 18, botStripY + 16);
+      ctx.fillStyle = "#fef000";
+      ctx.font = "700 24px Oswald, Arial, sans-serif";
+      ctx.fillText(`${regionStats?.unlockedCount || 0} / 7 Regions`, rx + 18, botStripY + 42);
+
+      // Col 2: Total Medals
+      ctx.fillStyle = "#93c5fd";
+      ctx.font = "700 14px Oswald, Arial, sans-serif";
+      ctx.fillText("TOTAL NS MEDALS", rx + colW + 12, botStripY + 16);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "700 24px Oswald, Arial, sans-serif";
+      ctx.fillText(`${passport?.caughtCount || 0} / ${passport?.totalCount || 32}`, rx + colW + 12, botStripY + 42);
+
+      // Col 3: Runner Rank
+      ctx.fillStyle = "#93c5fd";
+      ctx.font = "700 14px Oswald, Arial, sans-serif";
+      ctx.fillText("RUNNER RANK", rx + colW * 2 + 12, botStripY + 16);
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "700 24px Oswald, Arial, sans-serif";
+      ctx.fillText(truncateText(ctx, passport?.rank?.current?.title?.toUpperCase() || "RUNNER", colW - 24), rx + colW * 2 + 12, botStripY + 42);
+    }
+  } else {
+    // Portrait (Story 1080x1920) or Square (1080x1080) Layout
+    let cy = isStory ? 240 : 150;
+    const discR = isStory ? 140 : 105;
+
+    // Runner eyebrow
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = `800 ${isStory ? 40 : 28}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`${runnerName.toUpperCase()}`, W / 2, cy);
+    cy += isStory ? 52 : 36;
+
+    // Disc
+    const discCenterY = cy + discR;
+    ctx.beginPath();
+    ctx.arc(W / 2, discCenterY, discR + 16, 0, Math.PI * 2);
+    ctx.fillStyle = region.mastered ? "rgba(254, 240, 0, 0.16)" : "rgba(56, 189, 248, 0.16)";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(W / 2, discCenterY, discR, 0, Math.PI * 2);
+    const discGrad = ctx.createLinearGradient(W / 2 - discR, discCenterY - discR, W / 2 + discR, discCenterY + discR);
+    discGrad.addColorStop(0, "#1e293b");
+    discGrad.addColorStop(1, "#0f172a");
+    ctx.fillStyle = discGrad;
+    ctx.fill();
+    ctx.strokeStyle = region.mastered ? "rgba(254, 240, 0, 0.85)" : "rgba(56, 189, 248, 0.75)";
+    ctx.lineWidth = 4.5;
+    ctx.stroke();
+
+    // Emoji icon
+    ctx.font = `${isStory ? 124 : 92}px Apple Color Emoji, Segoe UI Emoji, sans-serif`;
+    ctx.textBaseline = "middle";
+    ctx.fillText(region.icon || "📍", W / 2, discCenterY + 4);
+
+    cy = discCenterY + discR + (isStory ? 36 : 24);
+
+    // Pill below disc
+    const pillW = isStory ? 280 : 220;
+    const pillH = isStory ? 46 : 34;
+    const isMast = region.mastered;
+    drawRoundedRect(ctx, W / 2 - pillW / 2, cy, pillW, pillH, pillH / 2);
+    ctx.fillStyle = isMast ? "rgba(254, 240, 0, 0.18)" : "rgba(56, 189, 248, 0.18)";
+    ctx.fill();
+    ctx.strokeStyle = isMast ? "rgba(254, 240, 0, 0.65)" : "rgba(56, 189, 248, 0.55)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = isMast ? "#fef000" : "#38bdf8";
+    ctx.font = `700 ${isStory ? 22 : 16}px Oswald, Arial, sans-serif`;
+    ctx.fillText(isMast ? "★ MASTERED REGION" : "CAPTURED REGION", W / 2, cy + pillH / 2);
+
+    cy += pillH + (isStory ? 60 : 38);
+
+    // Region Title
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `800 ${isStory ? 76 : 52}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`${region.id.toUpperCase()} REGION`, W / 2, cy);
+    cy += isStory ? 58 : 40;
+
+    // Towns
+    ctx.fillStyle = "rgba(248, 250, 252, 0.95)";
+    ctx.font = `500 ${isStory ? 34 : 24}px Jost, Arial, sans-serif`;
+    ctx.fillText(region.towns || "Nova Scotia", W / 2, cy);
+    cy += isStory ? 72 : 48;
+
+    // 2 Stat boxes side by side
+    const boxW = Math.min((W - padX * 2 - 20) / 2, 420);
+    const boxH = isStory ? 120 : 88;
+    const bx1 = W / 2 - boxW - 10;
+    const bx2 = W / 2 + 10;
+
+    drawRoundedRect(ctx, bx1, cy, boxW, boxH, 16);
+    drawRoundedRect(ctx, bx2, cy, boxW, boxH, 16);
+    ctx.fillStyle = "rgba(15, 23, 42, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.4)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = `700 ${isStory ? 18 : 14}px Oswald, Arial, sans-serif`;
+    ctx.fillText("FINISHES", bx1 + boxW / 2, cy + (isStory ? 18 : 12));
+    ctx.fillText("MEDALS", bx2 + boxW / 2, cy + (isStory ? 18 : 12));
+
+    ctx.fillStyle = "#fef000";
+    ctx.font = `800 ${isStory ? 52 : 36}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`${region.raceCount}`, bx1 + boxW / 2, cy + (isStory ? 46 : 34));
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(`${region.caughtMedals}/${region.totalMedals}`, bx2 + boxW / 2, cy + (isStory ? 46 : 34));
+
+    cy += boxH + (isStory ? 60 : 36);
+
+    // Nova Scotia Province summary
+    const rankTitle = passport?.rank?.current?.title || "Nova Scotia Runner";
+    const regCount = regionStats?.unlockedCount ?? 0;
+    const medalsCount = passport?.caughtCount ?? 0;
+
+    ctx.fillStyle = "rgba(148, 163, 184, 0.95)";
+    ctx.font = `600 ${isStory ? 28 : 20}px Jost, Arial, sans-serif`;
+    ctx.fillText(
+      `${regCount}/7 Regions Captured  •  ${medalsCount} Medals  •  ${rankTitle}`,
+      W / 2,
+      cy
+    );
+  }
+
+  // Footer bar
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#fef000";
+  ctx.font = isFb ? "700 22px Oswald, Arial, sans-serif" : isStory ? "800 30px Oswald, Arial, sans-serif" : "700 26px Oswald, Arial, sans-serif";
+  ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 34);
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.78)";
+  ctx.font = isFb ? "600 18px Jost, Arial, sans-serif" : isStory ? "600 22px Jost, Arial, sans-serif" : "600 20px Jost, Arial, sans-serif";
+  ctx.fillText("app.opensrc.mx • Open-Source Athletic Ecosystem", W - padX, H - 34);
   ctx.textAlign = "left";
 
   const mime = isFb ? "image/jpeg" : "image/png";

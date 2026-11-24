@@ -107,33 +107,17 @@ export default function TrophyShelf({ trophyStats, onShareTrophy }) {
                 <div className="trophy-body">
                   <div className="trophy-title-row">
                     <span className="trophy-title">{t.title}</span>
-                    <div className="trophy-status-group">
-                      {t.unlocked ? (
-                        <>
-                          <span className="trophy-status unlocked">
-                            <CheckCircle2 size={13} />
-                            <span>Unlocked</span>
-                          </span>
-                          {onShareTrophy && (
-                            <button
-                              type="button"
-                              className="trophy-card-share-btn"
-                              onClick={() => onShareTrophy(t)}
-                              title={`Share ${t.title} trophy`}
-                              aria-label={`Share ${t.title} trophy`}
-                            >
-                              <Share2 size={11} />
-                              <span>Share</span>
-                            </button>
-                          )}
-                        </>
-                      ) : (
-                        <span className="trophy-status locked">
-                          <Lock size={12} />
-                          <span>Locked</span>
-                        </span>
-                      )}
-                    </div>
+                    {t.unlocked ? (
+                      <span className="trophy-status unlocked">
+                        <CheckCircle2 size={13} />
+                        <span>Unlocked</span>
+                      </span>
+                    ) : (
+                      <span className="trophy-status locked">
+                        <Lock size={12} />
+                        <span>Locked</span>
+                      </span>
+                    )}
                   </div>
                   <p className="trophy-desc">{t.desc}</p>
                   <div className="trophy-progress">{t.progress}</div>

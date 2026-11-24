@@ -3020,19 +3020,17 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 .pm-share-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: 999px;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
   border: 1px solid rgba(24, 119, 242, 0.45);
   background: rgba(24, 119, 242, 0.15);
   color: #93c5fd;
-  font-family: "Oswald", sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
   cursor: pointer;
   transition: all 0.18s ease;
+  flex-shrink: 0;
 }
 
 .pm-share-btn:hover {
@@ -3462,6 +3460,68 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 .share-copy-btn:hover {
   border-color: var(--rns-blue);
   color: var(--rns-blue);
+}
+
+.share-opensrc-banner-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(3, 112, 185, 0.12) 0%, rgba(254, 240, 0, 0.08) 100%);
+  border: 1px solid rgba(100, 161, 201, 0.28);
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.share-opensrc-tagline {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.share-opensrc-tagline strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.share-opensrc-pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--rns-yellow);
+  font-family: "Oswald", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .share-opensrc-pill-link {
+  color: var(--rns-blue);
+}
+
+.share-opensrc-pill-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--rns-yellow);
+  box-shadow: 0 4px 10px rgba(254, 240, 0, 0.2);
+}
+
+[data-theme="light"] .share-opensrc-pill-link:hover {
+  border-color: var(--rns-blue);
+  box-shadow: 0 4px 10px rgba(3, 112, 185, 0.2);
+}
+
+.share-opensrc-icon {
+  color: inherit;
+  flex-shrink: 0;
 }
 
 /* =========================================================
