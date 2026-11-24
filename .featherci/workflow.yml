@@ -59,18 +59,25 @@ steps:
           printf "%s" "$DEPLOY_SSH_KEY" | tr -d ' \t\r\n' | base64 -d > ~/.ssh/id_deploy
         fi
         chmod 600 ~/.ssh/id_deploy
-        ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
-
-        SSH_OPTS="-i ~/.ssh/id_deploy -p $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
-        SCP_OPTS="-i ~/.ssh/id_deploy -P $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
+        cat > ~/.ssh/config <<EOF
+        Host deploy
+          HostName ${DEPLOY_HOST}
+          User ${DEPLOY_USER}
+          Port ${DEPLOY_PORT}
+          IdentityFile ~/.ssh/id_deploy
+          BatchMode yes
+          ConnectTimeout 15
+          StrictHostKeyChecking no
+        EOF
+        chmod 600 ~/.ssh/config
 
         # Upload pre-built Docker image artifact, then remove the local copy
-        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}"
-        scp $SCP_OPTS "$ARTIFACT" "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/${ARTIFACT}"
+        ssh deploy "mkdir -p '${DEPLOY_PATH}'"
+        scp "$ARTIFACT" "deploy:${DEPLOY_PATH}/${ARTIFACT}"
         rm -f "$ARTIFACT"
 
         # Load the Docker image, restart the container, and clean up old files on opensrc.mx
-        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "
+        ssh deploy "
           set -e
           cd '${DEPLOY_PATH}'
 
