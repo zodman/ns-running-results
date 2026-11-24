@@ -1,12 +1,19 @@
 import React, { useMemo, useState } from "react";
 import { Award, CheckCircle2, Lock, MapPin, Sparkles } from "lucide-react";
-import { evaluatePassport } from "../utils/passportCatalog";
+import { evaluatePassport, evaluateRegions, evaluateTrophies } from "../utils/passportCatalog";
+import RegionBadges from "./RegionBadges.jsx";
+import TrophyShelf from "./TrophyShelf.jsx";
 
 export default function RacePassport({ runnerName, races, onSelectRace }) {
   const [statusFilter, setStatusFilter] = useState("all"); // all | caught | locked
   const [regionFilter, setRegionFilter] = useState("all");
 
   const passport = useMemo(() => evaluatePassport(races), [races]);
+  const regionStats = useMemo(() => evaluateRegions(races, passport), [races, passport]);
+  const trophyStats = useMemo(
+    () => evaluateTrophies(races, passport, regionStats),
+    [races, passport, regionStats]
+  );
 
   const visibleEntries = useMemo(() => {
     return passport.entries
@@ -91,7 +98,17 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
         </div>
       </div>
 
-      {/* Medal Grid */}
+      {/* #2: Capture Nova Scotia — 7 Regions */}
+      <RegionBadges
+        regionStats={regionStats}
+        activeRegion={regionFilter}
+        onSelectRegion={setRegionFilter}
+      />
+
+      {/* #4: Auto-Unlocked Achievement Trophies */}
+      <TrophyShelf trophyStats={trophyStats} />
+
+      {/* #1: Medal Grid */}
       <div className="passport-grid">
         {visibleEntries.map((item) => (
           <article

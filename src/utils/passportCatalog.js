@@ -436,3 +436,266 @@ export function evaluatePassport(races) {
     regions: [...new Set(NS_RACE_CATALOG.map((c) => c.region))]
   };
 }
+
+export const NS_REGIONS = [
+  {
+    id: "Halifax Metro",
+    icon: "🏙️",
+    towns: "Halifax & Dartmouth",
+    masteryAt: 5,
+    locMatch: /halifax|dartmouth/i
+  },
+  {
+    id: "South Shore",
+    icon: "⛵",
+    towns: "Lunenburg, Bridgewater, Barrington",
+    masteryAt: 3,
+    locMatch: /lunenburg|bridgewater|barrington|mahone bay|peggy/i
+  },
+  {
+    id: "Annapolis Valley",
+    icon: "🍎",
+    towns: "Wolfville, Berwick, Hantsport, Kentville",
+    masteryAt: 3,
+    locMatch: /wolfville|berwick|hantsport|middleton|kentville|port williams|windsor/i
+  },
+  {
+    id: "Cape Breton",
+    icon: "🏔️",
+    towns: "Louisbourg, Mabou, Chéticamp, Sydney",
+    masteryAt: 2,
+    locMatch: /louisbourg|mabou|chéticamp|cheticamp|sydney/i
+  },
+  {
+    id: "Northumberland",
+    icon: "🌊",
+    towns: "Tatamagouche, Pugwash, New Glasgow",
+    masteryAt: 2,
+    locMatch: /tatamagouche|pugwash|new glasgow|antigonish/i
+  },
+  {
+    id: "Fundy / Truro",
+    icon: "🌲",
+    towns: "Truro, Nuttby, Amherst",
+    masteryAt: 2,
+    locMatch: /truro|amherst/i
+  },
+  {
+    id: "Acadian Shores",
+    icon: "🦞",
+    towns: "Weymouth, Clare, Yarmouth",
+    masteryAt: 2,
+    locMatch: /weymouth|clare|yarmouth/i
+  }
+];
+
+export function evaluateRegions(races, passport) {
+  const list = NS_REGIONS.map((reg) => {
+    const catalogInReg = passport.entries.filter((e) => e.region === reg.id);
+    const caughtCatalog = catalogInReg.filter((e) => e.caught);
+    const matchedRaces = races.filter(
+      (r) =>
+        reg.locMatch.test(r.raceLocation || "") ||
+        catalogInReg.some((c) => c.match.test(`${r.name} ${r.subEvent || ""}`))
+    );
+    const raceCount = matchedRaces.length;
+    const unlocked = raceCount > 0;
+    const mastered = raceCount >= reg.masteryAt;
+    return {
+      ...reg,
+      raceCount,
+      caughtMedals: caughtCatalog.length,
+      totalMedals: catalogInReg.length,
+      unlocked,
+      mastered
+    };
+  });
+
+  const unlockedCount = list.filter((r) => r.unlocked).length;
+  return {
+    regions: list,
+    unlockedCount,
+    totalRegions: list.length,
+    percent: Math.round((unlockedCount / list.length) * 100)
+  };
+}
+
+export function evaluateTrophies(races, passport, regionStats) {
+  // 1. Distance Grand Slam
+  const standardDists = ["5K", "10K", "Half Marathon", "Marathon"];
+  const doneDists = standardDists.filter((d) => races.some((r) => r.category === d));
+
+  // 2. 5K Club
+  const fiveKCount = races.filter((r) => r.category === "5K").length;
+
+  // 3. Bridge Runner
+  const bridgeRace = races.find((r) => /harbour hustle|macpass miles/i.test(r.name));
+
+  // 4. Island Hopper
+  const islandRace = races.find(
+    (r) =>
+      /mcnab|louisbourg|mabou|mhàbu|escaouette|cape breton|sydney/i.test(
+        `${r.name} ${r.raceLocation || ""}`
+      )
+  );
+
+  // 5. Back-to-Back Warrior (2 races within 14 days)
+  const dated = races
+    .filter((r) => r.timestamp > 0)
+    .sort((a, b) => a.timestamp - b.timestamp);
+  let backToBackPair = null;
+  for (let i = 1; i < dated.length; i++) {
+    const diffDays = Math.round((dated[i].timestamp - dated[i - 1].timestamp) / (1000 * 60 * 60 * 24));
+    if (diffDays >= 1 && diffDays <= 14) {
+      backToBackPair = { a: dated[i - 1].name, b: dated[i].name, days: diffDays };
+      break;
+    }
+  }
+
+  // 6. All-Seasons Runner
+  const seasonLabels = ["Winter", "Spring", "Summer", "Fall"];
+  const seasonsHit = new Set();
+  for (const r of races) {
+    const d = new Date(r.iso);
+    if (Number.isNaN(d.getTime())) continue;
+    const m = d.getMonth() + 1;
+    if (m <= 3) seasonsHit.add("Winter");
+    else if (m <= 6) seasonsHit.add("Spring");
+    else if (m <= 9) seasonsHit.add("Summer");
+    else seasonsHit.add("Fall");
+  }
+  const missingSeasons = seasonLabels.filter((s) => !seasonsHit.has(s));
+
+  // 7. Course PR Crusher (beat previous year's time on same catalog race)
+  let coursePR = null;
+  for (const item of passport.entries) {
+    if (item.count < 2) continue;
+    const runs = races
+      .filter((r) => item.match.test(`${r.name} ${r.subEvent || ""}`) && r.officialSec && r.timestamp)
+      .sort((a, b) => a.timestamp - b.timestamp);
+    for (let i = 1; i < runs.length; i++) {
+      if (runs[i].officialSec < runs[i - 1].officialSec) {
+        const diff = runs[i - 1].officialSec - runs[i].officialSec;
+        coursePR = {
+          name: item.name,
+          saved: `${Math.floor(diff / 60)}m ${diff % 60}s faster`
+        };
+        break;
+      }
+    }
+    if (coursePR) break;
+  }
+
+  // 8. NS Road Tripper (5+ unique towns)
+  const uniqueTowns = new Set(
+    races.map((r) => r.shortLocation).filter((l) => l && l !== "Nova Scotia")
+  );
+
+  // 9. Multi-Year Loyalist (same annual race 3+ times)
+  const loyalistRace = passport.entries.find((e) => e.count >= 3);
+
+  const trophies = [
+    {
+      id: "grand-slam",
+      icon: "🏆",
+      title: "Distance Grand Slam",
+      desc: "Finish a 5K, 10K, Half Marathon & Marathon",
+      unlocked: doneDists.length === 4,
+      progress: `${doneDists.length} / 4 distances (${doneDists.join(", ") || "none yet"})`
+    },
+    {
+      id: "5k-club",
+      icon: "⚡",
+      title: "5K Club",
+      desc: "Complete 3 or more official 5K races",
+      unlocked: fiveKCount >= 3,
+      progress: fiveKCount >= 3 ? `${fiveKCount}× 5K finishes` : `${fiveKCount} / 3 5K races`
+    },
+    {
+      id: "bridge-runner",
+      icon: "🌉",
+      title: "Bridge Runner",
+      desc: "Run across the Macdonald Bridge at Harbour Hustle",
+      unlocked: Boolean(bridgeRace),
+      progress: bridgeRace ? `Completed (${bridgeRace.officialTime})` : "Run Harbour Hustle (Aug)"
+    },
+    {
+      id: "island-hopper",
+      icon: "🏝️",
+      title: "Island Hopper",
+      desc: "Finish McNabs Half Marathon or any Cape Breton race",
+      unlocked: Boolean(islandRace),
+      progress: islandRace ? islandRace.name : "Run McNabs or Cape Breton"
+    },
+    {
+      id: "back-to-back",
+      icon: "🔥",
+      title: "Back-to-Back Warrior",
+      desc: "Finish two official races within 14 days",
+      unlocked: Boolean(backToBackPair),
+      progress: backToBackPair
+        ? `${backToBackPair.days} days apart`
+        : "Race twice within 2 weeks"
+    },
+    {
+      id: "all-seasons",
+      icon: "🗓️",
+      title: "All-Seasons Runner",
+      desc: "Race in Winter, Spring, Summer, and Fall",
+      unlocked: seasonsHit.size === 4,
+      progress:
+        seasonsHit.size === 4
+          ? "All 4 seasons unlocked"
+          : `Missing: ${missingSeasons.join(", ")}`
+    },
+    {
+      id: "course-pr",
+      icon: "📈",
+      title: "Course PR Crusher",
+      desc: "Beat your own previous time on the exact same race",
+      unlocked: Boolean(coursePR),
+      progress: coursePR ? `${coursePR.name} (${coursePR.saved})` : "Return & beat a course PB"
+    },
+    {
+      id: "road-tripper",
+      icon: "🚗",
+      title: "NS Road Tripper",
+      desc: "Race in 5+ different Nova Scotia towns",
+      unlocked: uniqueTowns.size >= 5,
+      progress: `${uniqueTowns.size} / 5 towns raced`
+    },
+    {
+      id: "loyalist",
+      icon: "🥇",
+      title: "Multi-Year Loyalist",
+      desc: "Finish the same annual race 3+ times",
+      unlocked: Boolean(loyalistRace),
+      progress: loyalistRace ? `${loyalistRace.name} (×${loyalistRace.count})` : "Run an event 3+ times"
+    },
+    {
+      id: "half-province",
+      icon: "🗺️",
+      title: "Half-Province Explorer",
+      desc: "Capture 4+ of Nova Scotia's 7 running regions",
+      unlocked: regionStats.unlockedCount >= 4,
+      progress: `${regionStats.unlockedCount} / 4 regions`
+    },
+    {
+      id: "province-conqueror",
+      icon: "👑",
+      title: "Province Conqueror",
+      desc: "Capture all 7 Nova Scotia running regions",
+      unlocked: regionStats.unlockedCount === 7,
+      progress: `${regionStats.unlockedCount} / 7 regions`
+    }
+  ];
+
+  // Unlocked first, then locked
+  trophies.sort((a, b) => (a.unlocked === b.unlocked ? 0 : a.unlocked ? -1 : 1));
+
+  return {
+    trophies,
+    unlockedCount: trophies.filter((t) => t.unlocked).length,
+    totalCount: trophies.length
+  };
+}
