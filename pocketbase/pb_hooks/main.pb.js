@@ -1,7 +1,8 @@
 /// <reference path="../pb_data/types.d.ts" />
 
 // Auto-import Route541 local JSONs on first boot when race_results is empty (e.g. fresh Docker deploy)
-onServe((e) => {
+onBootstrap((e) => {
+  e.next();
   try {
     const existing = e.app.findRecordsByFilter("race_results", 'source = "Route541"', "", 1, 0);
     if (existing.length === 0) {
@@ -106,7 +107,6 @@ onServe((e) => {
   } catch (err) {
     console.log("[bootstrap] Skip auto-import:", err);
   }
-  return e.next();
 });
 
 routerAdd("GET", "/api/ns-search", (e) => {
