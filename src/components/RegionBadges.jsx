@@ -67,28 +67,32 @@ export default function RegionBadges({ regionStats, activeRegion, onSelectRegion
               onClick={() => onSelectRegion(isActive ? "all" : reg.id)}
               title={`Click to filter Medal Wall to ${reg.id}`}
             >
-              <div className="region-card-top">
-                <span className="region-emoji">{reg.icon}</span>
-                {reg.mastered ? (
-                  <span className="pm-tier-pill gold">Mastered</span>
-                ) : reg.unlocked ? (
-                  <span className="region-check" title="Captured">
-                    <CheckCircle2 size={15} />
-                  </span>
-                ) : (
-                  <span className="region-lock" title="Locked">
-                    <Lock size={13} />
-                  </span>
-                )}
+              <div className="region-card-head">
+                <div className="region-title-wrap">
+                  <span className="region-emoji" aria-hidden="true">{reg.icon}</span>
+                  <strong className="region-name">{reg.id}</strong>
+                </div>
+                <div className="region-status-wrap">
+                  {reg.mastered ? (
+                    <span className="pm-tier-pill gold">Mastered</span>
+                  ) : reg.unlocked ? (
+                    <span className="region-check" title="Captured">
+                      <CheckCircle2 size={15} />
+                    </span>
+                  ) : (
+                    <span className="region-lock" title="Locked">
+                      <Lock size={13} />
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="region-name">{reg.id}</div>
-              <div className="region-towns">{reg.towns}</div>
+              <div className="region-towns" title={reg.towns}>{reg.towns}</div>
               <div className="region-foot">
-                <span>
+                <span className="region-finishes-badge">
                   {reg.raceCount} {reg.raceCount === 1 ? "finish" : "finishes"}
                 </span>
                 <span className="region-foot-dot" aria-hidden="true">•</span>
-                <span>
+                <span className="region-medals-badge">
                   {reg.caughtMedals}/{reg.totalMedals} medals
                 </span>
               </div>

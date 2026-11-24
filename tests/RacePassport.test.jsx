@@ -6,6 +6,7 @@ import InfoModal from "../src/components/InfoModal.jsx";
 import RegionBadges from "../src/components/RegionBadges.jsx";
 import TrophyShelf from "../src/components/TrophyShelf.jsx";
 import RacePassport from "../src/components/RacePassport.jsx";
+import SharePassportModal from "../src/components/SharePassportModal.jsx";
 import TimelineGraph from "../src/components/TimelineGraph.jsx";
 import OpenSrcBanner from "../src/components/OpenSrcBanner.jsx";
 import {
@@ -186,11 +187,11 @@ describe("RegionBadges & TrophyShelf", () => {
     expect(unlockedTab).toBeInTheDocument();
     fireEvent.click(unlockedTab);
 
-    // Share button on unlocked trophy
-    const trophyShareBtns = screen.getAllByRole("button", { name: /Share .* trophy/i });
-    expect(trophyShareBtns.length).toBeGreaterThan(0);
-    fireEvent.click(trophyShareBtns[0]);
-    expect(onShareTrophy).toHaveBeenCalled();
+    // Share button in Trophy section header
+    const trophyHeadShareBtn = screen.getByTitle("Share your Achievement Trophies");
+    expect(trophyHeadShareBtn).toBeInTheDocument();
+    fireEvent.click(trophyHeadShareBtn);
+    expect(onShareTrophy).toHaveBeenCalledWith({ id: "shelf" });
 
     // Collapse toggle
     const toggleBtn = screen.getByRole("button", { name: /Collapse Achievement Trophies/i });
@@ -295,3 +296,39 @@ describe("OpenSrcBanner", () => {
     expect(links.some((l) => l.getAttribute("href") === "https://app.opensrc.mx/")).toBe(true);
   });
 });
+
+describe("SharePassportModal Regions", () => {
+  it("renders region options and allows selecting a captured region", () => {
+    const passport = evaluatePassport(SAMPLE_RACES);
+    const regionStats = evaluateRegions(SAMPLE_RACES, passport);
+    const trophyStats = evaluateTrophies(SAMPLE_RACES, passport, regionStats);
+
+    render(
+      <SharePassportModal
+        open={true}
+        onClose={() => {}}
+        runnerName="Andres Vargas"
+        seasonFilter="all"
+        passport={passport}
+        regionStats={regionStats}
+        trophyStats={trophyStats}
+        initialMedal={{ id: "South Shore", towns: "Lunenburg, Bridgewater, Barrington" }}
+      />
+    );
+
+    expect(screen.getAllByText(/South Shore Region/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Lunenburg, Bridgewater, Barrington/i)).toBeInTheDocument();
+    const select = screen.getByLabelText("Select medal or wall to share");
+    expect(select.value).toBe("region:South Shore");
+
+    // Verify Facebook share link has UTM parameters and quote with app.opensrc.mx
+    const fbLink = screen.getByRole("link", { name: "Share on Facebook" });
+    const fbHref = fbLink.getAttribute("href");
+    expect(fbHref).toContain("utm_source%3Dfacebook");
+    expect(fbHref).toContain("utm_medium%3Dsocial");
+    expect(fbHref).toContain("utm_campaign%3Dpassport_share");
+    expect(fbHref).toContain("quote=");
+    expect(fbHref).toContain("app.opensrc.mx");
+  });
+});
+

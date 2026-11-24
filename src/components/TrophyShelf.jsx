@@ -101,26 +101,31 @@ export default function TrophyShelf({ trophyStats, onShareTrophy }) {
           <div className="trophy-grid">
             {visibleTrophies.map((t) => (
               <div key={t.id} className={`trophy-card ${t.unlocked ? "unlocked" : "locked"}`}>
-                <div className="trophy-icon-wrap">
-                  <span className="trophy-icon">{t.icon}</span>
-                </div>
-                <div className="trophy-body">
-                  <div className="trophy-title-row">
-                    <span className="trophy-title">{t.title}</span>
+                <div className="trophy-card-head">
+                  <div className="trophy-title-wrap">
+                    <span className="trophy-icon-disc" aria-hidden="true">{t.icon}</span>
+                    <strong className="trophy-title">{t.title}</strong>
+                  </div>
+                  <div className="trophy-status-wrap">
                     {t.unlocked ? (
                       <span className="trophy-status unlocked">
-                        <CheckCircle2 size={13} />
+                        <CheckCircle2 size={12} />
                         <span>Unlocked</span>
                       </span>
                     ) : (
                       <span className="trophy-status locked">
-                        <Lock size={12} />
+                        <Lock size={11} />
                         <span>Locked</span>
                       </span>
                     )}
                   </div>
-                  <p className="trophy-desc">{t.desc}</p>
-                  <div className="trophy-progress">{t.progress}</div>
+                </div>
+
+                <p className="trophy-desc">{t.desc}</p>
+
+                <div className="trophy-progress-row">
+                  <span className="trophy-progress-label">Progress:</span>
+                  <span className="trophy-progress-val">{t.progress}</span>
                 </div>
               </div>
             ))}
