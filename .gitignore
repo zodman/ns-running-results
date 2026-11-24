@@ -11,3 +11,6 @@ pocketbase/pb_data/
 # Duplicate 2026 subset (already inside data/route541_all/) and runtime logo cache
 data/route541_2026/
 assets/logos/cache/
+
+.agents
+.gemini

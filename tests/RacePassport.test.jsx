@@ -214,11 +214,25 @@ describe("RacePassport", () => {
     expect(screen.getByText("NS Race Passport — Medal Wall Guide")).toBeInTheDocument();
     fireEvent.click(screen.getByLabelText("Close details"));
 
-    // Open Share modal and switch to Web Embed tab
-    fireEvent.click(screen.getByTitle("Share your Race Passport as an image or web embed"));
-    expect(screen.getByText("Share Your NS Race Passport")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /Link & Web Embed/i }));
-    expect(screen.getByText("Web Embed (HTML iframe)")).toBeInTheDocument();
+    // Open Share modal and verify Facebook share preview & direct link copy, ensuring web embed & badge are removed
+    expect(screen.getByRole("button", { name: "Share on Facebook" })).toBeInTheDocument();
+    fireEvent.click(screen.getByTitle("Share your Race Passport image or link"));
+    expect(screen.getByText(/Share Your NS Race Passport/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Facebook \(1\.91:1/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Share on Facebook" })).toBeInTheDocument();
+    expect(screen.getByText("NS-RUNNING-RESULTS.OPENSRC.MX")).toBeInTheDocument();
+    expect(screen.getByLabelText("Select medal or wall to share")).toBeInTheDocument();
+    expect(screen.queryByText(/Web Embed/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Markdown Badge/i)).not.toBeInTheDocument();
+
+    // Close modal
+    fireEvent.click(screen.getByLabelText("Close details"));
+
+    // Click individual medal card share button to share single medal
+    const medalShareButtons = screen.getAllByRole("button", { name: "Share" });
+    expect(medalShareButtons.length).toBeGreaterThan(0);
+    fireEvent.click(medalShareButtons[0]);
+    expect(screen.getByText(/Share Your NS Race Passport/i)).toBeInTheDocument();
   });
 });
 

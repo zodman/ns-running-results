@@ -39,9 +39,20 @@ export async function renderPassportShareCard({
   passport,
   regionStats,
   trophyStats,
-  format = "story" // "story" (1080x1920) | "square" (1080x1080) | "og" (1200x630)
+  selectedMedal = null,
+  format = "story" // "story" (1080x1920) | "square" (1080x1080) | "fb" / "og" (1200x630)
 }) {
-  if (format === "og") {
+  if (selectedMedal) {
+    return renderSingleMedalCard({
+      runnerName,
+      seasonLabel,
+      medal: selectedMedal,
+      passport,
+      format
+    });
+  }
+
+  if (format === "og" || format === "fb" || format === "facebook") {
     return renderOgLandscapeCard({
       runnerName,
       seasonLabel,
@@ -782,4 +793,276 @@ async function renderOgLandscapeCard({
   const jpegDataUrl = canvas.toDataURL("image/jpeg", 0.92);
   const blob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.92));
   return { dataUrl: jpegDataUrl, blob, jpegBase64: jpegDataUrl };
+}
+
+/**
+ * Renders an official single finisher medal share card (Facebook 1200x630, Story 1080x1920, or Square 1080x1080)
+ */
+async function renderSingleMedalCard({
+  runnerName,
+  seasonLabel,
+  medal,
+  passport,
+  format = "fb"
+}) {
+  const isFb = format === "fb" || format === "og" || format === "facebook";
+  const isStory = format === "story";
+  const W = isFb ? 1200 : 1080;
+  const H = isFb ? 630 : isStory ? 1920 : 1080;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  // Run NS Deep Navy -> Ocean Blue gradient background
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, "#040b17");
+  bg.addColorStop(0.55, "#072047");
+  bg.addColorStop(1, "#0370b9");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Atmospheric athletic glows
+  const glow1 = ctx.createRadialGradient(W * 0.8, H * 0.25, 10, W * 0.8, H * 0.25, 360);
+  glow1.addColorStop(0, "rgba(254, 240, 0, 0.16)");
+  glow1.addColorStop(1, "rgba(254, 240, 0, 0)");
+  ctx.fillStyle = glow1;
+  ctx.fillRect(0, 0, W, H);
+
+  const glow2 = ctx.createRadialGradient(W * 0.2, H * 0.85, 10, W * 0.2, H * 0.85, 420);
+  glow2.addColorStop(0, "rgba(56, 189, 248, 0.2)");
+  glow2.addColorStop(1, "rgba(56, 189, 248, 0)");
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Top kinetic accent bar
+  const topBar = ctx.createLinearGradient(0, 0, W, 0);
+  topBar.addColorStop(0, "#38bdf8");
+  topBar.addColorStop(0.5, "#fef000");
+  topBar.addColorStop(1, "#38bdf8");
+  ctx.fillStyle = topBar;
+  ctx.fillRect(0, 0, W, isFb ? 8 : 12);
+
+  const padX = isFb ? 52 : 72;
+
+  // Eyebrow
+  const eyebrow = `NOVA SCOTIA RACE PASSPORT  •  OFFICIAL FINISHER MEDAL`;
+  ctx.font = isFb ? "700 16px Oswald, Arial, sans-serif" : "700 22px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + (isFb ? 32 : 44);
+  const eyeY = isFb ? 32 : isStory ? 90 : 56;
+  drawRoundedRect(ctx, padX, eyeY, eyeW, isFb ? 32 : 44, isFb ? 16 : 22);
+  ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.fillStyle = "#fef000";
+  ctx.textBaseline = "middle";
+  ctx.fillText(eyebrow, padX + (isFb ? 16 : 22), eyeY + (isFb ? 16 : 22));
+
+  // Runner Name
+  ctx.textBaseline = "top";
+  ctx.fillStyle = "#ffffff";
+  ctx.font = isFb ? "700 48px Oswald, Arial, sans-serif" : "700 64px Oswald, Arial, sans-serif";
+  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), W - padX * 2), padX, eyeY + (isFb ? 42 : 56));
+
+  // Medal Coin position & size
+  const coinR = isFb ? 140 : isStory ? 240 : 200;
+  const coinCx = isFb ? padX + coinR + 10 : W / 2;
+  const coinCy = isFb ? 350 : isStory ? 580 : 420;
+
+  // Metallic coin rim colors based on medal tier
+  const tier = medal.tier || (medal.count >= 3 ? "gold" : medal.count === 2 ? "silver" : "bronze");
+  const rimG = ctx.createLinearGradient(coinCx - coinR, coinCy - coinR, coinCx + coinR, coinCy + coinR);
+  if (tier === "gold") {
+    rimG.addColorStop(0, "#ffe066");
+    rimG.addColorStop(0.5, "#d99b00");
+    rimG.addColorStop(1, "#fff2a3");
+  } else if (tier === "silver") {
+    rimG.addColorStop(0, "#f1f5f9");
+    rimG.addColorStop(0.5, "#94a3b8");
+    rimG.addColorStop(1, "#e2e8f0");
+  } else {
+    rimG.addColorStop(0, "#fca5a5");
+    rimG.addColorStop(0.5, "#b45309");
+    rimG.addColorStop(1, "#d97706");
+  }
+
+  // Outer glow around medal coin
+  ctx.save();
+  ctx.shadowColor = tier === "gold" ? "rgba(254, 240, 0, 0.4)" : "rgba(56, 189, 248, 0.35)";
+  ctx.shadowBlur = 24;
+  ctx.beginPath();
+  ctx.arc(coinCx, coinCy, coinR, 0, Math.PI * 2);
+  ctx.fillStyle = rimG;
+  ctx.fill();
+  ctx.restore();
+
+  // Inner coin face
+  const faceR = coinR - (isFb ? 16 : 24);
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(coinCx, coinCy, faceR, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(coinCx - faceR, coinCy - faceR, faceR * 2, faceR * 2);
+
+  const img = await loadImage(medal.logo);
+  if (img) {
+    const scale = Math.min((faceR * 1.7) / img.width, (faceR * 1.7) / img.height);
+    ctx.drawImage(
+      img,
+      coinCx - (img.width * scale) / 2,
+      coinCy - (img.height * scale) / 2,
+      img.width * scale,
+      img.height * scale
+    );
+  } else {
+    ctx.fillStyle = medal.color || "#0370b9";
+    ctx.fillRect(coinCx - faceR, coinCy - faceR, faceR * 2, faceR * 2);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `700 ${isFb ? 48 : 64}px Oswald, Arial, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(medal.short || "NS", coinCx, coinCy);
+  }
+  ctx.restore();
+
+  // Shiny highlight overlay on coin rim
+  ctx.beginPath();
+  ctx.arc(coinCx, coinCy, coinR, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // Content positioning
+  if (isFb) {
+    // Landscape layout: details to the right of the coin
+    const rx = coinCx + coinR + 36;
+    const rw = W - padX - rx;
+
+    // Medal Name
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "700 36px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, medal.name.toUpperCase(), rw), rx, 175);
+
+    // Tier badge pill
+    const tierLabel =
+      tier === "gold"
+        ? `🥇 GOLD LOYALIST  •  ${medal.count || 3}× FINISHES`
+        : tier === "silver"
+          ? `🥈 SILVER LOYALIST  •  ${medal.count || 2}× FINISHES`
+          : "🥉 OFFICIAL FINISHER MEDAL";
+    ctx.font = "700 15px Oswald, Arial, sans-serif";
+    const tierPillW = ctx.measureText(tierLabel).width + 28;
+    drawRoundedRect(ctx, rx, 230, tierPillW, 30, 15);
+    ctx.fillStyle = tier === "gold" ? "rgba(254, 240, 0, 0.18)" : "rgba(255, 255, 255, 0.12)";
+    ctx.fill();
+    ctx.strokeStyle = tier === "gold" ? "#fef000" : "rgba(255, 255, 255, 0.25)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = tier === "gold" ? "#fef000" : "#ffffff";
+    ctx.textBaseline = "middle";
+    ctx.fillText(tierLabel, rx + 14, 245);
+
+    // 2 stat boxes side by side
+    const boxW = Math.floor((rw - 16) / 2);
+    // Box 1: Best Time
+    drawRoundedRect(ctx, rx, 276, boxW, 110, 14);
+    ctx.fillStyle = "rgba(4, 11, 23, 0.58)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.stroke();
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 14px Oswald, Arial, sans-serif";
+    ctx.textBaseline = "top";
+    ctx.fillText("OFFICIAL BEST TIME", rx + 18, 292);
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 38px Oswald, Arial, sans-serif";
+    ctx.fillText(medal.bestTime || "Finisher", rx + 18, 314);
+    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
+    ctx.font = "600 13px Jost, Arial, sans-serif";
+    const yearsText = medal.years && medal.years.length ? `Years: ${medal.years.join(", ")}` : "Recorded in Results";
+    ctx.fillText(truncateText(ctx, yearsText, boxW - 32), rx + 18, 358);
+
+    // Box 2: Location & Region
+    const bx2 = rx + boxW + 16;
+    drawRoundedRect(ctx, bx2, 276, boxW, 110, 14);
+    ctx.fillStyle = "rgba(4, 11, 23, 0.58)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.stroke();
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = "700 14px Oswald, Arial, sans-serif";
+    ctx.fillText("RACE LOCATION & REGION", bx2 + 18, 292);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "700 24px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, medal.location || "Nova Scotia", boxW - 32), bx2 + 18, 318);
+    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
+    ctx.font = "600 13px Jost, Arial, sans-serif";
+    ctx.fillText(medal.region || "Nova Scotia", bx2 + 18, 358);
+
+    // Overall passport summary strip
+    drawRoundedRect(ctx, rx, 400, rw, 50, 14);
+    ctx.fillStyle = "rgba(4, 11, 23, 0.45)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.25)";
+    ctx.stroke();
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 15px Oswald, Arial, sans-serif";
+    ctx.textBaseline = "middle";
+    const passSummary = `PASSPORT STANDING: ${passport.caughtCount}/${passport.totalCount} MEDALS (${passport.percent}%) • ${passport.rank?.current?.title || "Explorer"}`;
+    ctx.fillText(passSummary, rx + 18, 425);
+  } else {
+    // Vertical / Square layout: details below coin
+    let dy = coinCy + coinR + 32;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `700 ${isStory ? 48 : 36}px Oswald, Arial, sans-serif`;
+    ctx.fillText(truncateText(ctx, medal.name.toUpperCase(), W - padX * 2), W / 2, dy);
+    dy += isStory ? 60 : 44;
+
+    ctx.fillStyle = "#fef000";
+    ctx.font = `700 ${isStory ? 54 : 40}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`Best Time: ${medal.bestTime || "Finisher"}`, W / 2, dy);
+    dy += isStory ? 64 : 48;
+
+    ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
+    ctx.font = `600 ${isStory ? 24 : 18}px Jost, Arial, sans-serif`;
+    ctx.fillText(`${medal.location} • ${medal.region}`, W / 2, dy);
+    dy += isStory ? 44 : 34;
+
+    const tierStr =
+      tier === "gold"
+        ? `🥇 Gold Loyalist (${medal.count} finishes)`
+        : tier === "silver"
+          ? `🥈 Silver Loyalist (${medal.count} finishes)`
+          : "🥉 Official Finisher";
+    ctx.fillStyle = "#93c5fd";
+    ctx.font = `700 ${isStory ? 26 : 20}px Oswald, Arial, sans-serif`;
+    ctx.fillText(tierStr, W / 2, dy);
+    ctx.textAlign = "left";
+  }
+
+  // Footer bar
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#fef000";
+  ctx.font = isFb ? "700 20px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+  ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 34);
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
+  ctx.font = isFb ? "600 16px Jost, Arial, sans-serif" : "600 18px Jost, Arial, sans-serif";
+  ctx.fillText("Official Results • Atlantic Chip & Route541", W - padX, H - 34);
+  ctx.textAlign = "left";
+
+  const mime = isFb ? "image/jpeg" : "image/png";
+  const dataUrl = canvas.toDataURL(mime, 0.92);
+  const blob = await new Promise((res) => canvas.toBlob(res, mime, 0.92));
+  return { dataUrl, blob, jpegBase64: dataUrl };
 }

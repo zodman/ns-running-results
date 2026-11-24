@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Award, HelpCircle, Lock, MapPin, Share2, Sparkles } from "lucide-react";
+import { Award, Facebook, HelpCircle, Lock, MapPin, Share2, Sparkles } from "lucide-react";
 import {
   PASSPORT_RANKS,
   evaluatePassport,
@@ -15,12 +15,25 @@ import SharePassportModal from "./SharePassportModal.jsx";
 const SHOW_REGIONS = true;
 const SHOW_TROPHIES = true;
 
-export default function RacePassport({ runnerName, races, onSelectRace }) {
+export default function RacePassport({
+  runnerName,
+  races,
+  onSelectRace,
+  openShareModal,
+  onOpenShareChange
+}) {
   const [statusFilter, setStatusFilter] = useState("all"); // all | caught | locked
   const [regionFilter, setRegionFilter] = useState("all");
   const [seasonFilter, setSeasonFilter] = useState("all"); // all | "2026" | "2025" ...
   const [showMedalInfo, setShowMedalInfo] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
+  const [internalShareModal, setInternalShareModal] = useState(false);
+  const [selectedMedalForShare, setSelectedMedalForShare] = useState(null);
+
+  const showShareModal = openShareModal !== undefined ? openShareModal : internalShareModal;
+  const setShowShareModal = (val) => {
+    setInternalShareModal(val);
+    if (onOpenShareChange) onOpenShareChange(val);
+  };
 
   const availableSeasons = useMemo(() => {
     const yrs = new Set();
@@ -80,24 +93,29 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
                 <Sparkles size={14} />
                 <span>Nova Scotia Race Passport • Catch &apos;Em All</span>
               </div>
-              <button
-                type="button"
-                className="info-help-btn on-hero"
-                onClick={() => setShowMedalInfo(true)}
-                title="How the Medal Wall works"
-              >
-                <HelpCircle size={14} />
-                <span>Details</span>
-              </button>
-              <button
-                type="button"
-                className="share-hero-btn"
-                onClick={() => setShowShareModal(true)}
-                title="Share your Race Passport as an image or web embed"
-              >
-                <Share2 size={14} />
-                <span>Share</span>
-              </button>
+              <div className="passport-hero-actions">
+                <button
+                  type="button"
+                  className="fb-hero-action-btn"
+                  onClick={() => {
+                    setSelectedMedalForShare(null);
+                    setShowShareModal(true);
+                  }}
+                  title="Share your Race Passport image or link"
+                >
+                  <Facebook size={15} />
+                  <span>Share on Facebook</span>
+                </button>
+                <button
+                  type="button"
+                  className="info-help-btn on-hero"
+                  onClick={() => setShowMedalInfo(true)}
+                  title="How the Medal Wall works"
+                >
+                  <HelpCircle size={14} />
+                  <span>Details</span>
+                </button>
+              </div>
             </div>
             <h2>{runnerName}&apos;s Medal Wall</h2>
             <div className="passport-rank-row">
@@ -275,16 +293,31 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
             <div className="pm-top-row">
               <span className="pm-region">{item.region}</span>
               {item.caught ? (
-                <span className={`pm-tier-pill ${item.tier}`}>
-                  <Award size={12} />
-                  <span>
-                    {item.tier === "gold"
-                      ? `Gold ×${item.count}`
-                      : item.tier === "silver"
-                        ? `Silver ×${item.count}`
-                        : "Caught"}
+                <div className="pm-top-badges">
+                  <span className={`pm-tier-pill ${item.tier}`}>
+                    <Award size={12} />
+                    <span>
+                      {item.tier === "gold"
+                        ? `Gold ×${item.count}`
+                        : item.tier === "silver"
+                          ? `Silver ×${item.count}`
+                          : "Caught"}
+                    </span>
                   </span>
-                </span>
+                  <button
+                    type="button"
+                    className="pm-share-btn"
+                    title={`Share ${item.name} medal on Facebook`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedMedalForShare(item);
+                      setShowShareModal(true);
+                    }}
+                  >
+                    <Facebook size={11} />
+                    <span>Share</span>
+                  </button>
+                </div>
               ) : (
                 <span className="pm-lock-pill">
                   <Lock size={11} />
@@ -314,15 +347,19 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
           </article>
         ))}
       </div>
-      {/* Share Passport Modal (PNG Image + Link & Web Embed) */}
+      {/* Share Passport & Medals Modal */}
       <SharePassportModal
         open={showShareModal}
-        onClose={() => setShowShareModal(false)}
+        onClose={() => {
+          setShowShareModal(false);
+          setSelectedMedalForShare(null);
+        }}
         runnerName={runnerName}
         seasonFilter={seasonFilter}
         passport={passport}
         regionStats={regionStats}
         trophyStats={trophyStats}
+        initialMedal={selectedMedalForShare}
       />
 
       {/* #1 Medal Wall Details Modal */}

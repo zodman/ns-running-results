@@ -2736,6 +2736,37 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   flex-wrap: wrap;
 }
 
+.passport-hero-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fb-hero-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid #1877f2;
+  background: #1877f2;
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.2s ease;
+}
+
+.fb-hero-action-btn:hover {
+  background: #166fe5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+}
+
 .info-help-btn {
   display: inline-flex;
   align-items: center;
@@ -2945,6 +2976,85 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   box-shadow: 0 6px 16px rgba(254, 240, 0, 0.35);
 }
 
+.runner-mode-btn.runner-share-fb-tab {
+  background: rgba(24, 119, 242, 0.12);
+  border-color: rgba(24, 119, 242, 0.4);
+  color: #60a5fa;
+  margin-left: auto;
+}
+
+.runner-mode-btn.runner-share-fb-tab:hover {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: #ffffff;
+}
+
+.pm-top-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pm-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(24, 119, 242, 0.45);
+  background: rgba(24, 119, 242, 0.15);
+  color: #93c5fd;
+  font-family: "Oswald", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.pm-share-btn:hover {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.35);
+}
+
+.share-target-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  background: rgba(4, 11, 23, 0.6);
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.share-target-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.share-target-select {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .share-mode-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3024,6 +3134,46 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   max-height: 360px;
 }
 
+.share-preview-frame.fb {
+  max-height: 290px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.share-fb-card-meta {
+  background: rgba(4, 11, 23, 0.78);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.fb-meta-domain {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.fb-meta-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 3px 0 2px;
+}
+
+.fb-meta-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .share-preview-frame img {
   max-width: 100%;
   max-height: 400px;
@@ -3095,6 +3245,66 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 .share-secondary-btn:hover {
   border-color: var(--rns-blue);
   color: var(--rns-blue);
+}
+
+.share-fb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #1877f2;
+  background: #1877f2;
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.2s ease;
+}
+
+.share-fb-btn:hover {
+  background: #166fe5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.35);
+}
+
+.share-link-section {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.share-link-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-link-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.share-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  padding: 2px 8px;
+  border-radius: 999px;
 }
 
 .share-code-box {
@@ -3177,6 +3387,7 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 
   .share-mode-tab,
   .share-fmt-btn,
+  .share-fb-btn,
   .share-primary-btn,
   .share-secondary-btn,
   .share-copy-btn {
@@ -3188,6 +3399,7 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
     align-items: stretch;
   }
 
+  .share-fb-btn,
   .share-primary-btn,
   .share-secondary-btn {
     width: 100%;
@@ -3215,6 +3427,16 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 
   .passport-eyebrow-row {
     justify-content: center;
+  }
+
+  .passport-hero-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .fb-hero-action-btn,
+  .share-hero-btn {
+    min-height: 36px;
   }
 
   .passport-rank-row {
