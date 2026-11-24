@@ -10,6 +10,8 @@ export default function LandingPage({
   onQueryChange,
   year,
   onYearChange,
+  saveToCommunity,
+  onToggleSaveToCommunity,
   loading,
   onSearch
 }) {
@@ -81,6 +83,19 @@ export default function LandingPage({
               <ArrowRight size={15} />
             </button>
           </form>
+
+          <label className="community-optin">
+            <input
+              type="checkbox"
+              checked={saveToCommunity}
+              onChange={(e) => onToggleSaveToCommunity(e.target.checked)}
+            />
+            <span>
+              <strong>Include my results in the Community Dashboard</strong> — when you look up a
+              name, its public finishes are cached to grow Nova Scotia community stats. Uncheck to
+              search privately (you can also remove your name anytime).
+            </span>
+          </label>
 
           <div className="landing-chips">
             <span className="landing-chips-label">Try:</span>

@@ -498,6 +498,15 @@ routerAdd("GET", "/api/ns-overview", (e) => {
   const params = year && year !== "all" ? { yr: year } : {};
   const records = e.app.findRecordsByFilter("race_results", filter, "", 15000, 0, params);
 
+  // Build set of opted-out runners so they are excluded from community leaderboards
+  const optedOut = {};
+  try {
+    const optRows = e.app.findRecordsByFilter("opt_outs", "", "", 5000, 0);
+    for (let i = 0; i < optRows.length; i++) {
+      optedOut[optRows[i].getString("participant_norm")] = true;
+    }
+  } catch (_) {}
+
   const parseSec = (s) => {
     if (!s) return null;
     const parts = String(s).trim().split(":").map(Number);
@@ -548,8 +557,13 @@ routerAdd("GET", "/api/ns-overview", (e) => {
       else if (src === "Route541") yearMap[y].route541++;
     }
 
-    // Runner stats (skip relay leg rows like "Leg 1", "Leg 2", or non-person labels)
-    const isRealPerson = name && /\s/.test(name) && !/^leg\s*\d+/i.test(name) && !/^team\s+/i.test(name);
+    // Runner stats (skip relay leg rows and opted-out runners)
+    const isRealPerson =
+      name &&
+      /\s/.test(name) &&
+      !/^leg\s*\d+/i.test(name) &&
+      !/^team\s+/i.test(name) &&
+      !optedOut[norm];
     if (isRealPerson) {
       if (!runnerMap[norm]) {
         runnerMap[norm] = { name, city, division: div, count: 0, sources: {} };
@@ -775,6 +789,12 @@ routerAdd("POST", "/api/ns-cache", (e) => {
   const queryNorm = normalize(query);
   let saved = 0;
 
+  // Respect community opt-outs
+  try {
+    e.app.findFirstRecordByFilter("opt_outs", "participant_norm = {:q}", { q: queryNorm });
+    return e.json(200, { saved: 0, skippedOptOut: true });
+  } catch (_) {}
+
   e.app.runInTransaction((txApp) => {
     for (let i = 0; i < rows.length; i++) {
       const item = rows[i];
@@ -830,4 +850,60 @@ routerAdd("POST", "/api/ns-cache", (e) => {
   });
 
   return e.json(200, { saved, cachedQuery: queryNorm });
+});
+
+// Self-service opt-out: remove runner from community leaderboards & cached Atlantic Chip entries
+routerAdd("POST", "/api/ns-optout", (e) => {
+  const body = e.requestInfo().body || {};
+  const name = String(body.name || "").trim();
+  if (!name) {
+    return e.json(400, { error: "Missing name" });
+  }
+
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const norm = normalize(name);
+  const optCol = e.app.findCollectionByNameOrId("opt_outs");
+  let removed = 0;
+
+  e.app.runInTransaction((txApp) => {
+    // 1. Add to opt_outs
+    try {
+      txApp.findFirstRecordByFilter("opt_outs", "participant_norm = {:n}", { n: norm });
+    } catch (_) {
+      const rec = new Record(optCol);
+      rec.set("participant_norm", norm);
+      rec.set("original_name", name);
+      txApp.save(rec);
+    }
+
+    // 2. Remove cached Atlantic Chip records for this runner
+    try {
+      const acRows = txApp.findRecordsByFilter(
+        "race_results",
+        'source = "Atlantic Chip" && participant_norm = {:n}',
+        "",
+        500,
+        0,
+        { n: norm }
+      );
+      for (let i = 0; i < acRows.length; i++) {
+        txApp.delete(acRows[i]);
+        removed++;
+      }
+    } catch (_) {}
+
+    // 3. Remove search_cache entry
+    try {
+      const c = txApp.findFirstRecordByFilter("search_cache", "query_norm = {:n}", { n: norm });
+      txApp.delete(c);
+    } catch (_) {}
+  });
+
+  return e.json(200, { optedOut: true, name, removed });
 });

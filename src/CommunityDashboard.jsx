@@ -89,6 +89,15 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
 
       {!loading && data && (
         <>
+          <div className="community-notice">
+            <span>
+              <strong>How this works:</strong> This dashboard combines full Route541 (2023–2026)
+              events with public Atlantic Chip finishes cached automatically as runners look up
+              their names. Want your name excluded? Open your runner profile and click{" "}
+              <strong>Remove from Community</strong>.
+            </span>
+          </div>
+
           {/* Top 4 KPI Cards */}
           <section className="comm-kpi-grid">
             <div className="card comm-kpi-card accent">

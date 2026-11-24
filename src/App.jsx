@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Moon, Search, Sun, Users } from "lucide-react";
-import { searchRunner } from "./lib/pocketbase";
+import { ArrowLeft, ArrowRight, Moon, Search, Sun, UserX, Users } from "lucide-react";
+import { optOutRunner, searchRunner } from "./lib/pocketbase";
 import CommunityDashboard from "./CommunityDashboard.jsx";
 import SiteFooter from "./SiteFooter.jsx";
 import LandingPage from "./components/LandingPage.jsx";
@@ -24,6 +24,8 @@ export default function App() {
   const [year, setYear] = useState("all");
   const [filterTab, setFilterTab] = useState("all");
   const [graphMode, setGraphMode] = useState("time");
+  const [saveToCommunity, setSaveToCommunity] = useState(true);
+  const [optOutDone, setOptOutDone] = useState(false);
   const [races, setRaces] = useState([]);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -51,7 +53,8 @@ export default function App() {
     window.history.replaceState({}, "", nextUrl.toString());
 
     try {
-      const data = await searchRunner(clean, yr);
+      setOptOutDone(false);
+      const data = await searchRunner(clean, yr, { saveToCommunity });
       const norm = normalizeResults(data.results || []);
       setRaces(norm);
       setSources(data.sources || { atlanticChip: 0, route541: 0 });
@@ -152,6 +155,24 @@ export default function App() {
   const primaryDiv = races.find((r) => r.division && r.division !== "—")?.division;
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
+  async function handleOptOut() {
+    const targetName = primaryRunner || activeQuery;
+    if (!targetName) return;
+    const confirmed = window.confirm(
+      `Remove "${targetName}" from the Community Dashboard and opt out of future community caching?`
+    );
+    if (!confirmed) return;
+    try {
+      await optOutRunner(targetName);
+      setOptOutDone(true);
+      setStatusMsg(
+        `"${targetName}" has been removed from the Community Dashboard and opted out of future community caching.`
+      );
+    } catch (err) {
+      setStatusMsg(`Could not complete opt-out: ${err.message}`);
+    }
+  }
+
   if (view === "community") {
     return (
       <CommunityDashboard
@@ -173,6 +194,8 @@ export default function App() {
         onQueryChange={setQueryInput}
         year={year}
         onYearChange={setYear}
+        saveToCommunity={saveToCommunity}
+        onToggleSaveToCommunity={setSaveToCommunity}
         loading={loading}
         onSearch={runSearch}
       />
@@ -204,6 +227,18 @@ export default function App() {
             <Users size={15} />
             <span>All Participants</span>
           </button>
+          {races.length > 0 && (
+            <button
+              className="optout-btn"
+              type="button"
+              disabled={optOutDone}
+              onClick={handleOptOut}
+              title="Remove this name from the Community Dashboard"
+            >
+              <UserX size={15} />
+              <span>{optOutDone ? "Removed from Community" : "Remove from Community"}</span>
+            </button>
+          )}
           <div className="ac-chip-badge" title="Official results from Atlantic Chip & Route541">
             <img src="/logos/atlantic_chip.png" alt="Atlantic Chip" />
             <span>Atlantic Chip + Route541</span>

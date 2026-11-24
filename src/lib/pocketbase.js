@@ -167,7 +167,7 @@ async function fetchRoute541FromPocketBase(name, year = "all") {
   }
 }
 
-export async function searchRunner(name, year = "all") {
+export async function searchRunner(name, year = "all", { saveToCommunity = true } = {}) {
   // 1. Check shared PocketBase 24h database cache first (saves Atlantic Chip API calls for all users!)
   let cachedData = null;
   try {
@@ -184,8 +184,8 @@ export async function searchRunner(name, year = "all") {
   // 2. Cache miss: fetch Atlantic Chip directly from the browser (no proxy!)
   const acAllYears = await fetchAtlanticChipDirect(name, "all").catch(() => []);
 
-  // 3. Persist fetched Atlantic Chip results into PocketBase in the background
-  if (acAllYears.length > 0) {
+  // 3. Persist fetched Atlantic Chip results into PocketBase if user opted in
+  if (saveToCommunity && acAllYears.length > 0) {
     fetch("/api/ns-cache", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -214,6 +214,18 @@ export async function searchRunner(name, year = "all") {
     },
     results: combined
   };
+}
+
+export async function optOutRunner(name) {
+  const res = await fetch("/api/ns-optout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name })
+  });
+  if (!res.ok) {
+    throw new Error(`Opt-out failed (HTTP ${res.status})`);
+  }
+  return res.json();
 }
 
 export async function getCommunityOverview(year = "all") {
