@@ -3287,3 +3287,220 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================
+   FULL MOBILE AUDIT FIXES (<= 640px)
+========================================================= */
+.top-graph-swipe-hint {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 14px 12px 96px;
+    overflow-x: clip;
+  }
+
+  /* Topbar cleanup on mobile */
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .brand {
+    gap: 12px;
+  }
+
+  .brand-info h1 {
+    font-size: 22px;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ac-chip-badge {
+    display: none;
+  }
+
+  .back-btn,
+  .comm-cta-btn,
+  .optout-btn,
+  .theme-btn {
+    padding: 7px 11px;
+    font-size: 12px;
+    min-height: 36px;
+  }
+
+  /* Search bar: full-width input on row 1, year + submit 50/50 on row 2 */
+  .search-bar {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    gap: 8px;
+    border-radius: 16px;
+  }
+
+  .search-bar > svg {
+    display: none;
+  }
+
+  .search-input {
+    width: 100%;
+    flex: 1 0 100%;
+    min-height: 40px;
+    font-size: 15px;
+  }
+
+  .search-bar .year-select {
+    flex: 1;
+    min-height: 40px;
+  }
+
+  .search-submit {
+    flex: 1;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  /* Runner Mode Switcher: crisp 2-col segmented bar */
+  .runner-mode-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .runner-mode-btn {
+    justify-content: center;
+    padding: 9px 10px;
+    font-size: 12px;
+    min-height: 42px;
+  }
+
+  /* Category Filter Bar: clean single-row horizontal scroll */
+  .cat-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .cat-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cat-pill {
+    flex-shrink: 0;
+  }
+
+  /* Top Graph Card (.top-graph-card): compact, touch-scrollable, zero overflow */
+  .top-graph-card {
+    padding: 16px 14px 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .top-graph-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .top-graph-kpis {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .top-graph-kpi {
+    font-size: 24px;
+  }
+
+  .top-graph-sub {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .top-graph-head .graph-mode-tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .top-graph-head .graph-tab {
+    padding: 8px 10px;
+    min-height: 38px;
+    font-size: 12px;
+  }
+
+  .top-graph-svg-wrap {
+    margin: 0 -6px;
+    padding: 0 6px 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .top-graph-svg {
+    height: 224px;
+  }
+
+  .top-graph-swipe-hint {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+
+  .graph-distance-legend {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  .graph-distance-legend::-webkit-scrollbar {
+    display: none;
+  }
+
+  .graph-legend-pill {
+    flex-shrink: 0;
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  /* Bottom Nav: fit comfortably inside 360px screens */
+  .bottom-nav {
+    max-width: calc(100vw - 16px);
+    padding: 5px;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .bottom-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-pill {
+    padding: 7px 11px;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Dashboard Bento Cards padding */
+  .card {
+    padding: 16px 14px;
+  }
+}

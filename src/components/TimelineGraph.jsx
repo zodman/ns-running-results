@@ -149,8 +149,8 @@ export default function TimelineGraph({
           height={H}
           viewBox={`0 0 ${W} ${H}`}
           style={{
-            width: items.length <= 8 ? "100%" : `${W}px`,
-            minWidth: `${Math.min(W, 640)}px`
+            width: items.length <= 6 ? "100%" : `${W}px`,
+            minWidth: `${Math.min(W, Math.max(460, items.length * 88))}px`
           }}
           role="img"
           aria-label="Race performance by distance over time"
@@ -255,6 +255,12 @@ export default function TimelineGraph({
           })}
         </svg>
       </div>
+
+      {items.length > 3 && (
+        <div className="top-graph-swipe-hint" aria-hidden="true">
+          ← Swipe chart to explore all {items.length} races →
+        </div>
+      )}
 
       <div className="graph-distance-legend" aria-label="Distance color legend">
         {seriesList.map((s) => (

@@ -1085,9 +1085,12 @@ routerAdd("GET", "/share", (e) => {
 });
 
 
-// Dynamic per-runner Open Graph meta injection on root "/" (so pasting /?name=...&tab=passport
-// directly into Facebook, WhatsApp, iMessage, or X shows that runner's personalized 1200x630 card!)
-routerAdd("GET", "/", (e) => {
+// Dynamic per-runner Open Graph meta injection on EXACT root "/{$}" ONLY
+// (Using "/{$}" in Go's ServeMux prevents catching /assets/* or other static files!)
+routerAdd("GET", "/{$}", (e) => {
+  if (e.request.url.path !== "/") {
+    return e.next();
+  }
   const candidates = [
     "/app/pb_public/index.html",
     __hooks + "/../pb_public/index.html",
