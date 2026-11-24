@@ -19,6 +19,14 @@ export default function SiteFooter() {
         <a href="https://www.strava.com/athletes/zodman" target="_blank" rel="noreferrer">
           Andres Vargas (Strava)
         </a>
+        <span> • </span>
+        <a
+          href="https://github.com/zodman/ns-running-results"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub Repo
+        </a>
       </div>
     </footer>
   );

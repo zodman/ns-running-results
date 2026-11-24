@@ -11,6 +11,16 @@ steps:
     commands:
       - npm ci
       - npm run build
+      - |
+        tar -czf ns-running-results.tar.gz \
+          dist \
+          Dockerfile \
+          docker-compose.yml \
+          pocketbase/pb_migrations \
+          pocketbase/pb_hooks \
+          data/route541_all \
+          data/route541_vargas_matches.json
+        ls -lh ns-running-results.tar.gz
 
   - name: publish-opensrc-mx
     image: alpine:3.21
@@ -19,12 +29,13 @@ steps:
     commands:
       - |
         set -e
-        apk add --no-cache openssh-client rsync
+        apk add --no-cache openssh-client
 
         DEPLOY_HOST="${DEPLOY_HOST}"
         DEPLOY_USER="${DEPLOY_USER}"
         DEPLOY_PORT="${DEPLOY_PORT}"
         DEPLOY_PATH="${DEPLOY_PATH}"
+        ARTIFACT="ns-running-results.tar.gz"
 
         if [ -z "${DEPLOY_SSH_KEY:-}" ]; then
           echo "ERROR: DEPLOY_SSH_KEY secret is not set in FeatherCI."
@@ -47,19 +58,14 @@ steps:
         chmod 600 ~/.ssh/id_deploy
         ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
 
-        SSH_CMD="ssh -i ~/.ssh/id_deploy -p $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
+        SSH_OPTS="-i ~/.ssh/id_deploy -p $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
+        SCP_OPTS="-i ~/.ssh/id_deploy -P $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
 
-        $SSH_CMD "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}"
+        # Upload single artifact, extract, build/restart container, then delete artifact on both sides
+        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}"
+        scp $SCP_OPTS "$ARTIFACT" "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/${ARTIFACT}"
+        rm -f "$ARTIFACT"
 
-        rsync -az --delete \
-          --exclude='.git' \
-          --exclude='node_modules' \
-          --exclude='pocketbase/pb_data' \
-          --exclude='pocketbase/pocketbase.exe' \
-          --exclude='data/route541_2026' \
-          -e "$SSH_CMD" \
-          ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
+        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "set -e && cd ${DEPLOY_PATH} && rm -rf dist pocketbase data && tar -xzf ${ARTIFACT} && rm -f ${ARTIFACT} && docker build -t ns-running-results . && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8092:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results && docker image prune -f"
 
-        $SSH_CMD "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH} && docker build -t ns-running-results . && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8092:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results"
-
-        echo "Deployed successfully to https://ns-running-results.opensrc.mx"
+        echo "Deployed artifact cleanly and cleaned up temporary files."
