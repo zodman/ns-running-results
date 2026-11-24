@@ -98,14 +98,13 @@ export default function RacePassport({
                   type="button"
                   className="fb-hero-action-btn"
                   onClick={() => {
-                    const topMedal = passport.entries.find((e) => e.caught) || null;
-                    setSelectedMedalForShare(topMedal);
+                    setSelectedMedalForShare(null);
                     setShowShareModal(true);
                   }}
                   title="Share your Race Passport image or link"
                 >
-                  <Facebook size={15} />
-                  <span>Share on Facebook</span>
+                  <Share2 size={15} />
+                  <span>Share</span>
                 </button>
                 <button
                   type="button"

@@ -230,9 +230,23 @@ export async function optOutRunner(name) {
 
 export async function getCommunityOverview(year = "all") {
   const qs = new URLSearchParams({ year });
-  const res = await fetch(`/api/ns-overview?${qs.toString()}`);
+  let res;
+  try {
+    res = await fetch(`/api/ns-overview?${qs.toString()}`);
+  } catch (netErr) {
+    throw new Error("Unable to reach backend server. Please verify PocketBase is running.");
+  }
   if (!res.ok) {
-    throw new Error(`Overview failed (HTTP ${res.status})`);
+    let detail = "";
+    try {
+      const errJson = await res.json();
+      if (errJson && errJson.message) detail = `: ${errJson.message}`;
+      else if (errJson && errJson.error) detail = `: ${errJson.error}`;
+    } catch (_) {}
+    if (res.status === 500 && !detail) {
+      detail = ": PocketBase backend is offline or returned an error";
+    }
+    throw new Error(`Overview failed (HTTP ${res.status}${detail})`);
   }
   return res.json();
 }

@@ -3220,6 +3220,12 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   transform: translateY(-1px);
 }
 
+.share-btn-inline-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .share-primary-btn:disabled {
   opacity: 0.55;
   cursor: not-allowed;

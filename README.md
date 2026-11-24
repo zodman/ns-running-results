@@ -10,8 +10,11 @@ Live target domain: **https://ns-running-results.opensrc.mx**
 
 ```bash
 npm install
-npm run pb   # starts PocketBase on http://127.0.0.1:8090
-npm run dev  # starts Vite React app on http://localhost:5173
+npm run dev       # starts both PocketBase (:8090) and Vite (:5173) in parallel
+
+# Or run them individually:
+npm run pb        # starts PocketBase on http://127.0.0.1:8090
+npm run dev:vite  # starts Vite React app on http://localhost:5173
 ```
 
 ## Production Deployment (FeatherCI → `opensrc.mx`)

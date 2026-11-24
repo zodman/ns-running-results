@@ -1,7 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Award, Check, Download, Facebook, Link2, Share2 } from "lucide-react";
+import { Award, Check, Download, Facebook, Instagram, Link2, Share2 } from "lucide-react";
 import InfoModal from "./InfoModal.jsx";
 import { renderPassportShareCard } from "../utils/shareCardCanvas";
+
+function StravaIcon({ size = 14, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7.925 15.632h4.172z" />
+    </svg>
+  );
+}
 
 export default function SharePassportModal({
   open,
@@ -22,7 +37,7 @@ export default function SharePassportModal({
 
   const [selectedMedalId, setSelectedMedalId] = useState(() => {
     if (initialMedal) return initialMedal.id;
-    return caughtMedals[0]?.id || "all";
+    return "all";
   });
 
   const [previewUrl, setPreviewUrl] = useState("");
@@ -37,13 +52,11 @@ export default function SharePassportModal({
     if (open) {
       if (initialMedal) {
         setSelectedMedalId(initialMedal.id);
-      } else if (caughtMedals.length > 0) {
-        setSelectedMedalId((prev) => (prev && prev !== "all" ? prev : caughtMedals[0].id));
       } else {
         setSelectedMedalId("all");
       }
     }
-  }, [open, initialMedal, caughtMedals]);
+  }, [open, initialMedal]);
 
   const activeMedal = useMemo(() => {
     if (selectedMedalId === "all") return null;
@@ -217,16 +230,18 @@ export default function SharePassportModal({
               onChange={(e) => setSelectedMedalId(e.target.value)}
               aria-label="Select medal or wall to share"
             >
-              <optgroup label="Your Finisher Medals">
-                {caughtMedals.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {m.tier === "gold" ? "🥇" : m.tier === "silver" ? "🥈" : "🥉"} {m.name} ({m.bestTime})
-                  </option>
-                ))}
-              </optgroup>
               <option value="all">
                 🏆 Full Medal Wall ({passport.caughtCount} of {passport.totalCount} Caught)
               </option>
+              {caughtMedals.length > 0 && (
+                <optgroup label="Your Finisher Medals">
+                  {caughtMedals.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.tier === "gold" ? "🥇" : m.tier === "silver" ? "🥈" : "🥉"} {m.name} ({m.bestTime})
+                    </option>
+                  ))}
+                </optgroup>
+              )}
             </select>
           </div>
         )}
@@ -290,7 +305,7 @@ export default function SharePassportModal({
             href={fbShareUrl}
             target="_blank"
             rel="noopener noreferrer"
-            title="Share directly to Facebook"
+            title="Share on Facebook"
           >
             <Facebook size={16} />
             <span>Share on Facebook</span>
@@ -301,9 +316,14 @@ export default function SharePassportModal({
             className="share-primary-btn"
             onClick={handleDownload}
             disabled={!previewUrl || rendering}
+            title="Download for Strava or Instagram"
           >
             <Download size={16} />
-            <span>Download {format === "fb" ? "JPG" : "PNG"}</span>
+            <span className="share-btn-inline-icons" aria-hidden="true">
+              <StravaIcon size={14} />
+              <Instagram size={14} />
+            </span>
+            <span>Download for Strava / Instagram</span>
           </button>
 
           {canNativeShare && (

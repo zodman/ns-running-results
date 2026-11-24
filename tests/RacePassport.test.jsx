@@ -215,13 +215,16 @@ describe("RacePassport", () => {
     fireEvent.click(screen.getByLabelText("Close details"));
 
     // Open Share modal and verify Facebook share preview & direct link copy, ensuring web embed & badge are removed
-    expect(screen.getByRole("button", { name: "Share on Facebook" })).toBeInTheDocument();
+    expect(screen.getByTitle("Share your Race Passport image or link")).toBeInTheDocument();
     fireEvent.click(screen.getByTitle("Share your Race Passport image or link"));
-    expect(screen.getByText(/Share.*(?:Medal|Passport)/i)).toBeInTheDocument();
+    expect(screen.getByText("Share Your NS Race Passport")).toBeInTheDocument();
+    const shareSelect = screen.getByLabelText("Select medal or wall to share");
+    expect(shareSelect).toBeInTheDocument();
+    expect(shareSelect.value).toBe("all");
     expect(screen.getByRole("button", { name: /Facebook \(1\.91:1/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Share on Facebook" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Download for Strava \/ Instagram/i })).toBeInTheDocument();
     expect(screen.getByText("NS-RUNNING-RESULTS.OPENSRC.MX")).toBeInTheDocument();
-    expect(screen.getByLabelText("Select medal or wall to share")).toBeInTheDocument();
     expect(screen.queryByText(/Web Embed/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Markdown Badge/i)).not.toBeInTheDocument();
 
@@ -229,10 +232,11 @@ describe("RacePassport", () => {
     fireEvent.click(screen.getByLabelText("Close details"));
 
     // Click individual medal card share button to share single medal
-    const medalShareButtons = screen.getAllByRole("button", { name: "Share" });
+    const medalShareButtons = screen.getAllByTitle(/Share .* medal/i);
     expect(medalShareButtons.length).toBeGreaterThan(0);
     fireEvent.click(medalShareButtons[0]);
-    expect(screen.getByText(/Share.*(?:Medal|Passport)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Share .* Finisher Medal/i)).toBeInTheDocument();
+    expect(screen.getByLabelText("Select medal or wall to share").value).not.toBe("all");
   });
 });
 

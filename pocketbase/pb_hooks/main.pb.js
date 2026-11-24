@@ -492,11 +492,12 @@ routerAdd("POST", "/api/sync-route541-local", (e) => {
 });
 
 routerAdd("GET", "/api/ns-overview", (e) => {
-  const year = (e.request.url.query().get("year") || "all").trim();
+  try {
+    const year = (e.request.url.query().get("year") || "all").trim();
 
-  const filter = year && year !== "all" ? "race_date ~ {:yr}" : "";
-  const params = year && year !== "all" ? { yr: year } : {};
-  const records = e.app.findRecordsByFilter("race_results", filter, "", 15000, 0, params);
+    const filter = year && year !== "all" ? "race_date ~ {:yr}" : "";
+    const params = year && year !== "all" ? { yr: year } : {};
+    const records = e.app.findRecordsByFilter("race_results", filter, "", 15000, 0, params);
 
   // Build set of opted-out runners so they are excluded from community leaderboards
   const optedOut = {};
@@ -662,24 +663,27 @@ routerAdd("GET", "/api/ns-overview", (e) => {
     return out;
   };
 
-  return e.json(200, {
-    year,
-    totals: {
-      finishes: records.length,
-      uniqueRunners: Object.keys(runnerMap).length,
-      events: Object.keys(eventMap).length,
-      cities: Object.keys(cityMap).length
-    },
-    byYear,
-    topRunners,
-    topEvents,
-    topCities,
-    topDivisions,
-    fastest5k: dedupFastest(fastest5k),
-    fastest10k: dedupFastest(fastest10k),
-    fastestHalf: dedupFastest(fastestHalf),
-    fastestMarathon: dedupFastest(fastestMarathon)
-  });
+    return e.json(200, {
+      year,
+      totals: {
+        finishes: records.length,
+        uniqueRunners: Object.keys(runnerMap).length,
+        events: Object.keys(eventMap).length,
+        cities: Object.keys(cityMap).length
+      },
+      byYear,
+      topRunners,
+      topEvents,
+      topCities,
+      topDivisions,
+      fastest5k: dedupFastest(fastest5k),
+      fastest10k: dedupFastest(fastest10k),
+      fastestHalf: dedupFastest(fastestHalf),
+      fastestMarathon: dedupFastest(fastestMarathon)
+    });
+  } catch (err) {
+    return e.json(500, { error: "Failed to generate community overview", details: String(err) });
+  }
 });
 
 // Shared 24h cache lookup for client-direct Atlantic Chip + local Route541 results

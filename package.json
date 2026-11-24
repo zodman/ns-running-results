@@ -4,13 +4,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k -n pb,vite -c blue,green \"npm:pb\" \"npm:dev:vite\"",
+    "dev:vite": "vite",
+    "pb": "node scripts/run-pb.js",
     "test": "node --test tests/*.test.mjs && vitest run",
     "test:unit": "node --test tests/*.test.mjs",
     "test:ui": "vitest run",
     "build": "vite build",
-    "preview": "vite preview",
-    "pb": ".\\pocketbase\\pocketbase.exe serve --http=127.0.0.1:8090"
+    "preview": "vite preview"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",
@@ -22,6 +23,7 @@
     "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^10.0.7",
     "jsdom": "^31.0.1",
     "vite": "^6.1.0",
     "vitest": "^5.1.1"

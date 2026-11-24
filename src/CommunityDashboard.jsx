@@ -20,6 +20,7 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [fastTab, setFastTab] = useState("5k");
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -38,7 +39,7 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
     return () => {
       active = false;
     };
-  }, [year]);
+  }, [year, retryCount]);
 
   const maxYearCount = Math.max(1, ...(data?.byYear || []).map((y) => y.count));
   const maxEventCount = Math.max(1, ...(data?.topEvents || []).map((e) => e.count));
@@ -85,7 +86,19 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
         </div>
       </header>
 
-      {error && <div className="status-banner">{error}</div>}
+      {error && (
+        <div className="status-banner" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <span>{error}</span>
+          <button
+            type="button"
+            className="back-btn"
+            style={{ padding: "4px 12px", fontSize: 13, cursor: "pointer" }}
+            onClick={() => setRetryCount((c) => c + 1)}
+          >
+            Retry
+          </button>
+        </div>
+      )}
       {loading && (
         <LoadingProgress
           key={year}
