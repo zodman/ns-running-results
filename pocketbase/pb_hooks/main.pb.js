@@ -1006,14 +1006,14 @@ routerAdd("GET", "/api/ns-og-image", (e) => {
       const b64 = rec.getString("image_b64");
       if (b64) {
         const bytes = decodeBase64Bytes(b64);
-        e.response.header().set("Cache-Control", "public, max-age=3600");
+        e.response.header().set("Cache-Control", "no-cache, no-store, must-revalidate");
         return e.blob(200, "image/jpeg", bytes);
       }
     } catch (_) {}
   }
 
   // Fallback to static OG banner if runner has not generated a personalized card yet
-  return e.redirect(302, "/og-passport.jpg");
+  return e.redirect(302, "/og-passport.jpg?t=" + Date.now());
 });
 
 routerAdd("GET", "/share", (e) => {
@@ -1036,10 +1036,11 @@ routerAdd("GET", "/share", (e) => {
   const host = e.request.header.get("X-Forwarded-Host") || e.request.host || "ns-running-results.opensrc.mx";
   const base = proto + "://" + host;
 
+  const nowTs = Date.now();
   let displayName = name || "Nova Scotia Runner";
   let description =
     "Collect 32 iconic Nova Scotia finisher medals, capture all 7 running regions, and track official Atlantic Chip & Route541 results.";
-  let imageUrl = base + "/og-passport.jpg";
+  let imageUrl = base + "/og-passport.jpg?t=" + nowTs;
   let imageType = "image/jpeg";
 
   if (name) {
@@ -1049,8 +1050,9 @@ routerAdd("GET", "/share", (e) => {
       });
       if (rec.getString("runner_name")) displayName = rec.getString("runner_name");
       if (rec.getString("summary")) description = rec.getString("summary");
-      const v = rec.getInt("updated_ms") || Date.now();
-      imageUrl = base + "/api/ns-og-image?name=" + encodeURIComponent(displayName) + "&v=" + v;
+      const v = rec.getInt("updated_ms") || nowTs;
+      imageUrl =
+        base + "/api/ns-og-image?name=" + encodeURIComponent(displayName) + "&v=" + v + "&t=" + nowTs;
     } catch (_) {}
   }
 
@@ -1136,10 +1138,11 @@ routerAdd("GET", "/{$}", (e) => {
     "ns-running-results.opensrc.mx";
   const base = proto + "://" + host;
 
+  const nowTs = Date.now();
   let displayName = name;
   let description =
     "Track official Nova Scotia race results, collect 32 iconic finisher medals, capture all 7 NS regions, and unlock achievement trophies.";
-  let imageUrl = base + "/og-passport.jpg";
+  let imageUrl = base + "/og-passport.jpg?t=" + nowTs;
 
   try {
     const rec = e.app.findFirstRecordByFilter("share_cards", "runner_norm = {:n}", {
@@ -1147,8 +1150,9 @@ routerAdd("GET", "/{$}", (e) => {
     });
     if (rec.getString("runner_name")) displayName = rec.getString("runner_name");
     if (rec.getString("summary")) description = rec.getString("summary");
-    const v = rec.getInt("updated_ms") || Date.now();
-    imageUrl = base + "/api/ns-og-image?name=" + encodeURIComponent(displayName) + "&v=" + v;
+    const v = rec.getInt("updated_ms") || nowTs;
+    imageUrl =
+      base + "/api/ns-og-image?name=" + encodeURIComponent(displayName) + "&v=" + v + "&t=" + nowTs;
   } catch (_) {}
 
   const title = displayName + " — Nova Scotia Race Passport";
