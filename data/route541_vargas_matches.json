@@ -1,0 +1,85 @@
+{
+  "checked": 80,
+  "total": 80,
+  "matches": [
+    {
+      "event_id": "118",
+      "rr_id": "423448",
+      "name": "Run NS Year-End Celebration",
+      "date": "November 7, 2026",
+      "url": "https://www.route541.com/Events/LeaderBoard?EVENT_ID=118",
+      "list": "Online|Final",
+      "data_fields": [
+        "BIB",
+        "ID",
+        "if([FINISHED];if([AUTORANK]=1;\"🥇\";if([AUTORANK]=2;\"🥈\";if([AUTORANK]=3;\"🥉\";[AUTORANK.p])));\"\")",
+        "FLNAME",
+        "CITY",
+        "STATE2",
+        "[AgeGroupRank] & \"/\" & [AgeGroupRank.max]",
+        "AGEGROUP.NAMESHORT",
+        "Finish.GUN",
+        "Finish.CHIP",
+        "PACE",
+        "if([FINISHED]=0;\"\";if([AUTORANK]=1;\"BG(#FFD700);C(#2C2C2C);B\";if([AUTORANK]=2;\"BG(#C0C0C0);C(#2C2C2C)\";if([AUTORANK]=3;\"BG(#CD7F32);C(#2C2C2C)\";\"\"))))"
+      ],
+      "fields": [
+        "Place",
+        "Bib",
+        "Name",
+        "City",
+        "Prov",
+        "Div Place",
+        "Div",
+        "GunTime",
+        "ChipTime",
+        "Pace"
+      ],
+      "data": {
+        "#1_3K Run/Walk": [
+          [
+            "863",
+            "28",
+            "18.",
+            "Aisha Vargas",
+            "Dartmouth",
+            "NS",
+            "2/3",
+            "F01-19",
+            "27:14",
+            "26:57",
+            "9:04",
+            ""
+          ],
+          [
+            "875",
+            "27",
+            "20.",
+            "Daniela Vargas",
+            "Dartmouth",
+            "NS",
+            "3/3",
+            "F01-19",
+            "27:30",
+            "27:14",
+            "9:09",
+            ""
+          ],
+          [
+            26
+          ]
+        ]
+      }
+    }
+  ],
+  "errors": [
+    [
+      "92",
+      "HTTP 404"
+    ],
+    [
+      "26",
+      "HTTP 404"
+    ]
+  ]
+}

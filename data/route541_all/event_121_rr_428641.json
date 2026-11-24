@@ -1,0 +1,962 @@
+{
+  "event": {
+    "event_id": "121",
+    "name": "Salty 7",
+    "date": "October 17, 2026",
+    "rr_id": "428641"
+  },
+  "config": {
+    "key": "f4cf233691eef05bca7236761cc05049",
+    "contests": {
+      "1": "7K (1 Loop)",
+      "2": "14K (2 Loops)",
+      "3": "21K (3 Loops)"
+    },
+    "splits": [
+      {
+        "ID": 1,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 1,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 2,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 1,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 3,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 2,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 5,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 3,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 4,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 2,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 6,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 3,
+        "TypeOfSport": 100
+      }
+    ],
+    "eventname": "Salty 7",
+    "TimerLogo": "",
+    "TimerURL": "",
+    "EventOver": true,
+    "Time": 76623,
+    "server": "my-us-1.raceresult.com",
+    "BrandColorDark": "",
+    "Tab": {
+      "Label": "",
+      "URLName": "results",
+      "Enabled": true,
+      "ShowInMenu": false,
+      "ShowInMenu2": "always",
+      "ActiveFrom": "2023-03-01T00:00:00-04:00",
+      "ActiveUntil": "2100-12-31T23:59:59-04:00",
+      "Type": "lists",
+      "Config": {
+        "InfoText": "",
+        "Subtype": "dropdown",
+        "StandardDetails": "",
+        "Lists": [
+          {
+            "Name": "Online|Final",
+            "Mode": "",
+            "Contest": "0",
+            "ShowAs": "",
+            "Format": "VP",
+            "Live": 0,
+            "Sortable": 1,
+            "Leader": 0,
+            "ID": "8AF0E5"
+          }
+        ],
+        "LeaderboardHideCount": false
+      }
+    },
+    "TabConfig": {
+      "InfoText": "",
+      "Subtype": "dropdown",
+      "StandardDetails": "",
+      "Lists": [
+        {
+          "Name": "Online|Final",
+          "Mode": "",
+          "Contest": "0",
+          "ShowAs": "",
+          "Format": "VP",
+          "Live": 0,
+          "Sortable": 1,
+          "Leader": 0,
+          "Details": "_participant",
+          "ID": "8AF0E5"
+        }
+      ],
+      "LeaderboardHideCount": false
+    },
+    "ContestColors": null
+  },
+  "lists": {
+    "Online|Final__c0": {
+      "list": {
+        "ListName": "Online|Final",
+        "BottomPicture": "",
+        "BottomPictureShow": 0,
+        "ColumnHeadsFontName": "",
+        "ColumnHeadsFontSize": 12,
+        "ColumnHeadsFontBold": true,
+        "ColumnHeadsFontItalic": false,
+        "ColumnHeadsFontUnderlined": false,
+        "ColumnHeadsColor": "",
+        "ColumnHeadsShow": 2,
+        "Columns": 1,
+        "ColumnSpacing": 5,
+        "CoverSheet": "",
+        "BackSheet": "",
+        "Design": "",
+        "DesignShow": 2,
+        "EveryOtherLineGray": false,
+        "FontName": "Arial",
+        "FontSize": 10,
+        "FooterFontName": "",
+        "FooterFontSize": 10,
+        "FooterFontBold": false,
+        "FooterFontItalic": false,
+        "FooterFontUnderlined": false,
+        "FooterColor": "",
+        "GrayLine": true,
+        "HeadLine1": "Salty 7",
+        "HeadLine1FontName": "",
+        "HeadLine1FontSize": 16,
+        "HeadLine1FontBold": false,
+        "HeadLine1FontItalic": false,
+        "HeadLine1FontUnderlined": true,
+        "HeadLine2": "Results ",
+        "HeadLine1Color": "",
+        "HeadLine1Show": 2,
+        "HeadLine2FontName": "",
+        "HeadLine2FontSize": 16,
+        "HeadLine2FontBold": true,
+        "HeadLine2FontItalic": false,
+        "HeadLine2FontUnderlined": false,
+        "HeadLine2Color": "",
+        "HeadLine2Show": 2,
+        "HeightBottomPicture": 40,
+        "LineColor": "",
+        "LineBackColor": "",
+        "LineDynamicFormat": "",
+        "LineSpacing": 1,
+        "MaxRecords": 0,
+        "MultiplierField": "",
+        "PageFormat": 0,
+        "PageMarginBottom": 10,
+        "PageMarginLeft": 10,
+        "PageMarginRight": 10,
+        "PageMarginTop": 10,
+        "PageSize": 5,
+        "PageHeight": 279,
+        "PageWidth": 216,
+        "SepLine": true,
+        "TopRightPicture": "",
+        "TopRightPictureShow": 0,
+        "ListHeaderText": "",
+        "ListFooterText": "",
+        "ListHeaderFooterFontName": "",
+        "ListHeaderFooterFontSize": 10,
+        "ListHeaderFooterFontBold": false,
+        "ListHeaderFooterFontItalic": false,
+        "ListHeaderFooterFontUnderlined": false,
+        "ListHeaderFooterAlignment": 1,
+        "Remarks": "",
+        "LastChange": "2026-10-17 16:52:09",
+        "FooterText1": "",
+        "FooterText2": "",
+        "FooterText3": "[page]",
+        "Orders": [
+          {
+            "Expression": "CONTEST",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "CONTEST.NAME",
+            "Descending": false,
+            "Grouping": 2,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "Contest",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "STATUS",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "Finish.DECIMAL",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          }
+        ],
+        "Filters": [
+          {
+            "OrConjunction": false,
+            "Expression1": "FINISHED",
+            "Operator": "=",
+            "Expression2": "1"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "CONTEST",
+            "Operator": ">",
+            "Expression2": "0"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "STATUS",
+            "Operator": "=",
+            "Expression2": "0"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "TIME0.TIMESET",
+            "Operator": "=",
+            "Expression2": "1"
+          }
+        ],
+        "Fields": [
+          {
+            "Expression": "WithStatus([AUTORANK.p])",
+            "Label": "Place",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "BIB",
+            "Label": "Bib",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "FLNAME",
+            "Label": "Name",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "[AgeGroupRank] & \"/\" & [AgeGroupRank.max]",
+            "Label": "Div Place",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "AGEGROUP.NAMESHORT",
+            "Label": "Div",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "TIME",
+            "Label": "Time",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": -99
+          },
+          {
+            "Expression": "PACE",
+            "Label": "Pace",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          }
+        ],
+        "SelectorResults": []
+      },
+      "data": {
+        "#1_7K (1 Loop)": [
+          [
+            "1027",
+            "27",
+            "1.",
+            "Jordan Antonio",
+            "1/9",
+            "M30-39",
+            "29:44",
+            "4:14"
+          ],
+          [
+            "1012",
+            "12",
+            "2.",
+            "Taylor Adams",
+            "2/9",
+            "M30-39",
+            "30:31",
+            "4:21"
+          ],
+          [
+            "1043",
+            "43",
+            "3.",
+            "Kevin Terry",
+            "1/4",
+            "M40-49",
+            "31:57",
+            "4:33"
+          ],
+          [
+            "1030",
+            "30",
+            "4.",
+            "Luke Edgar",
+            "3/9",
+            "M30-39",
+            "32:18",
+            "4:36"
+          ],
+          [
+            "3023",
+            "104",
+            "5.",
+            "Michael Paine",
+            "1/6",
+            "M20-29",
+            "32:45",
+            "4:40"
+          ],
+          [
+            "3017",
+            "98",
+            "6.",
+            "Emily Chambers",
+            "1/7",
+            "F30-39",
+            "34:25",
+            "4:54"
+          ],
+          [
+            "1031",
+            "31",
+            "7.",
+            "Raggy Olafsdottir",
+            "2/7",
+            "F30-39",
+            "37:45",
+            "5:23"
+          ],
+          [
+            "1038",
+            "38",
+            "8.",
+            "Andrea Henderson",
+            "3/7",
+            "F30-39",
+            "38:54",
+            "5:33"
+          ],
+          [
+            "1008",
+            "8",
+            "9.",
+            "Aaron Purdy",
+            "4/9",
+            "M30-39",
+            "38:54",
+            "5:33"
+          ],
+          [
+            "1022",
+            "22",
+            "10.",
+            "Nora Kane",
+            "1/4",
+            "F20-29",
+            "39:22",
+            "5:37"
+          ],
+          [
+            "1014",
+            "14",
+            "11.",
+            "Taryn Bock",
+            "1/2",
+            "F01-19",
+            "39:38",
+            "5:39"
+          ],
+          [
+            "2003",
+            "56",
+            "12.",
+            "Neil Harding",
+            "2/4",
+            "M40-49",
+            "40:15",
+            "5:44"
+          ],
+          [
+            "1029",
+            "29",
+            "13.",
+            "Emily Lerhe",
+            "4/7",
+            "F30-39",
+            "41:17",
+            "5:53"
+          ],
+          [
+            "1053",
+            "53",
+            "14.",
+            "Cheryl Smith",
+            "1/3",
+            "F50-59",
+            "41:36",
+            "5:56"
+          ],
+          [
+            "1026",
+            "26",
+            "15.",
+            "Ben Cooke",
+            "5/9",
+            "M30-39",
+            "41:44",
+            "5:57"
+          ],
+          [
+            "1040",
+            "40",
+            "16.",
+            "Garrison Condran",
+            "2/6",
+            "M20-29",
+            "42:29",
+            "6:04"
+          ],
+          [
+            "1017",
+            "17",
+            "17.",
+            "Blair Penney",
+            "3/6",
+            "M20-29",
+            "42:40",
+            "6:05"
+          ],
+          [
+            "1018",
+            "18",
+            "18.",
+            "Evan Dennis",
+            "4/6",
+            "M20-29",
+            "42:43",
+            "6:06"
+          ],
+          [
+            "1007",
+            "7",
+            "19.",
+            "Jamie Young",
+            "3/4",
+            "M40-49",
+            "42:43",
+            "6:06"
+          ],
+          [
+            "1050",
+            "50",
+            "20.",
+            "Andrew Corkum",
+            "6/9",
+            "M30-39",
+            "42:53",
+            "6:07"
+          ],
+          [
+            "1028",
+            "28",
+            "21.",
+            "Laura Upton",
+            "1/8",
+            "F40-49",
+            "43:11",
+            "6:10"
+          ],
+          [
+            "1015",
+            "15",
+            "22.",
+            "Kiley Andrews",
+            "2/4",
+            "F20-29",
+            "43:35",
+            "6:13"
+          ],
+          [
+            "1016",
+            "16",
+            "23.",
+            "Sophie Redmond",
+            "3/4",
+            "F20-29",
+            "44:08",
+            "6:18"
+          ],
+          [
+            "1033",
+            "33",
+            "24.",
+            "Carter Marino",
+            "1/1",
+            "M01-19",
+            "44:32",
+            "6:21"
+          ],
+          [
+            "1036",
+            "36",
+            "25.",
+            "Evan George",
+            "5/6",
+            "M20-29",
+            "44:33",
+            "6:21"
+          ],
+          [
+            "1041",
+            "41",
+            "26.",
+            "Joel Brown",
+            "7/9",
+            "M30-39",
+            "46:00",
+            "6:34"
+          ],
+          [
+            "1046",
+            "46",
+            "27.",
+            "Erin MacDonald",
+            "2/3",
+            "F50-59",
+            "46:46",
+            "6:40"
+          ],
+          [
+            "1002",
+            "2",
+            "28.",
+            "Fred Metallic",
+            "1/1",
+            "M60-69",
+            "46:47",
+            "6:40"
+          ],
+          [
+            "1005",
+            "5",
+            "29.",
+            "Janelle Boudreau",
+            "5/7",
+            "F30-39",
+            "48:23",
+            "6:54"
+          ],
+          [
+            "1004",
+            "4",
+            "30.",
+            "Erika Metallic",
+            "2/2",
+            "F01-19",
+            "48:57",
+            "6:59"
+          ],
+          [
+            "2006",
+            "59",
+            "31.",
+            "Andrea Nemec",
+            "6/7",
+            "F30-39",
+            "49:28",
+            "7:03"
+          ],
+          [
+            "1009",
+            "9",
+            "32.",
+            "Sherri Robinson",
+            "2/8",
+            "F40-49",
+            "49:45",
+            "7:06"
+          ],
+          [
+            "1049",
+            "49",
+            "33.",
+            "Eric Barter",
+            "8/9",
+            "M30-39",
+            "50:47",
+            "7:15"
+          ],
+          [
+            "1021",
+            "21",
+            "34.",
+            "Frances Bamford",
+            "3/8",
+            "F40-49",
+            "51:27",
+            "7:20"
+          ],
+          [
+            "1003",
+            "3",
+            "35.",
+            "Amy Chamberlin",
+            "3/3",
+            "F50-59",
+            "52:20",
+            "7:28"
+          ],
+          [
+            "1006",
+            "6",
+            "36.",
+            "Erin Allison",
+            "4/8",
+            "F40-49",
+            "52:22",
+            "7:28"
+          ],
+          [
+            "1035",
+            "35",
+            "37.",
+            "Lauren Carrigan",
+            "5/8",
+            "F40-49",
+            "52:24",
+            "7:29"
+          ],
+          [
+            "1045",
+            "45",
+            "38.",
+            "Brandon Banks",
+            "6/6",
+            "M20-29",
+            "52:25",
+            "7:29"
+          ],
+          [
+            "1048",
+            "48",
+            "39.",
+            "Chris Hendsbee",
+            "9/9",
+            "M30-39",
+            "54:24",
+            "7:46"
+          ],
+          [
+            "1039",
+            "39",
+            "40.",
+            "Shannon Alderson",
+            "4/4",
+            "F20-29",
+            "56:35",
+            "8:04"
+          ],
+          [
+            "1034",
+            "34",
+            "41.",
+            "Chris Stover",
+            "1/2",
+            "F60-69",
+            "57:29",
+            "8:12"
+          ],
+          [
+            "1011",
+            "11",
+            "42.",
+            "Jeremy Jacquemin",
+            "4/4",
+            "M40-49",
+            "58:12",
+            "8:18"
+          ],
+          [
+            "1010",
+            "10",
+            "43.",
+            "Veronique Promelle",
+            "6/8",
+            "F40-49",
+            "58:12",
+            "8:18"
+          ],
+          [
+            "1025",
+            "25",
+            "44.",
+            "Fransly Santos",
+            "7/8",
+            "F40-49",
+            "59:13",
+            "8:27"
+          ],
+          [
+            "1037",
+            "37",
+            "45.",
+            "Pat Lee",
+            "1/1",
+            "M70+",
+            "59:50",
+            "8:32"
+          ],
+          [
+            "1001",
+            "1",
+            "46.",
+            "Shannan Grant",
+            "8/8",
+            "F40-49",
+            "1:00:09",
+            "8:35"
+          ],
+          [
+            "1047",
+            "47",
+            "47.",
+            "Hanna Gunnarsdottir",
+            "2/2",
+            "F60-69",
+            "1:00:31",
+            "8:38"
+          ],
+          [
+            "1042",
+            "42",
+            "48.",
+            "Nicola Irvin",
+            "7/7",
+            "F30-39",
+            "1:04:27",
+            "9:12"
+          ]
+        ]
+      },
+      "DataFields": [
+        "BIB",
+        "ID",
+        "WithStatus([AUTORANK.p])",
+        "FLNAME",
+        "[AgeGroupRank] & \"/\" & [AgeGroupRank.max]",
+        "AGEGROUP.NAMESHORT",
+        "TIME",
+        "PACE"
+      ],
+      "comments": null,
+      "mid": 1860,
+      "groupFilters": [
+        {
+          "Type": 1,
+          "Value": "7K (1 Loop)",
+          "Values": [
+            "7K (1 Loop)",
+            "14K (2 Loops)",
+            "21K (3 Loops)"
+          ]
+        }
+      ],
+      "ColumnWidths": {
+        "Q95": [
+          5,
+          4,
+          19,
+          10,
+          6,
+          7,
+          4
+        ],
+        "Q50": [
+          5,
+          4,
+          14,
+          10,
+          6,
+          5,
+          4
+        ],
+        "OverflowWrap": [
+          false,
+          false,
+          true,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "users": {},
+      "LiveUpdateInterval": 10,
+      "Favorites": null
+    }
+  }
+}

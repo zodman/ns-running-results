@@ -1,0 +1,22 @@
+{
+  "name": "ns-running-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "pb": ".\\pocketbase\\pocketbase.exe serve --http=127.0.0.1:8090"
+  },
+  "dependencies": {
+    "lucide-react": "^0.475.0",
+    "pocketbase": "^0.25.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.1.0"
+  }
+}

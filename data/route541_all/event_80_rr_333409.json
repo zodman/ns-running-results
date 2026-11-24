@@ -1,0 +1,1226 @@
+{
+  "event": {
+    "event_id": "80",
+    "name": "AO&#39;s Callous Crow",
+    "date": "April 26, 2025",
+    "rr_id": "333409"
+  },
+  "config": {
+    "key": "757d7bca892147356cf145fdd3b46f7d",
+    "contests": {
+      "1": "Callous Crow"
+    },
+    "splits": [
+      {
+        "ID": 1,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 1,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 2,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 1,
+        "TypeOfSport": 100
+      }
+    ],
+    "eventname": "Callous Crow",
+    "TimerLogo": "",
+    "TimerURL": "",
+    "EventOver": true,
+    "Time": 76725,
+    "server": "my-us-1.raceresult.com",
+    "BrandColorDark": "",
+    "Tab": {
+      "Label": "",
+      "URLName": "results",
+      "Enabled": true,
+      "ShowInMenu": false,
+      "ShowInMenu2": "always",
+      "ActiveFrom": "2023-03-01T00:00:00-04:00",
+      "ActiveUntil": "2100-12-31T23:59:59-04:00",
+      "Type": "lists",
+      "Config": {
+        "InfoText": "",
+        "Subtype": "dropdown",
+        "StandardDetails": "",
+        "Lists": [
+          {
+            "Name": "Online|Final",
+            "Mode": "",
+            "Contest": "0",
+            "ShowAs": "",
+            "Format": "VP",
+            "Live": 0,
+            "Sortable": 0,
+            "Leader": 0,
+            "ID": "8AF0E5"
+          }
+        ],
+        "LeaderboardHideCount": false
+      }
+    },
+    "TabConfig": {
+      "InfoText": "",
+      "Subtype": "dropdown",
+      "StandardDetails": "",
+      "Lists": [
+        {
+          "Name": "Online|Final",
+          "Mode": "",
+          "Contest": "0",
+          "ShowAs": "",
+          "Format": "VP",
+          "Live": 0,
+          "Sortable": 0,
+          "Leader": 0,
+          "Details": "_participant",
+          "ID": "8AF0E5"
+        }
+      ],
+      "LeaderboardHideCount": false
+    },
+    "ContestColors": null
+  },
+  "lists": {
+    "Online|Final__c0": {
+      "list": {
+        "ListName": "Online|Final",
+        "BottomPicture": "",
+        "BottomPictureShow": 0,
+        "ColumnHeadsFontName": "",
+        "ColumnHeadsFontSize": 12,
+        "ColumnHeadsFontBold": true,
+        "ColumnHeadsFontItalic": false,
+        "ColumnHeadsFontUnderlined": false,
+        "ColumnHeadsColor": "",
+        "ColumnHeadsShow": 2,
+        "Columns": 1,
+        "ColumnSpacing": 5,
+        "CoverSheet": "",
+        "BackSheet": "",
+        "Design": "",
+        "DesignShow": 2,
+        "EveryOtherLineGray": false,
+        "FontName": "Arial",
+        "FontSize": 10,
+        "FooterFontName": "",
+        "FooterFontSize": 10,
+        "FooterFontBold": false,
+        "FooterFontItalic": false,
+        "FooterFontUnderlined": false,
+        "FooterColor": "",
+        "GrayLine": true,
+        "HeadLine1": "Callous Crow",
+        "HeadLine1FontName": "",
+        "HeadLine1FontSize": 16,
+        "HeadLine1FontBold": false,
+        "HeadLine1FontItalic": false,
+        "HeadLine1FontUnderlined": true,
+        "HeadLine2": "Results ",
+        "HeadLine1Color": "",
+        "HeadLine1Show": 2,
+        "HeadLine2FontName": "",
+        "HeadLine2FontSize": 16,
+        "HeadLine2FontBold": true,
+        "HeadLine2FontItalic": false,
+        "HeadLine2FontUnderlined": false,
+        "HeadLine2Color": "",
+        "HeadLine2Show": 2,
+        "HeightBottomPicture": 40,
+        "LineColor": "",
+        "LineBackColor": "",
+        "LineDynamicFormat": "",
+        "LineSpacing": 1,
+        "MaxRecords": 0,
+        "MultiplierField": "",
+        "PageFormat": 0,
+        "PageMarginBottom": 10,
+        "PageMarginLeft": 10,
+        "PageMarginRight": 10,
+        "PageMarginTop": 10,
+        "PageSize": 5,
+        "PageHeight": 279,
+        "PageWidth": 216,
+        "SepLine": true,
+        "TopRightPicture": "",
+        "TopRightPictureShow": 0,
+        "ListHeaderText": "",
+        "ListFooterText": "",
+        "ListHeaderFooterFontName": "",
+        "ListHeaderFooterFontSize": 10,
+        "ListHeaderFooterFontBold": false,
+        "ListHeaderFooterFontItalic": false,
+        "ListHeaderFooterFontUnderlined": false,
+        "ListHeaderFooterAlignment": 1,
+        "Remarks": "",
+        "LastChange": "2025-04-25 15:40:01",
+        "FooterText1": "",
+        "FooterText2": "",
+        "FooterText3": "[page]",
+        "Orders": [
+          {
+            "Expression": "CONTEST",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "CONTEST.NAME",
+            "Descending": false,
+            "Grouping": 2,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "Contest",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "STATUS",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "Finish.DECIMAL",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          }
+        ],
+        "Filters": [
+          {
+            "OrConjunction": false,
+            "Expression1": "FINISHED",
+            "Operator": "=",
+            "Expression2": "1"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "CONTEST",
+            "Operator": ">",
+            "Expression2": "0"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "STATUS",
+            "Operator": "=",
+            "Expression2": "0"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "TIME0.TIMESET",
+            "Operator": "=",
+            "Expression2": "1"
+          }
+        ],
+        "Fields": [
+          {
+            "Expression": "WithStatus([AUTORANK.p])",
+            "Label": "Place",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "BIB",
+            "Label": "Bib",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "FLNAME",
+            "Label": "Name",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "[AgeGroupRank] & \"/\" & [AgeGroupRank.max]",
+            "Label": "Div Place",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "AGEGROUP.NAMESHORT",
+            "Label": "Div",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "Finish.CHIP",
+            "Label": "Time",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "PACE",
+            "Label": "Pace",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          }
+        ],
+        "SelectorResults": []
+      },
+      "data": {
+        "#1_Callous Crow": [
+          [
+            "61",
+            "61",
+            "1.",
+            "Matthias Hawkes Mueller",
+            "1/40",
+            "M0-49",
+            "2:11:40",
+            "6:16"
+          ],
+          [
+            "65",
+            "65",
+            "2.",
+            "Nick Purdie",
+            "2/40",
+            "M0-49",
+            "2:16:40",
+            "6:30"
+          ],
+          [
+            "23",
+            "23",
+            "3.",
+            "Colleen Wilson",
+            "1/27",
+            "F0-49",
+            "2:17:25",
+            "6:32"
+          ],
+          [
+            "52",
+            "52",
+            "4.",
+            "Liz Macdonald",
+            "2/27",
+            "F0-49",
+            "2:20:12",
+            "6:40"
+          ],
+          [
+            "21",
+            "21",
+            "5.",
+            "Chris de Graaf",
+            "3/40",
+            "M0-49",
+            "2:24:58",
+            "6:54"
+          ],
+          [
+            "80",
+            "80",
+            "6.",
+            "Sean Rasmussen",
+            "4/40",
+            "M0-49",
+            "2:29:26",
+            "7:06"
+          ],
+          [
+            "82",
+            "82",
+            "7.",
+            "Sean Balfour",
+            "5/40",
+            "M0-49",
+            "2:32:03",
+            "7:14"
+          ],
+          [
+            "68",
+            "68",
+            "8.",
+            "Norah Dewolfe",
+            "3/27",
+            "F0-49",
+            "2:33:54",
+            "7:19"
+          ],
+          [
+            "91",
+            "91",
+            "9.",
+            "Tom Carrothers",
+            "6/40",
+            "M0-49",
+            "2:35:34",
+            "7:24"
+          ],
+          [
+            "76",
+            "76",
+            "10.",
+            "Samuel Turpin",
+            "7/40",
+            "M0-49",
+            "2:37:25",
+            "7:29"
+          ],
+          [
+            "73",
+            "73",
+            "11.",
+            "Quinton Gorman",
+            "8/40",
+            "M0-49",
+            "2:38:12",
+            "7:31"
+          ],
+          [
+            "42",
+            "42",
+            "12.",
+            "Justin Sperdakes",
+            "9/40",
+            "M0-49",
+            "2:39:07",
+            "7:34"
+          ],
+          [
+            "87",
+            "87",
+            "13.",
+            "Steve Taylor",
+            "1/10",
+            "M50+",
+            "2:42:09",
+            "7:43"
+          ],
+          [
+            "4",
+            "4",
+            "14.",
+            "Alex MacLean",
+            "10/40",
+            "M0-49",
+            "2:43:07",
+            "7:46"
+          ],
+          [
+            "1",
+            "1",
+            "15.",
+            "Aaron MacRitchie",
+            "11/40",
+            "M0-49",
+            "2:43:08",
+            "7:46"
+          ],
+          [
+            "69",
+            "69",
+            "16.",
+            "Patrick Perry",
+            "12/40",
+            "M0-49",
+            "2:43:41",
+            "7:47"
+          ],
+          [
+            "89",
+            "89",
+            "17.",
+            "Tim Mollins",
+            "2/10",
+            "M50+",
+            "2:47:28",
+            "7:58"
+          ],
+          [
+            "33",
+            "33",
+            "18.",
+            "Jamie MacMillan",
+            "13/40",
+            "M0-49",
+            "2:49:10",
+            "8:03"
+          ],
+          [
+            "40",
+            "40",
+            "19.",
+            "Jody Nickerson",
+            "14/40",
+            "M0-49",
+            "2:49:29",
+            "8:04"
+          ],
+          [
+            "26",
+            "26",
+            "20.",
+            "Deanna Kerekes",
+            "4/27",
+            "F0-49",
+            "2:49:43",
+            "8:04"
+          ],
+          [
+            "10",
+            "10",
+            "21.",
+            "Andrew Crooks",
+            "15/40",
+            "M0-49",
+            "2:50:17",
+            "8:06"
+          ],
+          [
+            "53",
+            "53",
+            "22.",
+            "Lucas McCulloch",
+            "16/40",
+            "M0-49",
+            "2:50:49",
+            "8:08"
+          ],
+          [
+            "20",
+            "20",
+            "23.",
+            "Chris Morris",
+            "3/10",
+            "M50+",
+            "2:52:53",
+            "8:13"
+          ],
+          [
+            "28",
+            "28",
+            "24.",
+            "Emma Halupka",
+            "5/27",
+            "F0-49",
+            "2:53:39",
+            "8:16"
+          ],
+          [
+            "24",
+            "24",
+            "25.",
+            "Dana Grund",
+            "17/40",
+            "M0-49",
+            "2:54:03",
+            "8:17"
+          ],
+          [
+            "3",
+            "3",
+            "26.",
+            "Aidan Harris",
+            "18/40",
+            "M0-49",
+            "2:54:18",
+            "8:17"
+          ],
+          [
+            "57",
+            "57",
+            "27.",
+            "Mathieu Dever",
+            "19/40",
+            "M0-49",
+            "2:56:15",
+            "8:23"
+          ],
+          [
+            "67",
+            "67",
+            "28.",
+            "Niko Metaxas",
+            "20/40",
+            "M0-49",
+            "2:58:11",
+            "8:29"
+          ],
+          [
+            "71",
+            "71",
+            "29.",
+            "Paul Clyde",
+            "21/40",
+            "M0-49",
+            "3:06:56",
+            "8:54"
+          ],
+          [
+            "75",
+            "75",
+            "30.",
+            "Sam Daviau",
+            "22/40",
+            "M0-49",
+            "3:07:35",
+            "8:55"
+          ],
+          [
+            "9",
+            "9",
+            "31.",
+            "Andrew Hill",
+            "23/40",
+            "M0-49",
+            "3:08:50",
+            "8:59"
+          ],
+          [
+            "85",
+            "85",
+            "32.",
+            "Stephen Seviour",
+            "24/40",
+            "M0-49",
+            "3:12:46",
+            "9:10"
+          ],
+          [
+            "78",
+            "78",
+            "33.",
+            "Scot Klingmann",
+            "4/10",
+            "M50+",
+            "3:13:37",
+            "9:13"
+          ],
+          [
+            "39",
+            "39",
+            "34.",
+            "Jessica Hawkes",
+            "6/27",
+            "F0-49",
+            "3:13:37",
+            "9:13"
+          ],
+          [
+            "96",
+            "96",
+            "35.",
+            "William Jagger",
+            "25/40",
+            "M0-49",
+            "3:13:56",
+            "9:14"
+          ],
+          [
+            "25",
+            "25",
+            "36.",
+            "Dave Farmer",
+            "26/40",
+            "M0-49",
+            "3:13:59",
+            "9:14"
+          ],
+          [
+            "72",
+            "72",
+            "37.",
+            "Peter Eastwood",
+            "5/10",
+            "M50+",
+            "3:14:03",
+            "9:14"
+          ],
+          [
+            "46",
+            "46",
+            "38.",
+            "Kevin Lawrence",
+            "27/40",
+            "M0-49",
+            "3:17:35",
+            "9:24"
+          ],
+          [
+            "83",
+            "83",
+            "39.",
+            "Sophia Newcombe",
+            "7/27",
+            "F0-49",
+            "3:19:14",
+            "9:29"
+          ],
+          [
+            "7",
+            "7",
+            "40.",
+            "André Bourque",
+            "28/40",
+            "M0-49",
+            "3:20:06",
+            "9:31"
+          ],
+          [
+            "27",
+            "27",
+            "41.",
+            "Ellen Burnett",
+            "8/27",
+            "F0-49",
+            "3:21:03",
+            "9:34"
+          ],
+          [
+            "38",
+            "38",
+            "42.",
+            "Jeremy Bokma",
+            "29/40",
+            "M0-49",
+            "3:21:52",
+            "9:36"
+          ],
+          [
+            "88",
+            "88",
+            "43.",
+            "Steven Vanderkooy",
+            "30/40",
+            "M0-49",
+            "3:21:53",
+            "9:36"
+          ],
+          [
+            "66",
+            "66",
+            "44.",
+            "Nick Hamilton",
+            "31/40",
+            "M0-49",
+            "3:22:58",
+            "9:39"
+          ],
+          [
+            "44",
+            "44",
+            "45.",
+            "Kelly Stewart",
+            "9/27",
+            "F0-49",
+            "3:25:07",
+            "9:46"
+          ],
+          [
+            "94",
+            "94",
+            "46.",
+            "Victoria MacDonald",
+            "10/27",
+            "F0-49",
+            "3:25:18",
+            "9:46"
+          ],
+          [
+            "5",
+            "5",
+            "47.",
+            "Alexandra Hadlaw",
+            "11/27",
+            "F0-49",
+            "3:25:20",
+            "9:46"
+          ],
+          [
+            "17",
+            "17",
+            "48.",
+            "Carolyn Filliter",
+            "12/27",
+            "F0-49",
+            "3:25:26",
+            "9:46"
+          ],
+          [
+            "49",
+            "49",
+            "49.",
+            "Laurie Currie",
+            "6/10",
+            "M50+",
+            "3:26:09",
+            "9:48"
+          ],
+          [
+            "34",
+            "34",
+            "50.",
+            "Jared MacFadgen",
+            "32/40",
+            "M0-49",
+            "3:26:11",
+            "9:49"
+          ],
+          [
+            "54",
+            "54",
+            "51.",
+            "Lyra Burke",
+            "13/27",
+            "F0-49",
+            "3:26:14",
+            "9:49"
+          ],
+          [
+            "12",
+            "12",
+            "52.",
+            "Ann MacPherson",
+            "14/27",
+            "F0-49",
+            "3:26:22",
+            "9:49"
+          ],
+          [
+            "70",
+            "70",
+            "53.",
+            "Paul Brothers",
+            "33/40",
+            "M0-49",
+            "3:26:23",
+            "9:49"
+          ],
+          [
+            "11",
+            "11",
+            "54.",
+            "Andy Mueller",
+            "34/40",
+            "M0-49",
+            "3:26:51",
+            "9:50"
+          ],
+          [
+            "74",
+            "74",
+            "55.",
+            "Robyn Wright",
+            "15/27",
+            "F0-49",
+            "3:27:21",
+            "9:52"
+          ],
+          [
+            "93",
+            "93",
+            "56.",
+            "Vance Kruszewski",
+            "7/10",
+            "M50+",
+            "3:35:55",
+            "10:16"
+          ],
+          [
+            "51",
+            "51",
+            "57.",
+            "Lindsey Bellefontaine",
+            "16/27",
+            "F0-49",
+            "3:36:03",
+            "10:17"
+          ],
+          [
+            "43",
+            "43",
+            "58.",
+            "Katie Gould",
+            "17/27",
+            "F0-49",
+            "3:38:07",
+            "10:23"
+          ],
+          [
+            "32",
+            "32",
+            "59.",
+            "James Gould",
+            "35/40",
+            "M0-49",
+            "3:38:07",
+            "10:23"
+          ],
+          [
+            "45",
+            "45",
+            "60.",
+            "Kelly Mackinnon",
+            "18/27",
+            "F0-49",
+            "3:40:38",
+            "10:30"
+          ],
+          [
+            "79",
+            "79",
+            "61.",
+            "Scott D'Entremont",
+            "36/40",
+            "M0-49",
+            "3:43:13",
+            "10:37"
+          ],
+          [
+            "77",
+            "77",
+            "62.",
+            "Sarah Goodman",
+            "19/27",
+            "F0-49",
+            "3:45:22",
+            "10:43"
+          ],
+          [
+            "30",
+            "30",
+            "63.",
+            "Erika Meredith",
+            "20/27",
+            "F0-49",
+            "3:51:40",
+            "11:01"
+          ],
+          [
+            "6",
+            "6",
+            "64.",
+            "Alycia Smith",
+            "21/27",
+            "F0-49",
+            "3:51:42",
+            "11:01"
+          ],
+          [
+            "95",
+            "95",
+            "65.",
+            "Walter Somers",
+            "8/10",
+            "M50+",
+            "3:51:45",
+            "11:02"
+          ],
+          [
+            "13",
+            "13",
+            "66.",
+            "Ashley Michele Colbourne",
+            "22/27",
+            "F0-49",
+            "3:52:17",
+            "11:03"
+          ],
+          [
+            "47",
+            "47",
+            "67.",
+            "Kiersten Walker",
+            "23/27",
+            "F0-49",
+            "3:53:58",
+            "11:08"
+          ],
+          [
+            "90",
+            "90",
+            "68.",
+            "Todd Mackinnon",
+            "37/40",
+            "M0-49",
+            "3:59:43",
+            "11:24"
+          ],
+          [
+            "92",
+            "92",
+            "69.",
+            "Tyler Winsor",
+            "38/40",
+            "M0-49",
+            "4:00:56",
+            "11:28"
+          ],
+          [
+            "84",
+            "84",
+            "70.",
+            "Stacy Henley",
+            "24/27",
+            "F0-49",
+            "4:04:02",
+            "11:37"
+          ],
+          [
+            "35",
+            "35",
+            "71.",
+            "Jason Savoy",
+            "9/10",
+            "M50+",
+            "4:08:32",
+            "11:50"
+          ],
+          [
+            "19",
+            "19",
+            "72.",
+            "Cheryl D'Entremont",
+            "1/1",
+            "F50+",
+            "4:18:36",
+            "12:18"
+          ],
+          [
+            "36",
+            "36",
+            "73.",
+            "Jeff Sunderland",
+            "39/40",
+            "M0-49",
+            "4:18:36",
+            "12:18"
+          ],
+          [
+            "16",
+            "16",
+            "74.",
+            "Cara Sunderland",
+            "25/27",
+            "F0-49",
+            "4:18:37",
+            "12:18"
+          ],
+          [
+            "31",
+            "31",
+            "75.",
+            "Erin McCarthy",
+            "26/27",
+            "F0-49",
+            "4:23:28",
+            "12:32"
+          ],
+          [
+            "8",
+            "8",
+            "76.",
+            "Andreas Dutkewych",
+            "10/10",
+            "M50+",
+            "4:23:38",
+            "12:33"
+          ],
+          [
+            "2",
+            "2",
+            "77.",
+            "Adrian Rogers",
+            "40/40",
+            "M0-49",
+            "4:53:13",
+            "13:57"
+          ],
+          [
+            "56",
+            "56",
+            "78.",
+            "Marion Cornish",
+            "27/27",
+            "F0-49",
+            "4:57:10",
+            "14:09"
+          ]
+        ]
+      },
+      "DataFields": [
+        "BIB",
+        "ID",
+        "WithStatus([AUTORANK.p])",
+        "FLNAME",
+        "[AgeGroupRank] & \"/\" & [AgeGroupRank.max]",
+        "AGEGROUP.NAMESHORT",
+        "Finish.CHIP",
+        "PACE"
+      ],
+      "comments": null,
+      "mid": 995,
+      "groupFilters": [
+        {
+          "Type": 1,
+          "Value": "Callous Crow",
+          "Values": [
+            "Callous Crow"
+          ]
+        }
+      ],
+      "ColumnWidths": {
+        "Q95": [
+          5,
+          3,
+          19,
+          10,
+          5,
+          7,
+          5
+        ],
+        "Q50": [
+          5,
+          3,
+          14,
+          10,
+          5,
+          7,
+          4
+        ],
+        "OverflowWrap": [
+          false,
+          false,
+          true,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "users": {},
+      "LiveUpdateInterval": 10,
+      "Favorites": null
+    }
+  }
+}

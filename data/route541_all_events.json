@@ -1,0 +1,482 @@
+[
+  {
+    "event_id": "124",
+    "name": "Halifax Movember Run 2026",
+    "date": "November 21, 2026",
+    "rr_id": "434147"
+  },
+  {
+    "event_id": "120",
+    "name": "Run With Class",
+    "date": "November 8, 2026",
+    "rr_id": "426616"
+  },
+  {
+    "event_id": "118",
+    "name": "Run NS Year-End Celebration",
+    "date": "November 7, 2026",
+    "rr_id": "423448"
+  },
+  {
+    "event_id": "114",
+    "name": "The 2026 Wije&#39;wi Run",
+    "date": "October 24, 2026",
+    "rr_id": "407469"
+  },
+  {
+    "event_id": "123",
+    "name": "AO&#39;s McIntosh 10k &amp; 25K",
+    "date": "October 24, 2026",
+    "rr_id": "431435"
+  },
+  {
+    "event_id": "121",
+    "name": "Salty 7",
+    "date": "October 17, 2026",
+    "rr_id": "428641"
+  },
+  {
+    "event_id": "92",
+    "name": "R&#232;is Mh&#224;bu - Run Mabou",
+    "date": "October 10, 2026",
+    "rr_id": "368944"
+  },
+  {
+    "event_id": "93",
+    "name": "Penguin Run",
+    "date": "September 13, 2026",
+    "rr_id": "369200"
+  },
+  {
+    "event_id": "109",
+    "name": "Nasty Nuttby Killer 5K",
+    "date": "September 12, 2026",
+    "rr_id": "407328"
+  },
+  {
+    "event_id": "116",
+    "name": "Cinnamon Bun Run",
+    "date": "September 7, 2026",
+    "rr_id": "415489"
+  },
+  {
+    "event_id": "91",
+    "name": "74th Annual Berwick Gala Days 5 Mile Road Race",
+    "date": "September 6, 2026",
+    "rr_id": "364662"
+  },
+  {
+    "event_id": "104",
+    "name": "Back Road Bash 5k",
+    "date": "August 16, 2026",
+    "rr_id": "391462"
+  },
+  {
+    "event_id": "112",
+    "name": "30th Annual Louisbourg Race Through Time",
+    "date": "August 15, 2026",
+    "rr_id": "415876"
+  },
+  {
+    "event_id": "106",
+    "name": "Middleton Heart Run",
+    "date": "August 9, 2026",
+    "rr_id": "392772"
+  },
+  {
+    "event_id": "107",
+    "name": "Pugwash Harbourfest 5k Salt Dash",
+    "date": "August 8, 2026",
+    "rr_id": "398721"
+  },
+  {
+    "event_id": "103",
+    "name": "La Course de l&#39;Escaouette",
+    "date": "August 2, 2026",
+    "rr_id": "393635"
+  },
+  {
+    "event_id": "115",
+    "name": "McNabs Half Marathon",
+    "date": "July 4, 2026",
+    "rr_id": "409663"
+  },
+  {
+    "event_id": "99",
+    "name": "Hantsport Canada Day Races",
+    "date": "July 1, 2026",
+    "rr_id": "398729"
+  },
+  {
+    "event_id": "102",
+    "name": "Spike Family Fun Runs",
+    "date": "June 27, 2026",
+    "rr_id": "383967"
+  },
+  {
+    "event_id": "111",
+    "name": "Tatamagouche Beer Run",
+    "date": "June 21, 2026",
+    "rr_id": "397305"
+  },
+  {
+    "event_id": "113",
+    "name": "AO&#39;s Seaside Scramble",
+    "date": "June 19, 2026",
+    "rr_id": "406798"
+  },
+  {
+    "event_id": "105",
+    "name": "Olympics Corner Spring Run-Off",
+    "date": "May 2, 2026",
+    "rr_id": "392099"
+  },
+  {
+    "event_id": "110",
+    "name": "AO&#39;s Callous Crow",
+    "date": "April 25, 2026",
+    "rr_id": "393614"
+  },
+  {
+    "event_id": "85",
+    "name": "Bee Hive Fives",
+    "date": "April 18, 2026",
+    "rr_id": "368851"
+  },
+  {
+    "event_id": "98",
+    "name": "Lobster Crawl 5k",
+    "date": "March 28, 2026",
+    "rr_id": "377585"
+  },
+  {
+    "event_id": "100",
+    "name": "Lucky Loop",
+    "date": "March 21, 2026",
+    "rr_id": "382397"
+  },
+  {
+    "event_id": "97",
+    "name": "AO&#39;s Pick &amp; Shovel Showdown",
+    "date": "January 24, 2026",
+    "rr_id": "377557"
+  },
+  {
+    "event_id": "95",
+    "name": "Route Around Bay of Fundy",
+    "date": "November 30, 2025",
+    "rr_id": "373056"
+  },
+  {
+    "event_id": "94",
+    "name": "Halifax Movember Run 2025",
+    "date": "November 22, 2025",
+    "rr_id": "372209"
+  },
+  {
+    "event_id": "90",
+    "name": "Run NS Year-End Celebration",
+    "date": "November 8, 2025",
+    "rr_id": "363773"
+  },
+  {
+    "event_id": "68",
+    "name": "Cinnamon Bun Run",
+    "date": "November 2, 2025",
+    "rr_id": "337217"
+  },
+  {
+    "event_id": "83",
+    "name": "AO&#39;s McIntosh 10k",
+    "date": "October 25, 2025",
+    "rr_id": "333412"
+  },
+  {
+    "event_id": "79",
+    "name": "Salty 7",
+    "date": "October 18, 2025",
+    "rr_id": "332790"
+  },
+  {
+    "event_id": "67",
+    "name": "R&#232;is Mh&#224;bu - Run Mabou",
+    "date": "October 11, 2025",
+    "rr_id": "350819"
+  },
+  {
+    "event_id": "89",
+    "name": "Rum Runners Relay Race",
+    "date": "September 28, 2025",
+    "rr_id": "362723"
+  },
+  {
+    "event_id": "66",
+    "name": "73rd Annual Berwick Gala Days 5 Mile Road Race",
+    "date": "August 31, 2025",
+    "rr_id": "332316"
+  },
+  {
+    "event_id": "88",
+    "name": "NS Mi&#39;kmaw Summer Games",
+    "date": "August 21, 2025",
+    "rr_id": "356344"
+  },
+  {
+    "event_id": "74",
+    "name": "29th Annual Louisbourg Race Through Time",
+    "date": "August 16, 2025",
+    "rr_id": "336414"
+  },
+  {
+    "event_id": "71",
+    "name": "Middleton Heart Run",
+    "date": "August 10, 2025",
+    "rr_id": "325709"
+  },
+  {
+    "event_id": "73",
+    "name": "La Course de l&#39;Escaouette",
+    "date": "August 2, 2025",
+    "rr_id": "326886"
+  },
+  {
+    "event_id": "72",
+    "name": "Nasty Nuttby Killer 5K",
+    "date": "July 26, 2025",
+    "rr_id": "326739"
+  },
+  {
+    "event_id": "75",
+    "name": "Pugwash Harbourfest 5k Salt Dash",
+    "date": "July 26, 2025",
+    "rr_id": "329904"
+  },
+  {
+    "event_id": "78",
+    "name": "McNabs Half Marathon",
+    "date": "July 5, 2025",
+    "rr_id": "332789"
+  },
+  {
+    "event_id": "34",
+    "name": "Hantsport Canada Day Races",
+    "date": "July 1, 2025",
+    "rr_id": "325580"
+  },
+  {
+    "event_id": "69",
+    "name": "Tatamagouche Beer Run",
+    "date": "June 22, 2025",
+    "rr_id": "332859"
+  },
+  {
+    "event_id": "81",
+    "name": "AO&#39;s Seaside Scramble",
+    "date": "June 20, 2025",
+    "rr_id": "333410"
+  },
+  {
+    "event_id": "77",
+    "name": "Wild Lakes 10",
+    "date": "May 4, 2025",
+    "rr_id": "332788"
+  },
+  {
+    "event_id": "70",
+    "name": "Spike Family Fun Runs",
+    "date": "May 3, 2025",
+    "rr_id": "325615"
+  },
+  {
+    "event_id": "80",
+    "name": "AO&#39;s Callous Crow",
+    "date": "April 26, 2025",
+    "rr_id": "333409"
+  },
+  {
+    "event_id": "64",
+    "name": "Bee Hive Fives",
+    "date": "April 19, 2025",
+    "rr_id": "317511"
+  },
+  {
+    "event_id": "76",
+    "name": "Run Nova Scotia&#39;s Guesstimate Event",
+    "date": "April 6, 2025",
+    "rr_id": "330547"
+  },
+  {
+    "event_id": "33",
+    "name": "Lobster Crawl 5k",
+    "date": "March 29, 2025",
+    "rr_id": "323886"
+  },
+  {
+    "event_id": "63",
+    "name": "Pick &amp; Shovel Showdown",
+    "date": "January 25, 2025",
+    "rr_id": "324133"
+  },
+  {
+    "event_id": "60",
+    "name": "Run NS Year-End Celebration",
+    "date": "November 9, 2024",
+    "rr_id": "312816"
+  },
+  {
+    "event_id": "53",
+    "name": "Route Around Wayfarers&#39;",
+    "date": "November 3, 2024",
+    "rr_id": "313159"
+  },
+  {
+    "event_id": "62",
+    "name": "2024 McIntosh 10k",
+    "date": "November 2, 2024",
+    "rr_id": "315632"
+  },
+  {
+    "event_id": "61",
+    "name": "SSNS Northumberland Regional Cross Country Championships",
+    "date": "October 16, 2024",
+    "rr_id": "312751"
+  },
+  {
+    "event_id": "55",
+    "name": "R&#232;is Mh&#224;bu - Run Mabou",
+    "date": "October 12, 2024",
+    "rr_id": "289818"
+  },
+  {
+    "event_id": "59",
+    "name": "2024 Rum Runners Relay",
+    "date": "September 29, 2024",
+    "rr_id": "309771"
+  },
+  {
+    "event_id": "58",
+    "name": "Sissaboo Sizzler",
+    "date": "September 14, 2024",
+    "rr_id": "301302"
+  },
+  {
+    "event_id": "47",
+    "name": "Cinnamon Bun Run",
+    "date": "September 2, 2024",
+    "rr_id": "276168"
+  },
+  {
+    "event_id": "44",
+    "name": "72nd Annual Berwick Gala Days 5 Mile Road Race",
+    "date": "September 1, 2024",
+    "rr_id": "272948"
+  },
+  {
+    "event_id": "48",
+    "name": "Middleton Heart Run",
+    "date": "August 11, 2024",
+    "rr_id": "279612"
+  },
+  {
+    "event_id": "57",
+    "name": "La Course de L\u2019Escaouette",
+    "date": "August 3, 2024",
+    "rr_id": "297300"
+  },
+  {
+    "event_id": "46",
+    "name": "Nasty Nuttby Killer 5K",
+    "date": "July 27, 2024",
+    "rr_id": "275172"
+  },
+  {
+    "event_id": "54",
+    "name": "Hantsport Canada Day Races",
+    "date": "July 1, 2024",
+    "rr_id": "288752"
+  },
+  {
+    "event_id": "52",
+    "name": "Tatamagouche Beer Run",
+    "date": "June 23, 2024",
+    "rr_id": "256606"
+  },
+  {
+    "event_id": "56",
+    "name": "The Seaside Scramble 10k",
+    "date": "June 21, 2024",
+    "rr_id": "295078"
+  },
+  {
+    "event_id": "45",
+    "name": "Bee Hive Fives",
+    "date": "April 27, 2024",
+    "rr_id": "275253"
+  },
+  {
+    "event_id": "50",
+    "name": "Run Nova Scotia&#39;s Guesstimate Run",
+    "date": "April 13, 2024",
+    "rr_id": "281621"
+  },
+  {
+    "event_id": "41",
+    "name": "Egg Nog Jog",
+    "date": "December 3, 2023",
+    "rr_id": "270024"
+  },
+  {
+    "event_id": "38",
+    "name": "Route Around Wayfarers&#39;",
+    "date": "November 26, 2023",
+    "rr_id": "267729"
+  },
+  {
+    "event_id": "40",
+    "name": "The McIntosh 10k",
+    "date": "November 25, 2023",
+    "rr_id": "269129"
+  },
+  {
+    "event_id": "35",
+    "name": "2023 Rum Runners Relay",
+    "date": "September 30, 2023",
+    "rr_id": "259144"
+  },
+  {
+    "event_id": "29",
+    "name": "Cinnamon Bun Run",
+    "date": "September 4, 2023",
+    "rr_id": "255655"
+  },
+  {
+    "event_id": "28",
+    "name": "Louisbourg Race Through Time 8 Miler",
+    "date": "August 12, 2023",
+    "rr_id": "255417"
+  },
+  {
+    "event_id": "27",
+    "name": "Nasty Nuttby Killer 5K",
+    "date": "July 29, 2023",
+    "rr_id": "254739"
+  },
+  {
+    "event_id": "26",
+    "name": "Route to Sea Level",
+    "date": "June 25, 2023",
+    "rr_id": "246790"
+  },
+  {
+    "event_id": "25",
+    "name": "Bee Hive Fives",
+    "date": "May 13, 2023",
+    "rr_id": "242987"
+  },
+  {
+    "event_id": "30",
+    "name": "2 Junk Miles",
+    "date": "April 28, 2023",
+    "rr_id": "238654"
+  }
+]

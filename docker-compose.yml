@@ -1,0 +1,20 @@
+services:
+  ns-running-results:
+    build: .
+    container_name: ns-running-results
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8090:8090"
+    volumes:
+      - pb_data:/app/pb_data
+    environment:
+      - TZ=America/Halifax
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ns-running-results.rule=Host(`ns-running-results.opensrc.mx`)"
+      - "traefik.http.routers.ns-running-results.entrypoints=websecure"
+      - "traefik.http.routers.ns-running-results.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ns-running-results.loadbalancer.server.port=8090"
+
+volumes:
+  pb_data:

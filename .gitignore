@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
+
+# Local PocketBase binary & runtime DB (Docker builds Linux binary & uses volume)
+pocketbase/pocketbase.exe
+pocketbase/pocketbase
+pocketbase/pb_data/
+
+# Duplicate 2026 subset (already inside data/route541_all/) and runtime logo cache
+data/route541_2026/
+assets/logos/cache/

@@ -1,0 +1,3562 @@
+{
+  "event": {
+    "event_id": "61",
+    "name": "SSNS Northumberland Regional Cross Country Championships",
+    "date": "October 16, 2024",
+    "rr_id": "312751"
+  },
+  "config": {
+    "key": "5a2f8513987e01654664367e2431c491",
+    "contests": {
+      "1": "Junior Girls & Para 3km",
+      "2": "Junior Boys & Para 3km",
+      "3": "Intermediate Girls 4km",
+      "4": "Intermediate Boys 4km",
+      "5": "Senior Girls 5km",
+      "6": "Senior Boys 5km"
+    },
+    "splits": [
+      {
+        "ID": 1,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 1,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 2,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 1,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 3,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 2,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 4,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 2,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 11,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 5,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 9,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 4,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 7,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 6,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 5,
+        "Name": "Start",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 3,
+        "TypeOfSport": 255
+      },
+      {
+        "ID": 12,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 5,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 10,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 4,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 8,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 6,
+        "TypeOfSport": 100
+      },
+      {
+        "ID": 6,
+        "Name": "Finish",
+        "Label": "",
+        "SplitType": 0,
+        "Contest": 3,
+        "TypeOfSport": 100
+      }
+    ],
+    "eventname": "SSNS Northumberland Regional Cross Country Championships",
+    "TimerLogo": "",
+    "TimerURL": "",
+    "EventOver": true,
+    "Time": 76762,
+    "server": "my-us-1.raceresult.com",
+    "BrandColorDark": "",
+    "Tab": {
+      "Label": "",
+      "URLName": "results",
+      "Enabled": true,
+      "ShowInMenu": false,
+      "ShowInMenu2": "always",
+      "ActiveFrom": "2023-03-01T00:00:00-04:00",
+      "ActiveUntil": "2100-12-31T23:59:59-04:00",
+      "Type": "lists",
+      "Config": {
+        "InfoText": "",
+        "Subtype": "dropdown",
+        "StandardDetails": "",
+        "Lists": [
+          {
+            "Name": "Online|Final",
+            "Mode": "",
+            "Contest": "0",
+            "ShowAs": "",
+            "Format": "VP",
+            "Live": 0,
+            "Sortable": 0,
+            "Leader": 0,
+            "ID": "8AF0E5"
+          },
+          {
+            "Name": "Result Lists|Team Scores",
+            "Mode": "",
+            "Contest": "0",
+            "ShowAs": "",
+            "Format": "VP",
+            "Live": 0,
+            "Sortable": 1,
+            "Leader": 0,
+            "ID": "F542A7"
+          }
+        ],
+        "LeaderboardHideCount": false
+      }
+    },
+    "TabConfig": {
+      "InfoText": "",
+      "Subtype": "dropdown",
+      "StandardDetails": "",
+      "Lists": [
+        {
+          "Name": "Online|Final",
+          "Mode": "",
+          "Contest": "0",
+          "ShowAs": "",
+          "Format": "VP",
+          "Live": 0,
+          "Sortable": 0,
+          "Leader": 0,
+          "Details": "_participant",
+          "ID": "8AF0E5"
+        },
+        {
+          "Name": "Result Lists|Team Scores",
+          "Mode": "",
+          "Contest": "0",
+          "ShowAs": "",
+          "Format": "VP",
+          "Live": 0,
+          "Sortable": 1,
+          "Leader": 0,
+          "Details": "_participant",
+          "ID": "F542A7"
+        }
+      ],
+      "LeaderboardHideCount": false
+    },
+    "ContestColors": null
+  },
+  "lists": {
+    "Online|Final__c0": {
+      "list": {
+        "ListName": "Online|Final",
+        "BottomPicture": "",
+        "BottomPictureShow": 0,
+        "ColumnHeadsFontName": "",
+        "ColumnHeadsFontSize": 12,
+        "ColumnHeadsFontBold": true,
+        "ColumnHeadsFontItalic": false,
+        "ColumnHeadsFontUnderlined": false,
+        "ColumnHeadsColor": "",
+        "ColumnHeadsShow": 2,
+        "Columns": 1,
+        "ColumnSpacing": 5,
+        "CoverSheet": "",
+        "BackSheet": "",
+        "Design": "",
+        "DesignShow": 2,
+        "EveryOtherLineGray": false,
+        "FontName": "Arial",
+        "FontSize": 10,
+        "FooterFontName": "",
+        "FooterFontSize": 10,
+        "FooterFontBold": false,
+        "FooterFontItalic": false,
+        "FooterFontUnderlined": false,
+        "FooterColor": "",
+        "GrayLine": true,
+        "HeadLine1": "SSNS Northumberland Regional Cross Country Championships",
+        "HeadLine1FontName": "",
+        "HeadLine1FontSize": 16,
+        "HeadLine1FontBold": false,
+        "HeadLine1FontItalic": false,
+        "HeadLine1FontUnderlined": true,
+        "HeadLine2": "Results ",
+        "HeadLine1Color": "",
+        "HeadLine1Show": 2,
+        "HeadLine2FontName": "",
+        "HeadLine2FontSize": 16,
+        "HeadLine2FontBold": true,
+        "HeadLine2FontItalic": false,
+        "HeadLine2FontUnderlined": false,
+        "HeadLine2Color": "",
+        "HeadLine2Show": 2,
+        "HeightBottomPicture": 40,
+        "LineColor": "",
+        "LineBackColor": "",
+        "LineDynamicFormat": "",
+        "LineSpacing": 1,
+        "MaxRecords": 0,
+        "MultiplierField": "",
+        "PageFormat": 0,
+        "PageMarginBottom": 10,
+        "PageMarginLeft": 10,
+        "PageMarginRight": 10,
+        "PageMarginTop": 10,
+        "PageSize": 5,
+        "PageHeight": 279,
+        "PageWidth": 216,
+        "SepLine": true,
+        "TopRightPicture": "",
+        "TopRightPictureShow": 0,
+        "ListHeaderText": "",
+        "ListFooterText": "",
+        "ListHeaderFooterFontName": "",
+        "ListHeaderFooterFontSize": 10,
+        "ListHeaderFooterFontBold": false,
+        "ListHeaderFooterFontItalic": false,
+        "ListHeaderFooterFontUnderlined": false,
+        "ListHeaderFooterAlignment": 1,
+        "Remarks": "",
+        "LastChange": "2024-10-15 12:14:54",
+        "FooterText1": "",
+        "FooterText2": "",
+        "FooterText3": "[page]",
+        "Orders": [
+          {
+            "Expression": "CONTEST",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "CONTEST.NAME",
+            "Descending": false,
+            "Grouping": 2,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "Contest",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "STATUS",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "Finish.DECIMAL",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          }
+        ],
+        "Filters": [
+          {
+            "OrConjunction": false,
+            "Expression1": "FINISHED",
+            "Operator": "=",
+            "Expression2": "1"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "CONTEST",
+            "Operator": ">",
+            "Expression2": "0"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "STATUS",
+            "Operator": "=",
+            "Expression2": "0"
+          }
+        ],
+        "Fields": [
+          {
+            "Expression": "WithStatus([AUTORANK])",
+            "Label": "Place",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "BIB",
+            "Label": "Bib",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "FLNAME",
+            "Label": "Name",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "Finish.GUN",
+            "Label": "Finals",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": -1
+          },
+          {
+            "Expression": "CLUB",
+            "Label": "School",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "WithStatus([AUTORANK])",
+            "Label": "Points",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          }
+        ],
+        "SelectorResults": []
+      },
+      "data": {
+        "#1_Junior Girls & Para 3km": [
+          [
+            "1684",
+            "334",
+            "1",
+            "Ali Chisholm",
+            "12:29.9",
+            "Nw:St Andrew"
+          ],
+          [
+            "1693",
+            "343",
+            "2",
+            "Anika Sampson",
+            "12:55.7",
+            "Nw:St Andrew"
+          ],
+          [
+            "1579",
+            "229",
+            "3",
+            "Isabella Burris",
+            "13:01.6",
+            "Colchester Christian Academy"
+          ],
+          [
+            "1607",
+            "257",
+            "4",
+            "Lexi Brow",
+            "13:14.1",
+            "East Antigonish Education Centre"
+          ],
+          [
+            "1683",
+            "333",
+            "5",
+            "Olivia Cameron",
+            "13:25.5",
+            "Nw:St Andrew"
+          ],
+          [
+            "920",
+            "360",
+            "6",
+            "Leni Treby",
+            "13:30.5",
+            "Redcliff Middle School"
+          ],
+          [
+            "1488",
+            "138",
+            "7",
+            "Gabby Roberts",
+            "13:31.3",
+            "Truro Middle School"
+          ],
+          [
+            "1664",
+            "314",
+            "8",
+            "Betty Goodland",
+            "13:32.6",
+            "Nw:St Andrew"
+          ],
+          [
+            "1481",
+            "131",
+            "9",
+            "Kate Jollimore",
+            "13:40.9",
+            "Truro Middle School"
+          ],
+          [
+            "1614",
+            "264",
+            "10",
+            "Margot Biernaskie",
+            "13:42.0",
+            "Nw:St Andrew"
+          ],
+          [
+            "1630",
+            "280",
+            "11",
+            "Molly Joudrey",
+            "13:50.8",
+            "Riverside Education Centre"
+          ],
+          [
+            "1414",
+            "64",
+            "12",
+            "Lily Macdonald",
+            "13:53.1",
+            "New Glasgow Academy"
+          ],
+          [
+            "1479",
+            "129",
+            "13",
+            "Haliey Suddard",
+            "13:57.4",
+            "Truro Middle School"
+          ],
+          [
+            "1689",
+            "339",
+            "14",
+            "Alena Mooney",
+            "14:01.5",
+            "Nw:St Andrew"
+          ],
+          [
+            "1659",
+            "309",
+            "15",
+            "Zoe Berthiaume",
+            "14:02.2",
+            "Nw:St Andrew"
+          ],
+          [
+            "1639",
+            "289",
+            "16",
+            "Angel Cox",
+            "14:11.7",
+            "Riverside Education Centre"
+          ],
+          [
+            "1546",
+            "196",
+            "17",
+            "Stella White",
+            "14:23.4",
+            "AG Baillie"
+          ],
+          [
+            "1692",
+            "342",
+            "18",
+            "Abigail Reid",
+            "14:29.5",
+            "Nw:St Andrew"
+          ],
+          [
+            "1673",
+            "323",
+            "19",
+            "Leah Spencer",
+            "14:30.4",
+            "Nw:St Andrew"
+          ],
+          [
+            "1671",
+            "321",
+            "20",
+            "Clara Schenke",
+            "14:36.0",
+            "Nw:St Andrew"
+          ],
+          [
+            "1366",
+            "16",
+            "21",
+            "Claire Worth",
+            "15:02.0",
+            "Guysborough Academy"
+          ],
+          [
+            "1694",
+            "344",
+            "22",
+            "Kate Spencer",
+            "15:02.3",
+            "Nw:St Andrew"
+          ],
+          [
+            "1377",
+            "27",
+            "23",
+            "Evelyn Pettipas",
+            "15:04.7",
+            "Ecole Acadienne de Truro"
+          ],
+          [
+            "1494",
+            "144",
+            "24",
+            "Liliana Fortunato",
+            "15:16.3",
+            "Truro Middle School"
+          ],
+          [
+            "1688",
+            "338",
+            "25",
+            "Chloe Macdonald",
+            "15:16.8",
+            "Nw:St Andrew"
+          ],
+          [
+            "1507",
+            "157",
+            "26",
+            "Macy MacEachern",
+            "15:17.9",
+            "Central Colchester Junior High Bears"
+          ],
+          [
+            "1596",
+            "246",
+            "27",
+            "Roxy Stubbert",
+            "15:29.9",
+            "Oxford Regional Educational Centre"
+          ],
+          [
+            "1661",
+            "311",
+            "28",
+            "Mabel Broesch",
+            "15:36.4",
+            "Nw:St Andrew"
+          ],
+          [
+            "1598",
+            "248",
+            "29",
+            "Claire Doucet",
+            "15:39.9",
+            "Oxford Regional Educational Centre"
+          ],
+          [
+            "1493",
+            "143",
+            "30",
+            "Sophia Patterson",
+            "15:44.2",
+            "Truro Middle School"
+          ],
+          [
+            "1487",
+            "137",
+            "31",
+            "Ila Nicholson",
+            "15:51.1",
+            "Truro Middle School"
+          ],
+          [
+            "1627",
+            "277",
+            "32",
+            "Breanna Craig",
+            "15:54.4",
+            "Riverside Education Centre"
+          ],
+          [
+            "923",
+            "363",
+            "33",
+            "Claire Leamon",
+            "15:56.2",
+            "Redcliff Middle School"
+          ],
+          [
+            "1406",
+            "56",
+            "34",
+            "Neila Johnstone",
+            "16:03.7",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1580",
+            "230",
+            "35",
+            "Jewell Burris",
+            "16:04.5",
+            "Colchester Christian Academy"
+          ],
+          [
+            "1691",
+            "341",
+            "36",
+            "Saoirse Macdonald",
+            "16:12.5",
+            "Nw:St Andrew"
+          ],
+          [
+            "1660",
+            "310",
+            "37",
+            "Amelia Brakenbury",
+            "16:16.6",
+            "Nw:St Andrew"
+          ],
+          [
+            "1496",
+            "146",
+            "38",
+            "Danielle Redden",
+            "16:28.3",
+            "Central Colchester Junior High Bears"
+          ],
+          [
+            "1508",
+            "158",
+            "39",
+            "Peyton McDonald",
+            "16:36.4",
+            "Central Colchester Junior High Bears"
+          ],
+          [
+            "1629",
+            "279",
+            "40",
+            "Julia Blundell",
+            "16:36.8",
+            "Riverside Education Centre"
+          ],
+          [
+            "1648",
+            "298",
+            "41",
+            "Kylee Malenfant",
+            "17:00.6",
+            "Riverside Education Centre"
+          ],
+          [
+            "1489",
+            "139",
+            "42",
+            "Gaby Symonds",
+            "17:03.7",
+            "Truro Middle School"
+          ],
+          [
+            "1492",
+            "142",
+            "43",
+            "Grace Pula",
+            "17:04.2",
+            "Truro Middle School"
+          ],
+          [
+            "1405",
+            "55",
+            "44",
+            "Sofia Alvarez",
+            "17:07.5",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1402",
+            "52",
+            "45",
+            "Addy Tree",
+            "17:18.2",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1587",
+            "237",
+            "46",
+            "Jayla Henderson",
+            "17:26.4",
+            "Bible Hill Junior High"
+          ],
+          [
+            "1646",
+            "296",
+            "47",
+            "Alanna Gollop",
+            "17:34.2",
+            "Riverside Education Centre"
+          ],
+          [
+            "1416",
+            "66",
+            "48",
+            "Ella Weatherby",
+            "17:36.2",
+            "New Glasgow Academy"
+          ],
+          [
+            "1628",
+            "278",
+            "49",
+            "Sierra-Lynn Metham",
+            "17:47.4",
+            "Riverside Education Centre"
+          ],
+          [
+            "1652",
+            "302",
+            "50",
+            "Sam Seitl",
+            "17:47.7",
+            "Riverside Education Centre"
+          ],
+          [
+            "1681",
+            "331",
+            "51",
+            "Emma Bower",
+            "18:30.0",
+            "Nw:St Andrew"
+          ],
+          [
+            "1353",
+            "3",
+            "52",
+            "Isabella Nickerson",
+            "18:31.0",
+            "Guysborough Academy"
+          ],
+          [
+            "1590",
+            "240",
+            "53",
+            "Lily Francis",
+            "18:31.4",
+            "Bible Hill Junior High"
+          ],
+          [
+            "933",
+            "373",
+            "54",
+            "Jami MacIssac",
+            "18:50.4",
+            "West Pictou Consolidated School"
+          ],
+          [
+            "1649",
+            "299",
+            "55",
+            "Aubree Swain",
+            "18:59.8",
+            "Riverside Education Centre"
+          ],
+          [
+            "1376",
+            "26",
+            "56",
+            "Brooklyn Maceachen",
+            "19:05.0",
+            "Ecole Acadienne de Truro"
+          ],
+          [
+            "935",
+            "375",
+            "57",
+            "Jessica Haynes",
+            "19:07.4",
+            "West Pictou Consolidated School"
+          ],
+          [
+            "924",
+            "364",
+            "58",
+            "Natalllia Dixon-Graham",
+            "19:19.6",
+            "Redcliff Middle School"
+          ],
+          [
+            "1642",
+            "292",
+            "59",
+            "Clare Foley",
+            "20:03.0",
+            "Riverside Education Centre"
+          ],
+          [
+            "1478",
+            "128",
+            "60",
+            "Frances Lynch",
+            "20:15.3",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1633",
+            "283",
+            "61",
+            "Tatum Lucas",
+            "20:28.5",
+            "Riverside Education Centre"
+          ],
+          [
+            "914",
+            "354",
+            "62",
+            "Dahlia Cormier",
+            "20:46.5",
+            "Redcliff Middle School"
+          ],
+          [
+            "1641",
+            "291",
+            "63",
+            "Claire Trotter",
+            "21:42.1",
+            "Riverside Education Centre"
+          ],
+          [
+            "1647",
+            "297",
+            "64",
+            "Amy Dyke",
+            "22:15.1",
+            "Riverside Education Centre"
+          ],
+          [
+            "1399",
+            "49",
+            "65",
+            "Addison Lowles",
+            "22:16.9",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1547",
+            "197",
+            "66",
+            "Lailee Head",
+            "22:31.8",
+            "Trenton Middle School"
+          ],
+          [
+            "1640",
+            "290",
+            "67",
+            "Emma McKeen",
+            "22:53.8",
+            "Riverside Education Centre"
+          ],
+          [
+            "916",
+            "356",
+            "68",
+            "Emma Lebouthiller",
+            "23:13.8",
+            "Redcliff Middle School"
+          ],
+          [
+            "917",
+            "357",
+            "69",
+            "Fynenna Tanton",
+            "23:14.0",
+            "Redcliff Middle School"
+          ],
+          [
+            "934",
+            "374",
+            "70",
+            "Aurora Publicove",
+            "24:08.0",
+            "West Pictou Consolidated School"
+          ],
+          [
+            "1375",
+            "25",
+            "71",
+            "Altayah Belliveau-Manicom",
+            "24:19.2",
+            "Ecole Acadienne de Truro"
+          ],
+          [
+            "1404",
+            "54",
+            "72",
+            "Meagan Campbell",
+            "25:40.7",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1407",
+            "57",
+            "73",
+            "Cadence Hamelin",
+            "25:40.9",
+            "Dr. W.A. MacLeod Consolidated School"
+          ],
+          [
+            "1603",
+            "253",
+            "74",
+            "Ireland Bryan",
+            "25:46.1",
+            "East Antigonish Education Centre"
+          ],
+          [
+            "1636",
+            "286",
+            "75",
+            "Ava Welsh",
+            "27:48.7",
+            "Riverside Education Centre"
+          ],
+          [
+            "918",
+            "358",
+            "76",
+            "Emily Pritchard",
+            "28:15.2",
+            "Redcliff Middle School"
+          ]
+        ]
+      },
+      "DataFields": [
+        "BIB",
+        "ID",
+        "WithStatus([AUTORANK])",
+        "FLNAME",
+        "Finish.GUN",
+        "CLUB"
+      ],
+      "comments": null,
+      "mid": 2001,
+      "groupFilters": [
+        {
+          "Type": 1,
+          "Value": "Junior Girls & Para 3km",
+          "Values": [
+            "Junior Girls & Para 3km",
+            "Junior Boys & Para 3km",
+            "Intermediate Girls 4km",
+            "Intermediate Boys 4km",
+            "Senior Girls 5km",
+            "Senior Boys 5km"
+          ]
+        }
+      ],
+      "ColumnWidths": {
+        "Q95": [
+          5,
+          4,
+          18,
+          7,
+          38,
+          6
+        ],
+        "Q50": [
+          5,
+          4,
+          14,
+          7,
+          27,
+          6
+        ],
+        "OverflowWrap": [
+          false,
+          false,
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "users": {},
+      "LiveUpdateInterval": 10,
+      "Favorites": null
+    },
+    "Result Lists|Team Scores__c0": {
+      "list": {
+        "ListName": "Result Lists|Team Scores",
+        "BottomPicture": "",
+        "BottomPictureShow": 0,
+        "ColumnHeadsFontName": "",
+        "ColumnHeadsFontSize": 12,
+        "ColumnHeadsFontBold": true,
+        "ColumnHeadsFontItalic": false,
+        "ColumnHeadsFontUnderlined": false,
+        "ColumnHeadsColor": "",
+        "ColumnHeadsShow": 2,
+        "Columns": 1,
+        "ColumnSpacing": 5,
+        "CoverSheet": "",
+        "BackSheet": "",
+        "Design": "",
+        "DesignShow": 2,
+        "EveryOtherLineGray": false,
+        "FontName": "Arial",
+        "FontSize": 10,
+        "FooterFontName": "",
+        "FooterFontSize": 10,
+        "FooterFontBold": false,
+        "FooterFontItalic": false,
+        "FooterFontUnderlined": false,
+        "FooterColor": "",
+        "GrayLine": true,
+        "HeadLine1": "SSNS Northumberland Regional Cross Country Championships",
+        "HeadLine1FontName": "",
+        "HeadLine1FontSize": 16,
+        "HeadLine1FontBold": false,
+        "HeadLine1FontItalic": false,
+        "HeadLine1FontUnderlined": true,
+        "HeadLine2": "Team Results ",
+        "HeadLine1Color": "",
+        "HeadLine1Show": 2,
+        "HeadLine2FontName": "",
+        "HeadLine2FontSize": 16,
+        "HeadLine2FontBold": true,
+        "HeadLine2FontItalic": false,
+        "HeadLine2FontUnderlined": false,
+        "HeadLine2Color": "",
+        "HeadLine2Show": 2,
+        "HeightBottomPicture": 40,
+        "LineColor": "",
+        "LineBackColor": "",
+        "LineDynamicFormat": "",
+        "LineSpacing": 1,
+        "MaxRecords": 0,
+        "MultiplierField": "",
+        "PageFormat": 0,
+        "PageMarginBottom": 10,
+        "PageMarginLeft": 10,
+        "PageMarginRight": 10,
+        "PageMarginTop": 10,
+        "PageSize": 5,
+        "PageHeight": 279,
+        "PageWidth": 216,
+        "SepLine": true,
+        "TopRightPicture": "",
+        "TopRightPictureShow": 0,
+        "ListHeaderText": "",
+        "ListFooterText": "",
+        "ListHeaderFooterFontName": "",
+        "ListHeaderFooterFontSize": 10,
+        "ListHeaderFooterFontBold": false,
+        "ListHeaderFooterFontItalic": false,
+        "ListHeaderFooterFontUnderlined": false,
+        "ListHeaderFooterAlignment": 1,
+        "Remarks": "",
+        "LastChange": "2024-10-15 10:38:04",
+        "FooterText1": "",
+        "FooterText2": "",
+        "FooterText3": "[page]",
+        "Orders": [
+          {
+            "Expression": "CONTEST",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "CONTEST.NAME",
+            "Descending": false,
+            "Grouping": 1,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "TS1.RANK",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 2
+          },
+          {
+            "Expression": "[TS1.RANK.p] & \"///\" & [CLUB] & \" \" & \"///\" & \"Total Time: \" & [TS1.TIME1]& \"///\" & \"Average Time: \" & format([TS1.DECIMALTIME2]; \"mm:ss.k\")& \"///\" & \"Scored Points: \" & format([TS1.DECIMALTIME3]; \"ss\")",
+            "Descending": false,
+            "Grouping": 1,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "#fbff29",
+            "Spacing": 2
+          },
+          {
+            "Expression": "TS1.POSITION",
+            "Descending": false,
+            "Grouping": 0,
+            "GroupFilterDefault": 1,
+            "GroupFilterLabel": "",
+            "PageBreak": 0,
+            "FontName": "",
+            "FontSize": 12,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Color": "",
+            "BackgroundColor": "",
+            "Spacing": 0
+          }
+        ],
+        "Filters": [
+          {
+            "OrConjunction": false,
+            "Expression1": "TS1.RANK",
+            "Operator": ">",
+            "Expression2": "0"
+          },
+          {
+            "OrConjunction": false,
+            "Expression1": "TeamNumber",
+            "Operator": ">",
+            "Expression2": "1"
+          }
+        ],
+        "Fields": [
+          {
+            "Expression": "BIB",
+            "Label": "Bib",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "OverallRank",
+            "Label": "Points",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "WithStatus([AUTORANK])",
+            "Label": "Team Position",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "FLNAME",
+            "Label": "Name",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "if([TS1.SCORED];\"*\";\"\")",
+            "Label": "Scored",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          },
+          {
+            "Expression": "Finish.GUN",
+            "Label": "Time",
+            "Label2": "",
+            "Alignment": 1,
+            "FontBold": false,
+            "FontItalic": false,
+            "FontUnderlined": false,
+            "Line": 1,
+            "Color": "",
+            "Link": "",
+            "ColSpan": 0,
+            "ColOffset": 0,
+            "Position": 0,
+            "DynamicFormat": "",
+            "PreviewOnly": false,
+            "ResponsiveHide": 0
+          }
+        ],
+        "SelectorResults": []
+      },
+      "data": {
+        "#1_Junior Girls & Para 3km": {
+          "#1_1.///Nw:St Andrew ///Total Time: 0:52:23.85///Average Time: 13:05.9///Scored Points: 16": [
+            [
+              "1684",
+              "334",
+              "1",
+              "1",
+              "Ali Chisholm",
+              "*",
+              "12:29.9"
+            ],
+            [
+              "1693",
+              "343",
+              "2",
+              "2",
+              "Anika Sampson",
+              "*",
+              "12:55.7"
+            ],
+            [
+              "1683",
+              "333",
+              "5",
+              "3",
+              "Olivia Cameron",
+              "*",
+              "13:25.5"
+            ],
+            [
+              "1664",
+              "314",
+              "8",
+              "4",
+              "Betty Goodland",
+              "*",
+              "13:32.6"
+            ],
+            [
+              "1614",
+              "264",
+              "10",
+              "5",
+              "Margot Biernaskie",
+              "",
+              "13:42.0"
+            ],
+            [
+              "1689",
+              "339",
+              "14",
+              "6",
+              "Alena Mooney",
+              "",
+              "14:01.5"
+            ],
+            [
+              "1659",
+              "309",
+              "15",
+              "7",
+              "Zoe Berthiaume",
+              "",
+              "14:02.2"
+            ],
+            [
+              "1692",
+              "342",
+              "18",
+              "8",
+              "Abigail Reid",
+              "",
+              "14:29.5"
+            ],
+            [
+              "1673",
+              "323",
+              "19",
+              "9",
+              "Leah Spencer",
+              "",
+              "14:30.4"
+            ],
+            [
+              "1671",
+              "321",
+              "20",
+              "10",
+              "Clara Schenke",
+              "",
+              "14:36.0"
+            ],
+            [
+              "1694",
+              "344",
+              "22",
+              "11",
+              "Kate Spencer",
+              "",
+              "15:02.3"
+            ],
+            [
+              "1688",
+              "338",
+              "25",
+              "12",
+              "Chloe Macdonald",
+              "",
+              "15:16.8"
+            ],
+            [
+              "1661",
+              "311",
+              "28",
+              "13",
+              "Mabel Broesch",
+              "",
+              "15:36.4"
+            ],
+            [
+              "1691",
+              "341",
+              "36",
+              "14",
+              "Saoirse Macdonald",
+              "",
+              "16:12.5"
+            ],
+            [
+              "1660",
+              "310",
+              "37",
+              "15",
+              "Amelia Brakenbury",
+              "",
+              "16:16.6"
+            ],
+            [
+              "1681",
+              "331",
+              "51",
+              "16",
+              "Emma Bower",
+              "",
+              "18:30.0"
+            ]
+          ],
+          "#2_2.///Truro Middle School ///Total Time: 0:56:26.16///Average Time: 14:06.5///Scored Points: 53": [
+            [
+              "1488",
+              "138",
+              "7",
+              "1",
+              "Gabby Roberts",
+              "*",
+              "13:31.3"
+            ],
+            [
+              "1481",
+              "131",
+              "9",
+              "2",
+              "Kate Jollimore",
+              "*",
+              "13:40.9"
+            ],
+            [
+              "1479",
+              "129",
+              "13",
+              "3",
+              "Haliey Suddard",
+              "*",
+              "13:57.4"
+            ],
+            [
+              "1494",
+              "144",
+              "24",
+              "4",
+              "Liliana Fortunato",
+              "*",
+              "15:16.3"
+            ],
+            [
+              "1493",
+              "143",
+              "30",
+              "5",
+              "Sophia Patterson",
+              "",
+              "15:44.2"
+            ],
+            [
+              "1487",
+              "137",
+              "31",
+              "6",
+              "Ila Nicholson",
+              "",
+              "15:51.1"
+            ],
+            [
+              "1489",
+              "139",
+              "42",
+              "7",
+              "Gaby Symonds",
+              "",
+              "17:03.7"
+            ],
+            [
+              "1492",
+              "142",
+              "43",
+              "8",
+              "Grace Pula",
+              "",
+              "17:04.2"
+            ]
+          ],
+          "#3_3.///Riverside Education Centre ///Total Time: 1:00:33.92///Average Time: 15:08.4///Scored Points: 99": [
+            [
+              "1630",
+              "280",
+              "11",
+              "1",
+              "Molly Joudrey",
+              "*",
+              "13:50.8"
+            ],
+            [
+              "1639",
+              "289",
+              "16",
+              "2",
+              "Angel Cox",
+              "*",
+              "14:11.7"
+            ],
+            [
+              "1627",
+              "277",
+              "32",
+              "3",
+              "Breanna Craig",
+              "*",
+              "15:54.4"
+            ],
+            [
+              "1629",
+              "279",
+              "40",
+              "4",
+              "Julia Blundell",
+              "*",
+              "16:36.8"
+            ],
+            [
+              "1648",
+              "298",
+              "41",
+              "5",
+              "Kylee Malenfant",
+              "",
+              "17:00.6"
+            ],
+            [
+              "1646",
+              "296",
+              "47",
+              "6",
+              "Alanna Gollop",
+              "",
+              "17:34.2"
+            ],
+            [
+              "1628",
+              "278",
+              "49",
+              "7",
+              "Sierra-Lynn Metham",
+              "",
+              "17:47.4"
+            ],
+            [
+              "1652",
+              "302",
+              "50",
+              "8",
+              "Sam Seitl",
+              "",
+              "17:47.7"
+            ],
+            [
+              "1649",
+              "299",
+              "55",
+              "9",
+              "Aubree Swain",
+              "",
+              "18:59.8"
+            ],
+            [
+              "1642",
+              "292",
+              "59",
+              "10",
+              "Clare Foley",
+              "",
+              "20:03.0"
+            ],
+            [
+              "1633",
+              "283",
+              "61",
+              "11",
+              "Tatum Lucas",
+              "",
+              "20:28.5"
+            ],
+            [
+              "1641",
+              "291",
+              "63",
+              "12",
+              "Claire Trotter",
+              "",
+              "21:42.1"
+            ],
+            [
+              "1647",
+              "297",
+              "64",
+              "13",
+              "Amy Dyke",
+              "",
+              "22:15.1"
+            ],
+            [
+              "1640",
+              "290",
+              "67",
+              "14",
+              "Emma McKeen",
+              "",
+              "22:53.8"
+            ],
+            [
+              "1636",
+              "286",
+              "75",
+              "15",
+              "Ava Welsh",
+              "",
+              "27:48.7"
+            ]
+          ],
+          "#4_4.///Redcliff Middle School ///Total Time: 1:09:33.09///Average Time: 17:23.2///Scored Points: 159": [
+            [
+              "920",
+              "360",
+              "6",
+              "1",
+              "Leni Treby",
+              "*",
+              "13:30.5"
+            ],
+            [
+              "923",
+              "363",
+              "33",
+              "2",
+              "Claire Leamon",
+              "*",
+              "15:56.2"
+            ],
+            [
+              "924",
+              "364",
+              "58",
+              "3",
+              "Natalllia Dixon-Graham",
+              "*",
+              "19:19.6"
+            ],
+            [
+              "914",
+              "354",
+              "62",
+              "4",
+              "Dahlia Cormier",
+              "*",
+              "20:46.5"
+            ],
+            [
+              "916",
+              "356",
+              "68",
+              "5",
+              "Emma Lebouthiller",
+              "",
+              "23:13.8"
+            ],
+            [
+              "917",
+              "357",
+              "69",
+              "6",
+              "Fynenna Tanton",
+              "",
+              "23:14.0"
+            ],
+            [
+              "918",
+              "358",
+              "76",
+              "7",
+              "Emily Pritchard",
+              "",
+              "28:15.2"
+            ]
+          ],
+          "#5_5.///Dr. W.A. MacLeod Consolidated School ///Total Time: 1:10:44.81///Average Time: 17:41.2///Scored Points: 183": [
+            [
+              "1406",
+              "56",
+              "34",
+              "1",
+              "Neila Johnstone",
+              "*",
+              "16:03.7"
+            ],
+            [
+              "1405",
+              "55",
+              "44",
+              "2",
+              "Sofia Alvarez",
+              "*",
+              "17:07.5"
+            ],
+            [
+              "1402",
+              "52",
+              "45",
+              "3",
+              "Addy Tree",
+              "*",
+              "17:18.2"
+            ],
+            [
+              "1478",
+              "128",
+              "60",
+              "4",
+              "Frances Lynch",
+              "*",
+              "20:15.3"
+            ],
+            [
+              "1399",
+              "49",
+              "65",
+              "5",
+              "Addison Lowles",
+              "",
+              "22:16.9"
+            ],
+            [
+              "1404",
+              "54",
+              "72",
+              "6",
+              "Meagan Campbell",
+              "",
+              "25:40.7"
+            ],
+            [
+              "1407",
+              "57",
+              "73",
+              "7",
+              "Cadence Hamelin",
+              "",
+              "25:40.9"
+            ]
+          ]
+        },
+        "#2_Junior Boys & Para 3km": {
+          "#6_1.///Central Colchester Junior High Bears ///Total Time: 0:49:09.59///Average Time: 12:17.3///Scored Points: 35": [
+            [
+              "1501",
+              "151",
+              "2",
+              "1",
+              "Chris McLellan",
+              "*",
+              "11:38.2"
+            ],
+            [
+              "1506",
+              "156",
+              "3",
+              "2",
+              "Egan Macpherson",
+              "*",
+              "11:57.2"
+            ],
+            [
+              "1504",
+              "154",
+              "4",
+              "3",
+              "Coen Shreve",
+              "*",
+              "12:04.5"
+            ],
+            [
+              "1495",
+              "145",
+              "26",
+              "4",
+              "Dax Bowers",
+              "*",
+              "13:29.5"
+            ],
+            [
+              "1502",
+              "152",
+              "40",
+              "5",
+              "Johnny Blaauwendraat",
+              "",
+              "14:38.8"
+            ],
+            [
+              "1497",
+              "147",
+              "45",
+              "6",
+              "Bennett Otterson",
+              "",
+              "14:52.9"
+            ],
+            [
+              "1503",
+              "153",
+              "49",
+              "7",
+              "Wyatt Rodgers",
+              "",
+              "15:02.2"
+            ],
+            [
+              "1498",
+              "148",
+              "66",
+              "8",
+              "Sam Gordon",
+              "",
+              "16:42.5"
+            ]
+          ],
+          "#7_2.///Nw:St Andrew ///Total Time: 0:49:54.38///Average Time: 12:28.5///Scored Points: 49": [
+            [
+              "1679",
+              "329",
+              "7",
+              "1",
+              "Landen Sampson",
+              "*",
+              "12:05.8"
+            ],
+            [
+              "1672",
+              "322",
+              "8",
+              "2",
+              "Ian Spencer",
+              "*",
+              "12:06.9"
+            ],
+            [
+              "1696",
+              "346",
+              "14",
+              "3",
+              "Alex Trudeau",
+              "*",
+              "12:39.7"
+            ],
+            [
+              "1697",
+              "347",
+              "20",
+              "4",
+              "Adam Van De Wiel",
+              "*",
+              "13:01.9"
+            ],
+            [
+              "1665",
+              "315",
+              "25",
+              "5",
+              "Garrett King",
+              "",
+              "13:24.7"
+            ],
+            [
+              "1668",
+              "318",
+              "27",
+              "6",
+              "Neil Macdonald",
+              "",
+              "13:32.3"
+            ],
+            [
+              "1663",
+              "313",
+              "29",
+              "7",
+              "John Corbit",
+              "",
+              "13:40.1"
+            ],
+            [
+              "1669",
+              "319",
+              "30",
+              "8",
+              "Nye MacInnis",
+              "",
+              "13:42.8"
+            ],
+            [
+              "1687",
+              "337",
+              "33",
+              "9",
+              "Duncan Macmaster",
+              "",
+              "14:05.0"
+            ],
+            [
+              "1678",
+              "328",
+              "60",
+              "10",
+              "Alastair Marais",
+              "",
+              "15:49.2"
+            ],
+            [
+              "1698",
+              "348",
+              "62",
+              "11",
+              "Lucas Case",
+              "",
+              "15:55.3"
+            ],
+            [
+              "1662",
+              "312",
+              "64",
+              "12",
+              "Lachlan Campbell",
+              "",
+              "16:03.4"
+            ]
+          ],
+          "#8_3.///Riverside Education Centre ///Total Time: 0:50:25.73///Average Time: 12:36.4///Scored Points: 55": [
+            [
+              "1637",
+              "287",
+              "5",
+              "1",
+              "Jacob Rogers",
+              "*",
+              "12:04.6"
+            ],
+            [
+              "1638",
+              "288",
+              "13",
+              "2",
+              "Winston Wilson",
+              "*",
+              "12:37.0"
+            ],
+            [
+              "1632",
+              "282",
+              "18",
+              "3",
+              "Lawrence Cox",
+              "*",
+              "12:50.0"
+            ],
+            [
+              "1635",
+              "285",
+              "19",
+              "4",
+              "Lochlann Davis",
+              "*",
+              "12:53.9"
+            ],
+            [
+              "1651",
+              "301",
+              "23",
+              "5",
+              "Kevin Cox",
+              "",
+              "13:18.2"
+            ],
+            [
+              "1644",
+              "294",
+              "24",
+              "6",
+              "Grayson Davis",
+              "",
+              "13:23.2"
+            ],
+            [
+              "1634",
+              "284",
+              "43",
+              "7",
+              "Will Foster",
+              "",
+              "14:50.3"
+            ],
+            [
+              "1645",
+              "295",
+              "51",
+              "8",
+              "Jasper Hutchinson",
+              "",
+              "15:07.1"
+            ],
+            [
+              "1643",
+              "293",
+              "52",
+              "9",
+              "Luke Blundell",
+              "",
+              "15:09.7"
+            ],
+            [
+              "1650",
+              "300",
+              "56",
+              "10",
+              "Emmett Macdonald",
+              "",
+              "15:15.2"
+            ],
+            [
+              "1631",
+              "281",
+              "58",
+              "11",
+              "Henderson Macdonald",
+              "",
+              "15:27.1"
+            ],
+            [
+              "1653",
+              "303",
+              "59",
+              "12",
+              "Elliott Seitl",
+              "",
+              "15:40.6"
+            ]
+          ],
+          "#9_4.///Ecole Acadienne de Truro ///Total Time: 0:52:06.91///Average Time: 13:01.7///Scored Points: 76": [
+            [
+              "1378",
+              "28",
+              "6",
+              "1",
+              "Samuel Boone",
+              "*",
+              "12:05.3"
+            ],
+            [
+              "1388",
+              "38",
+              "10",
+              "2",
+              "Cohen Hinton",
+              "*",
+              "12:29.9"
+            ],
+            [
+              "1379",
+              "29",
+              "28",
+              "3",
+              "Will McCurdy",
+              "*",
+              "13:37.1"
+            ],
+            [
+              "1380",
+              "30",
+              "32",
+              "4",
+              "Emmett Fisher",
+              "*",
+              "13:54.4"
+            ],
+            [
+              "1384",
+              "34",
+              "38",
+              "5",
+              "Zac Boone",
+              "",
+              "14:26.7"
+            ]
+          ],
+          "#10_5.///Truro Middle School ///Total Time: 0:53:57.20///Average Time: 13:29.3///Scored Points: 101": [
+            [
+              "1480",
+              "130",
+              "12",
+              "1",
+              "Matt Suddard",
+              "*",
+              "12:33.8"
+            ],
+            [
+              "1485",
+              "135",
+              "17",
+              "2",
+              "Jonah Kearney",
+              "*",
+              "12:49.3"
+            ],
+            [
+              "1486",
+              "136",
+              "35",
+              "3",
+              "Silas Matthews",
+              "*",
+              "14:09.7"
+            ],
+            [
+              "1482",
+              "132",
+              "37",
+              "4",
+              "Finn Grainger",
+              "*",
+              "14:24.2"
+            ],
+            [
+              "1484",
+              "134",
+              "48",
+              "5",
+              "Trent Lambert",
+              "",
+              "14:57.7"
+            ],
+            [
+              "1483",
+              "133",
+              "57",
+              "6",
+              "Atty Sommers",
+              "",
+              "15:26.7"
+            ],
+            [
+              "1491",
+              "141",
+              "61",
+              "7",
+              "Parker Quinn",
+              "",
+              "15:50.8"
+            ],
+            [
+              "1560",
+              "210",
+              "63",
+              "8",
+              "Ryder Rushton",
+              "",
+              "16:01.2"
+            ],
+            [
+              "1490",
+              "140",
+              "73",
+              "9",
+              "Maddox Saucier",
+              "",
+              "20:00.4"
+            ]
+          ],
+          "#11_6.///Trenton Middle School ///Total Time: 0:55:38.11///Average Time: 13:54.5///Scored Points: 123": [
+            [
+              "1541",
+              "191",
+              "9",
+              "1",
+              "Jackson Wood",
+              "*",
+              "12:09.8"
+            ],
+            [
+              "1549",
+              "199",
+              "34",
+              "2",
+              "Nathan Lewis",
+              "*",
+              "14:09.6"
+            ],
+            [
+              "1548",
+              "198",
+              "39",
+              "3",
+              "Euan Lawson",
+              "*",
+              "14:36.2"
+            ],
+            [
+              "1545",
+              "195",
+              "41",
+              "4",
+              "Marcus Curtis",
+              "*",
+              "14:42.3"
+            ],
+            [
+              "1544",
+              "194",
+              "67",
+              "5",
+              "Timi Williams",
+              "",
+              "16:43.4"
+            ],
+            [
+              "1543",
+              "193",
+              "69",
+              "6",
+              "Miller Cameron",
+              "",
+              "17:28.6"
+            ],
+            [
+              "1542",
+              "192",
+              "75",
+              "7",
+              "Daemon Watters",
+              "",
+              "24:44.8"
+            ]
+          ],
+          "#12_7.///Redcliff Middle School ///Total Time: 0:55:39.43///Average Time: 13:54.8///Scored Points: 131": [
+            [
+              "926",
+              "366",
+              "15",
+              "1",
+              "Alex Keddy Volans",
+              "*",
+              "12:40.5"
+            ],
+            [
+              "911",
+              "351",
+              "16",
+              "2",
+              "Jackson Hoyt",
+              "*",
+              "12:48.8"
+            ],
+            [
+              "1699",
+              "349",
+              "46",
+              "3",
+              "Connor Rose",
+              "*",
+              "14:56.1"
+            ],
+            [
+              "927",
+              "367",
+              "54",
+              "4",
+              "Jase Nelson",
+              "*",
+              "15:13.9"
+            ],
+            [
+              "929",
+              "369",
+              "55",
+              "5",
+              "Colton Crowell",
+              "",
+              "15:13.9"
+            ],
+            [
+              "913",
+              "353",
+              "65",
+              "6",
+              "Connor Watson",
+              "",
+              "16:03.7"
+            ],
+            [
+              "931",
+              "371",
+              "68",
+              "7",
+              "Henry Pitchard",
+              "",
+              "17:03.1"
+            ]
+          ],
+          "#13_8.///New Glasgow Academy ///Total Time: 0:56:16.01///Average Time: 14:04.0///Scored Points: 139": [
+            [
+              "1410",
+              "60",
+              "11",
+              "1",
+              "Cooper Gillespie",
+              "*",
+              "12:31.8"
+            ],
+            [
+              "1411",
+              "61",
+              "31",
+              "2",
+              "Ashton Pitts",
+              "*",
+              "13:43.1"
+            ],
+            [
+              "1409",
+              "59",
+              "47",
+              "3",
+              "Daniel Chisholm",
+              "*",
+              "14:57.3"
+            ],
+            [
+              "1412",
+              "62",
+              "50",
+              "4",
+              "Hunter Morash",
+              "*",
+              "15:03.6"
+            ]
+          ],
+          "#14_9.///Guysborough Academy ///Total Time: 0:57:16.87///Average Time: 14:19.2///Scored Points: 144": [
+            [
+              "1354",
+              "4",
+              "22",
+              "1",
+              "Joseph McAuley",
+              "*",
+              "13:15.6"
+            ],
+            [
+              "1355",
+              "5",
+              "36",
+              "2",
+              "Weiss Gillis",
+              "*",
+              "14:18.9"
+            ],
+            [
+              "1351",
+              "1",
+              "42",
+              "3",
+              "Theo Restoule",
+              "*",
+              "14:49.9"
+            ],
+            [
+              "1352",
+              "2",
+              "44",
+              "4",
+              "Bowen O'Leary",
+              "*",
+              "14:52.3"
+            ],
+            [
+              "1363",
+              "13",
+              "71",
+              "5",
+              "Levi Webber",
+              "",
+              "17:47.0"
+            ],
+            [
+              "1356",
+              "6",
+              "72",
+              "6",
+              "River Stuckey",
+              "",
+              "19:35.1"
+            ]
+          ]
+        },
+        "#3_Intermediate Girls 4km": {
+          "#15_1.///Dr. JH Gillis High School ///Total Time: 1:14:34.42///Average Time: 18:38.6///Scored Points: 18": [
+            [
+              "1421",
+              "71",
+              "2",
+              "1",
+              "Layla Austen",
+              "*",
+              "18:04.1"
+            ],
+            [
+              "1427",
+              "77",
+              "4",
+              "2",
+              "Flora Murphy",
+              "*",
+              "18:37.1"
+            ],
+            [
+              "1429",
+              "79",
+              "5",
+              "3",
+              "Katie Wallace",
+              "*",
+              "18:38.0"
+            ],
+            [
+              "1423",
+              "73",
+              "7",
+              "4",
+              "Heidi Gillis",
+              "*",
+              "19:15.1"
+            ],
+            [
+              "1430",
+              "80",
+              "8",
+              "5",
+              "Mhairi Wilmott",
+              "",
+              "19:15.3"
+            ],
+            [
+              "1422",
+              "72",
+              "9",
+              "6",
+              "Yashita Ghore",
+              "",
+              "19:17.9"
+            ],
+            [
+              "1424",
+              "74",
+              "11",
+              "7",
+              "Doris Goodland",
+              "",
+              "19:40.4"
+            ],
+            [
+              "1425",
+              "75",
+              "13",
+              "8",
+              "Abby Macdonald",
+              "",
+              "19:43.3"
+            ],
+            [
+              "1428",
+              "78",
+              "15",
+              "9",
+              "Macy Sampson",
+              "",
+              "20:15.0"
+            ],
+            [
+              "1562",
+              "212",
+              "32",
+              "10",
+              "Josha Pandita",
+              "",
+              "24:08.4"
+            ]
+          ],
+          "#16_2.///North Nova Education Center ///Total Time: 1:23:38.25///Average Time: 20:54.5///Scored Points: 68": [
+            [
+              "1623",
+              "273",
+              "3",
+              "1",
+              "Penny MacKenzie",
+              "*",
+              "18:15.3"
+            ],
+            [
+              "1620",
+              "270",
+              "17",
+              "2",
+              "Nya Chapstick",
+              "*",
+              "20:39.8"
+            ],
+            [
+              "1624",
+              "274",
+              "23",
+              "3",
+              "Sarah MacKinnon",
+              "*",
+              "22:02.8"
+            ],
+            [
+              "1615",
+              "265",
+              "25",
+              "4",
+              "Katelyn Li",
+              "*",
+              "22:40.2"
+            ],
+            [
+              "1616",
+              "266",
+              "29",
+              "5",
+              "Jillian Mummery",
+              "",
+              "23:09.6"
+            ],
+            [
+              "1625",
+              "275",
+              "37",
+              "6",
+              "Ruveyda Koleoglu",
+              "",
+              "27:10.9"
+            ]
+          ],
+          "#17_3.///Ecole Acadienne de Truro ///Total Time: 1:29:57.49///Average Time: 22:29.3///Scored Points: 97": [
+            [
+              "1391",
+              "41",
+              "14",
+              "1",
+              "Shae Kean",
+              "*",
+              "20:02.9"
+            ],
+            [
+              "1386",
+              "36",
+              "19",
+              "2",
+              "Jane McCurdy",
+              "*",
+              "20:56.4"
+            ],
+            [
+              "1393",
+              "43",
+              "31",
+              "3",
+              "Grace Teakles",
+              "*",
+              "24:01.8"
+            ],
+            [
+              "1387",
+              "37",
+              "33",
+              "4",
+              "Callie Maceachen",
+              "*",
+              "24:56.2"
+            ],
+            [
+              "1390",
+              "40",
+              "34",
+              "5",
+              "Lily Gonzalez",
+              "",
+              "25:30.9"
+            ],
+            [
+              "1385",
+              "35",
+              "36",
+              "6",
+              "Paarisha Anand",
+              "",
+              "25:40.3"
+            ],
+            [
+              "1392",
+              "42",
+              "40",
+              "7",
+              "Tyeisha Robinson",
+              "",
+              "33:02.2"
+            ],
+            [
+              "1383",
+              "33",
+              "41",
+              "8",
+              "Michelle Deslauriers",
+              "",
+              "33:45.2"
+            ]
+          ]
+        },
+        "#4_Intermediate Boys 4km": {
+          "#18_1.///Dr. JH Gillis High School ///Total Time: 1:02:17.17///Average Time: 15:34.2///Scored Points: 19": [
+            [
+              "1439",
+              "89",
+              "1",
+              "1",
+              "Mark Walker",
+              "*",
+              "15:07.8"
+            ],
+            [
+              "1433",
+              "83",
+              "3",
+              "2",
+              "Nolan MacDougall",
+              "*",
+              "15:28.1"
+            ],
+            [
+              "1431",
+              "81",
+              "6",
+              "3",
+              "Andrew Jones",
+              "*",
+              "15:46.3"
+            ],
+            [
+              "1438",
+              "88",
+              "9",
+              "4",
+              "Heni Sampson",
+              "*",
+              "15:54.9"
+            ],
+            [
+              "1435",
+              "85",
+              "10",
+              "5",
+              "Andy Murray",
+              "",
+              "16:41.7"
+            ],
+            [
+              "1437",
+              "87",
+              "20",
+              "6",
+              "Emmit Ross",
+              "",
+              "18:31.8"
+            ]
+          ],
+          "#19_2.///Cobequid Educational Centre ///Total Time: 1:14:08.14///Average Time: 18:32.0///Scored Points: 79": [
+            [
+              "1520",
+              "170",
+              "13",
+              "1",
+              "Isaiah Somers",
+              "*",
+              "17:18.1"
+            ],
+            [
+              "1521",
+              "171",
+              "19",
+              "2",
+              "Owen Boudreau",
+              "*",
+              "18:28.5"
+            ],
+            [
+              "1517",
+              "167",
+              "23",
+              "3",
+              "Brogan Macdonald",
+              "*",
+              "19:07.1"
+            ],
+            [
+              "1518",
+              "168",
+              "24",
+              "4",
+              "Eric MacPhee",
+              "*",
+              "19:14.2"
+            ],
+            [
+              "1519",
+              "169",
+              "25",
+              "5",
+              "Jay Shreve",
+              "",
+              "19:14.3"
+            ],
+            [
+              "1522",
+              "172",
+              "26",
+              "6",
+              "Ethan Boone",
+              "",
+              "20:20.7"
+            ]
+          ],
+          "#20_3.///NRHS ///Total Time: 1:34:15.57///Average Time: 23:33.8///Scored Points: 63": [
+            [
+              "1571",
+              "221",
+              "7",
+              "1",
+              "James Ross",
+              "*",
+              "15:47.8"
+            ],
+            [
+              "1572",
+              "222",
+              "11",
+              "2",
+              "Ollie Ross",
+              "*",
+              "16:58.9"
+            ],
+            [
+              "1570",
+              "220",
+              "17",
+              "3",
+              "Reid Johnston",
+              "*",
+              "18:15.8"
+            ],
+            [
+              "1569",
+              "219",
+              "28",
+              "4",
+              "Leland Conway",
+              "*",
+              "43:12.8"
+            ]
+          ]
+        },
+        "#5_Senior Girls 5km": {
+          "#21_1.///Dr. JH Gillis High School ///Total Time: 1:27:40.47///Average Time: 21:55.1///Scored Points: 13": [
+            [
+              "1447",
+              "97",
+              "1",
+              "1",
+              "Sarah Wallace",
+              "*",
+              "19:57.3"
+            ],
+            [
+              "1441",
+              "91",
+              "3",
+              "2",
+              "Reanne Jean",
+              "*",
+              "22:17.4"
+            ],
+            [
+              "1561",
+              "211",
+              "4",
+              "3",
+              "Rachel Reid",
+              "*",
+              "22:18.6"
+            ],
+            [
+              "1444",
+              "94",
+              "5",
+              "4",
+              "Nora Stewart",
+              "*",
+              "23:07.0"
+            ],
+            [
+              "1443",
+              "93",
+              "14",
+              "5",
+              "Carmen Macmaster",
+              "",
+              "26:25.7"
+            ],
+            [
+              "1442",
+              "92",
+              "15",
+              "6",
+              "Adelaide Macdonald",
+              "",
+              "26:32.8"
+            ],
+            [
+              "1445",
+              "95",
+              "17",
+              "7",
+              "Ella Teasdale",
+              "",
+              "27:55.9"
+            ],
+            [
+              "1446",
+              "96",
+              "21",
+              "8",
+              "Irene Valenza",
+              "",
+              "29:40.7"
+            ],
+            [
+              "1440",
+              "90",
+              "22",
+              "9",
+              "Sara Esperanza Sarrio",
+              "",
+              "29:41.0"
+            ]
+          ],
+          "#22_2.///Cobequid Educational Centre ///Total Time: 1:35:55.11///Average Time: 23:58.7///Scored Points: 30": [
+            [
+              "1514",
+              "164",
+              "2",
+              "1",
+              "Jessica Young",
+              "*",
+              "21:21.2"
+            ],
+            [
+              "1533",
+              "183",
+              "7",
+              "2",
+              "Piper Hickox",
+              "*",
+              "23:47.1"
+            ],
+            [
+              "1512",
+              "162",
+              "8",
+              "3",
+              "Ellie Tully",
+              "*",
+              "24:49.0"
+            ],
+            [
+              "1511",
+              "161",
+              "13",
+              "4",
+              "Danika Harrington",
+              "*",
+              "25:57.6"
+            ],
+            [
+              "1513",
+              "163",
+              "19",
+              "5",
+              "Hannah Jordan",
+              "",
+              "29:11.3"
+            ],
+            [
+              "1515",
+              "165",
+              "24",
+              "6",
+              "Sloane turner-MacLean",
+              "",
+              "30:58.6"
+            ],
+            [
+              "1516",
+              "166",
+              "31",
+              "7",
+              "Amira Graf",
+              "",
+              "33:05.2"
+            ]
+          ],
+          "#23_3.///Hants East Rural High School ///Total Time: 1:49:44.94///Average Time: 27:26.2///Scored Points: 63": [
+            [
+              "1471",
+              "121",
+              "9",
+              "1",
+              "Victoria Mumford",
+              "*",
+              "25:09.5"
+            ],
+            [
+              "1464",
+              "114",
+              "10",
+              "2",
+              "Katie Lemmon",
+              "*",
+              "25:22.5"
+            ],
+            [
+              "1456",
+              "106",
+              "18",
+              "3",
+              "Cianna Allison",
+              "*",
+              "28:05.9"
+            ],
+            [
+              "1474",
+              "124",
+              "26",
+              "4",
+              "Brooke Stockall",
+              "*",
+              "31:06.9"
+            ],
+            [
+              "1468",
+              "118",
+              "29",
+              "5",
+              "Jane MacPhee",
+              "",
+              "32:21.5"
+            ]
+          ],
+          "#24_4.///NRHS ///Total Time: 2:05:36.33///Average Time: 31:24.0///Scored Points: 101": [
+            [
+              "1565",
+              "215",
+              "11",
+              "1",
+              "Maria Gomez",
+              "*",
+              "25:30.9"
+            ],
+            [
+              "1566",
+              "216",
+              "28",
+              "2",
+              "Cori Cameron",
+              "*",
+              "32:14.2"
+            ],
+            [
+              "1568",
+              "218",
+              "30",
+              "3",
+              "Victoria Turkiewcz",
+              "*",
+              "32:58.1"
+            ],
+            [
+              "1567",
+              "217",
+              "32",
+              "4",
+              "Sarra MacInnis",
+              "*",
+              "34:52.9"
+            ]
+          ]
+        },
+        "#6_Senior Boys 5km": {
+          "#25_1.///North Nova Education Center ///Total Time: 1:14:35.15///Average Time: 18:38.7///Scored Points: 28": [
+            [
+              "1610",
+              "260",
+              "1",
+              "1",
+              "Jack MacNeil",
+              "*",
+              "16:59.4"
+            ],
+            [
+              "1618",
+              "268",
+              "4",
+              "2",
+              "Jamil Onias",
+              "*",
+              "18:11.8"
+            ],
+            [
+              "1613",
+              "263",
+              "7",
+              "3",
+              "Josh Wood",
+              "*",
+              "19:09.6"
+            ],
+            [
+              "1612",
+              "262",
+              "16",
+              "4",
+              "Jacob Harpell",
+              "*",
+              "20:14.1"
+            ],
+            [
+              "1611",
+              "261",
+              "33",
+              "5",
+              "Lucas Sullivan",
+              "",
+              "24:22.0"
+            ]
+          ],
+          "#26_2.///Dr. JH Gillis High School ///Total Time: 1:15:24.38///Average Time: 18:51.0///Scored Points: 30": [
+            [
+              "1451",
+              "101",
+              "3",
+              "1",
+              "Calder MacKenzie",
+              "*",
+              "17:29.3"
+            ],
+            [
+              "1450",
+              "100",
+              "6",
+              "2",
+              "Neal Macdonald",
+              "*",
+              "18:52.1"
+            ],
+            [
+              "1454",
+              "104",
+              "8",
+              "3",
+              "Vidur Saxena",
+              "*",
+              "19:18.4"
+            ],
+            [
+              "1452",
+              "102",
+              "13",
+              "4",
+              "Colby Wasson",
+              "*",
+              "19:44.4"
+            ],
+            [
+              "1449",
+              "99",
+              "14",
+              "5",
+              "Nate Gillis",
+              "",
+              "19:53.0"
+            ],
+            [
+              "1448",
+              "98",
+              "19",
+              "6",
+              "Ciaran Cormier",
+              "",
+              "20:27.0"
+            ]
+          ],
+          "#27_3.///Cobequid Educational Centre ///Total Time: 1:18:40.40///Average Time: 19:40.1///Scored Points: 49": [
+            [
+              "1524",
+              "174",
+              "5",
+              "1",
+              "Riley Webber",
+              "*",
+              "18:32.9"
+            ],
+            [
+              "1530",
+              "180",
+              "12",
+              "2",
+              "William Caldwell",
+              "*",
+              "19:43.4"
+            ],
+            [
+              "1529",
+              "179",
+              "15",
+              "3",
+              "Jordan Carr",
+              "*",
+              "20:05.9"
+            ],
+            [
+              "1536",
+              "186",
+              "17",
+              "4",
+              "Brady MacKinnon",
+              "*",
+              "20:18.1"
+            ],
+            [
+              "1531",
+              "181",
+              "21",
+              "5",
+              "Josh Varner",
+              "",
+              "20:34.1"
+            ],
+            [
+              "1523",
+              "173",
+              "22",
+              "6",
+              "Camden Porter",
+              "",
+              "20:37.4"
+            ],
+            [
+              "1539",
+              "189",
+              "23",
+              "7",
+              "Jesse Dalrymple",
+              "",
+              "20:53.0"
+            ],
+            [
+              "1532",
+              "182",
+              "24",
+              "8",
+              "Ty Shreve",
+              "",
+              "21:00.7"
+            ],
+            [
+              "1527",
+              "177",
+              "28",
+              "9",
+              "Zack Best",
+              "",
+              "22:25.9"
+            ],
+            [
+              "1528",
+              "178",
+              "30",
+              "10",
+              "Noah Ogden",
+              "",
+              "23:01.2"
+            ],
+            [
+              "1535",
+              "185",
+              "32",
+              "11",
+              "Edouard Strepenne",
+              "",
+              "23:41.2"
+            ],
+            [
+              "1525",
+              "175",
+              "40",
+              "12",
+              "Aedan Ettinger",
+              "",
+              "28:27.7"
+            ],
+            [
+              "1526",
+              "176",
+              "41",
+              "13",
+              "Jadon Hill",
+              "",
+              "29:59.3"
+            ]
+          ],
+          "#28_4.///NRHS ///Total Time: 1:20:45.80///Average Time: 20:11.4///Scored Points: 64": [
+            [
+              "1575",
+              "225",
+              "10",
+              "1",
+              "Brayden Linthorne",
+              "*",
+              "19:36.3"
+            ],
+            [
+              "1573",
+              "223",
+              "11",
+              "2",
+              "Luke MacLean",
+              "*",
+              "19:39.4"
+            ],
+            [
+              "1577",
+              "227",
+              "18",
+              "3",
+              "Damien Verduzco",
+              "*",
+              "20:23.8"
+            ],
+            [
+              "1576",
+              "226",
+              "25",
+              "4",
+              "Jayden Poulain",
+              "*",
+              "21:06.1"
+            ],
+            [
+              "1574",
+              "224",
+              "29",
+              "5",
+              "Luke Burns",
+              "",
+              "22:35.6"
+            ]
+          ],
+          "#29_5.///Hants East Rural High School ///Total Time: 1:30:52.12///Average Time: 22:43.0///Scored Points: 102": [
+            [
+              "1473",
+              "123",
+              "2",
+              "1",
+              "Zack Rogers",
+              "*",
+              "17:05.6"
+            ],
+            [
+              "1457",
+              "107",
+              "31",
+              "2",
+              "Charlie Cox",
+              "*",
+              "23:21.2"
+            ],
+            [
+              "1462",
+              "112",
+              "34",
+              "3",
+              "Martin Heukshorst",
+              "*",
+              "24:24.2"
+            ],
+            [
+              "1467",
+              "117",
+              "35",
+              "4",
+              "Devin MacPhee",
+              "*",
+              "26:01.0"
+            ],
+            [
+              "1455",
+              "105",
+              "36",
+              "5",
+              "Atalay Cavadar",
+              "",
+              "26:01.5"
+            ],
+            [
+              "1458",
+              "108",
+              "37",
+              "6",
+              "Finn Degen",
+              "",
+              "26:02.6"
+            ],
+            [
+              "1475",
+              "125",
+              "42",
+              "7",
+              "Connor Stone",
+              "",
+              "33:55.8"
+            ]
+          ]
+        }
+      },
+      "DataFields": [
+        "BIB",
+        "ID",
+        "OverallRank",
+        "WithStatus([AUTORANK])",
+        "FLNAME",
+        "if([TS1.SCORED];\"*\";\"\")",
+        "Finish.GUN"
+      ],
+      "comments": null,
+      "mid": 2001,
+      "groupFilters": [
+        {
+          "Type": 0,
+          "Value": "",
+          "Values": null
+        },
+        {
+          "Type": 0,
+          "Value": "",
+          "Values": null
+        }
+      ],
+      "ColumnWidths": {
+        "Q95": [
+          4,
+          6,
+          14,
+          18,
+          6,
+          7
+        ],
+        "Q50": [
+          4,
+          6,
+          14,
+          14,
+          6,
+          7
+        ],
+        "OverflowWrap": [
+          false,
+          false,
+          false,
+          true,
+          false,
+          false
+        ]
+      },
+      "users": {},
+      "LiveUpdateInterval": 10,
+      "Favorites": null
+    }
+  }
+}

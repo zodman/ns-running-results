@@ -1,0 +1,55 @@
+name: NS Running Results CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+steps:
+  - name: build
+    image: node:22-alpine
+    commands:
+      - npm ci
+      - npm run build
+
+  - name: publish-opensrc-mx
+    image: alpine:3.21
+    depends_on:
+      - build
+    commands:
+      - |
+        set -e
+        apk add --no-cache openssh-client rsync
+
+        DEPLOY_HOST="${DEPLOY_HOST:-opensrc.mx}"
+        DEPLOY_USER="${DEPLOY_USER:-root}"
+        DEPLOY_PORT="${DEPLOY_PORT:-22}"
+        DEPLOY_PATH="${DEPLOY_PATH:-/opt/ns-running-results}"
+
+        if [ -z "${DEPLOY_SSH_KEY:-}" ]; then
+          echo "ERROR: DEPLOY_SSH_KEY secret is not set in FeatherCI."
+          exit 1
+        fi
+
+        mkdir -p ~/.ssh
+        printf "%s\n" "$DEPLOY_SSH_KEY" > ~/.ssh/id_deploy
+        chmod 600 ~/.ssh/id_deploy
+        ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+
+        SSH_CMD="ssh -i ~/.ssh/id_deploy -p $DEPLOY_PORT -o StrictHostKeyChecking=no"
+
+        $SSH_CMD "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}"
+
+        rsync -az --delete \
+          --exclude='.git' \
+          --exclude='node_modules' \
+          --exclude='dist' \
+          --exclude='pocketbase/pb_data' \
+          --exclude='pocketbase/pocketbase.exe' \
+          --exclude='data/route541_2026' \
+          -e "$SSH_CMD" \
+          ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
+
+        $SSH_CMD "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH} && docker compose up -d --build"
+
+        echo "Deployed successfully to https://ns-running-results.opensrc.mx"

@@ -1,0 +1,268 @@
+{
+  "configuration": {
+    "type": "participant_search",
+    "name": "Historical Results",
+    "displaySettings": {
+      "bodyFontSize": 14,
+      "bodyFontColor": "949494",
+      "headerFontSize": 14,
+      "headerFontColor": "FFFFFF",
+      "headerBackgroundColor": "00ADF2",
+      "detailsLinkFontColor": "FFFFFF",
+      "detailsLinkBackgroundColor": "00ADF2",
+      "oddRowBackgroundColor": "FFFFFF",
+      "evenRowBackgroundColor": "F7F7F7",
+      "widgetBackgroundColor": "FFFFFF",
+      "initialSort": {
+        "column": "event_date",
+        "direction": "desc"
+      },
+      "resultsPerPage": 25
+    }
+  },
+  "columns": [
+    {
+      "id": "event_date",
+      "title": "Date"
+    },
+    {
+      "id": "participant_name",
+      "title": "Participant"
+    },
+    {
+      "id": "event_name",
+      "title": "Event Name"
+    },
+    {
+      "id": "participant_from",
+      "title": "From"
+    },
+    {
+      "id": "participant_rank",
+      "title": "Rank"
+    },
+    {
+      "id": "participant_gun_time",
+      "title": "Gun Time"
+    },
+    {
+      "id": "participant_chip_time",
+      "title": "Chip Time"
+    },
+    {
+      "id": "participant_division",
+      "title": "Division"
+    },
+    {
+      "id": "results",
+      "title": "Results"
+    }
+  ],
+  "rows": [
+    [
+      "2026-08-02T09:00:00-04:00",
+      "Andres Vargas",
+      {
+        "name": "Harbour Hustle 2026",
+        "subEvent": "Men",
+        "url": null
+      },
+      "Dartmouth",
+      68,
+      "10:30",
+      null,
+      "M4049",
+      {
+        "label": "Results",
+        "url": "https://results.raceroster.com/v3/events/bc4yxdar5jrrs7cp/race/301480/participant/fvtznrfyzn6qvrcm"
+      }
+    ],
+    [
+      "2026-06-14T08:00:00-04:00",
+      "Andres Vargas",
+      {
+        "name": "2026 Michelin Tire Trot",
+        "subEvent": "5K Walk / Run",
+        "url": null
+      },
+      "Dartmouth",
+      344,
+      "40:43",
+      "40:05",
+      "M4049",
+      {
+        "label": "Results",
+        "url": "https://results.raceroster.com/v3/events/fgbssgvgwaufvvcb/race/296548/participant/afcmwtyzftss76f4"
+      }
+    ],
+    [
+      "2026-06-07T08:00:00-04:00",
+      "Andres Vargas",
+      {
+        "name": "Lunenburg 5km Road Race and Muffin Run 2026",
+        "subEvent": "5K Walk / Run",
+        "url": null
+      },
+      "Dartmouth",
+      350,
+      "40:32",
+      "40:25",
+      "M4049",
+      {
+        "label": "Results",
+        "url": "https://results.raceroster.com/v3/events/ysymrwectm43zhk7/race/295485/participant/sp7dehmh66yhqfru"
+      }
+    ],
+    [
+      "2026-05-16T07:00:00-04:00",
+      "Andres Vargas",
+      {
+        "name": "Medavie Blue Nose Marathon",
+        "subEvent": "Purple Cow 5KM",
+        "url": null
+      },
+      "Dartmouth",
+      1547,
+      "43:52",
+      "38:32",
+      "M4049",
+      {
+        "label": "Results",
+        "url": "https://results.raceroster.com/v3/events/3h6dmuf3xwvwbum9/race/282233/participant/bphdzxdbv6e5ggxz"
+      }
+    ]
+  ],
+  "eventTypes": {
+    "aquabike": "Aquabike",
+    "aquathlon": "Aquathlon",
+    "cross-country": "Cross country",
+    "cycling": "Cycling",
+    "duathlon": "Duathlon",
+    "lottery": "Lottery",
+    "membership": "Membership",
+    "other": "Other",
+    "relay": "Relay",
+    "running": "Running",
+    "stair-climb": "Stair climb",
+    "store": "Store",
+    "swimming": "Swimming",
+    "test-event": "Test event",
+    "trail-running": "Trail running",
+    "triathlon": "Triathlon",
+    "triathlon-off-road": "Triathlon off road",
+    "ultra": "Ultra",
+    "virtual": "Virtual",
+    "virtual-cross-country": "Virtual cross country",
+    "virtual-cycling": "Virtual cycling",
+    "virtual-duathlon": "Virtual duathlon",
+    "virtual-running": "Virtual running",
+    "virtual-swimming": "Virtual swimming",
+    "virtual-triathlon": "Virtual triathlon",
+    "virtual-ultra": "Virtual ultra",
+    "virtual-walking": "Virtual walking",
+    "volunteer": "Volunteer",
+    "wait-list": "Wait list",
+    "walking": "Walking"
+  },
+  "regions": {
+    "UNITED STATES": {
+      "AA": "Armed Forces America",
+      "AE": "Armed Forces Europe",
+      "AL": "Alabama",
+      "AP": "Armed Forces Pacific",
+      "APO": "Army/Air Force Post Office",
+      "AK": "Alaska",
+      "AZ": "Arizona",
+      "AR": "Arkansas",
+      "CA": "California",
+      "CO": "Colorado",
+      "CT": "Connecticut",
+      "DE": "Delaware",
+      "DC": "District of Columbia",
+      "FL": "Florida",
+      "GA": "Georgia",
+      "HI": "Hawaii",
+      "ID": "Idaho",
+      "IL": "Illinois",
+      "IN": "Indiana",
+      "IA": "Iowa",
+      "KS": "Kansas",
+      "KY": "Kentucky",
+      "LA": "Louisiana",
+      "ME": "Maine",
+      "MD": "Maryland",
+      "MA": "Massachusetts",
+      "MI": "Michigan",
+      "MN": "Minnesota",
+      "MS": "Mississippi",
+      "MO": "Missouri",
+      "MT": "Montana",
+      "NE": "Nebraska",
+      "NV": "Nevada",
+      "NH": "New Hampshire",
+      "NJ": "New Jersey",
+      "NM": "New Mexico",
+      "NY": "New York",
+      "NC": "North Carolina",
+      "ND": "North Dakota",
+      "OH": "Ohio",
+      "OK": "Oklahoma",
+      "OR": "Oregon",
+      "PA": "Pennsylvania",
+      "RI": "Rhode Island",
+      "SC": "South Carolina",
+      "SD": "South Dakota",
+      "TN": "Tennessee",
+      "TX": "Texas",
+      "UT": "Utah",
+      "VT": "Vermont",
+      "VA": "Virginia",
+      "WA": "Washington",
+      "WV": "West Virginia",
+      "WI": "Wisconsin",
+      "WY": "Wyoming"
+    },
+    "CANADA": {
+      "AB": "Alberta",
+      "BC": "British Columbia",
+      "MB": "Manitoba",
+      "NB": "New Brunswick",
+      "NL": "Newfoundland and Labrador",
+      "NS": "Nova Scotia",
+      "ON": "Ontario",
+      "PE": "Prince Edward Island",
+      "QC": "Quebec",
+      "SK": "Saskatchewan",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut",
+      "YT": "Yukon Territory"
+    },
+    "AUSTRALIA": {
+      "ACT": "Australian Capital Territory",
+      "NSW": "New South Wales",
+      "NT": "Northern Territory",
+      "QLD": "Queensland",
+      "SA": "South Australia",
+      "TAS": "Tasmania",
+      "VIC": "Victoria",
+      "WA": "Western Australia"
+    },
+    "TRINIDAD AND TOBAGO": {
+      "ARI": "Arima",
+      "CHA": "Chaguanas",
+      "CTT": "Couva-Tabaquite-Talparo",
+      "DMN": "Diego Martin",
+      "MRC": "Mayaro-Rio Claro",
+      "PED": "Penal-Debe",
+      "PTF": "Point Fortin",
+      "POS": "Port of Spain",
+      "PRT": "Princes Town",
+      "SGE": "Sangre Grande",
+      "SJL": "San Juan-Laventille",
+      "SFO": "San Fernando",
+      "SIP": "Siparia",
+      "TOB": "Tobago",
+      "TUP": "Tunapuna-Piarco"
+    }
+  }
+}
