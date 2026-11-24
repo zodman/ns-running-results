@@ -27,6 +27,10 @@ export default function SiteFooter() {
         >
           GitHub Repo
         </a>
+        <span> • </span>
+        <a href="https://app.opensrc.mx/" target="_blank" rel="noreferrer">
+          app.opensrc.mx
+        </a>
       </div>
     </footer>
   );
