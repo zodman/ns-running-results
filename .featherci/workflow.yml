@@ -6,26 +6,29 @@ on:
       - main
 
 steps:
-  - name: build
+  - name: build-frontend
     image: node:22-alpine
     commands:
       - npm ci
       - npm run build
+
+  - name: build-image
+    image: docker:27-cli
+    docker: true
+    depends_on:
+      - build-frontend
+    commands:
       - |
-        tar -czf ns-running-results.tar.gz \
-          dist \
-          Dockerfile \
-          docker-compose.yml \
-          pocketbase/pb_migrations \
-          pocketbase/pb_hooks \
-          data/route541_all \
-          data/route541_vargas_matches.json
-        ls -lh ns-running-results.tar.gz
+        set -e
+        docker build -t ns-running-results:latest .
+        docker save ns-running-results:latest | gzip > ns-running-results-image.tar.gz
+        ls -lh ns-running-results-image.tar.gz
+        docker rmi ns-running-results:latest || true
 
   - name: publish-opensrc-mx
     image: alpine:3.21
     depends_on:
-      - build
+      - build-image
     commands:
       - |
         set -e
@@ -35,7 +38,7 @@ steps:
         DEPLOY_USER="${DEPLOY_USER}"
         DEPLOY_PORT="${DEPLOY_PORT}"
         DEPLOY_PATH="${DEPLOY_PATH}"
-        ARTIFACT="ns-running-results.tar.gz"
+        ARTIFACT="ns-running-results-image.tar.gz"
 
         if [ -z "${DEPLOY_SSH_KEY:-}" ]; then
           echo "ERROR: DEPLOY_SSH_KEY secret is not set in FeatherCI."
@@ -61,11 +64,11 @@ steps:
         SSH_OPTS="-i ~/.ssh/id_deploy -p $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
         SCP_OPTS="-i ~/.ssh/id_deploy -P $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
 
-        # Upload single artifact, extract, build/restart container, then delete artifact on both sides
+        # Upload pre-built Docker image artifact, delete locally, load & run on opensrc.mx, delete remotely
         ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}"
         scp $SCP_OPTS "$ARTIFACT" "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/${ARTIFACT}"
         rm -f "$ARTIFACT"
 
-        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "set -e && cd ${DEPLOY_PATH} && rm -rf dist pocketbase data && tar -xzf ${ARTIFACT} && rm -f ${ARTIFACT} && docker build -t ns-running-results . && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8092:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results && docker image prune -f"
+        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "set -e && cd ${DEPLOY_PATH} && gunzip -c ${ARTIFACT} | docker load && rm -f ${ARTIFACT} && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8092:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results:latest && docker image prune -f"
 
-        echo "Deployed artifact cleanly and cleaned up temporary files."
+        echo "Deployed pre-built Docker image to opensrc.mx:8092 and deleted artifact on both sides."
