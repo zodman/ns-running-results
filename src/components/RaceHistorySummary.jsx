@@ -5,10 +5,28 @@ import { CATEGORY_COLORS } from "../utils/raceUtils";
 export default function RaceHistorySummary({ races, sources, totalKm, historyStats }) {
   return (
     <div className="card progress-card">
-      <div className="progress-top">
-        <Timer size={18} />
-        <span>Race History Summary</span>
+      <div className="progress-top-row">
+        <div className="progress-top" style={{ marginBottom: 0 }}>
+          <Timer size={18} />
+          <span>Race History Summary</span>
+        </div>
+        {historyStats.tenureBadge && (
+          <span className={`tenure-badge ${historyStats.tenureBadge.tier}`}>
+            <span>{historyStats.tenureBadge.icon}</span>
+            <span>{historyStats.tenureBadge.title}</span>
+          </span>
+        )}
       </div>
+      {historyStats.firstYear && (
+        <div className="tenure-sub">
+          Running since <strong>{historyStats.firstYear}</strong> •{" "}
+          <strong>
+            {historyStats.yearsSpan} {historyStats.yearsSpan === 1 ? "year" : "years"}
+          </strong>{" "}
+          of recorded races ({historyStats.seasonCount}{" "}
+          {historyStats.seasonCount === 1 ? "active season" : "active seasons"})
+        </div>
+      )}
       <div className="progress-track">
         <div className="progress-fill" style={{ width: "100%" }} />
       </div>

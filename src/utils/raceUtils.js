@@ -246,7 +246,28 @@ export function computeHistoryStats(races) {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6);
 
+  const firstYear = years.length ? years[0] : null;
+  const lastYear = years.length ? years[years.length - 1] : null;
+  const yearsSpan = firstYear && lastYear ? lastYear - firstYear + 1 : 0;
+
+  let tenureBadge = null;
+  if (yearsSpan >= 10) {
+    tenureBadge = { icon: "🏆", title: `${yearsSpan} Yrs • Legend`, tier: "legend" };
+  } else if (yearsSpan >= 5) {
+    tenureBadge = { icon: "🥇", title: `${yearsSpan} Yrs • Veteran`, tier: "veteran" };
+  } else if (yearsSpan >= 3) {
+    tenureBadge = { icon: "🥈", title: `${yearsSpan} Yrs • Regular`, tier: "regular" };
+  } else if (yearsSpan === 2) {
+    tenureBadge = { icon: "🔥", title: "2 Yrs • Runner", tier: "rising" };
+  } else if (yearsSpan === 1) {
+    tenureBadge = { icon: "⚡", title: "1st Season", tier: "rookie" };
+  }
+
   return {
+    firstYear,
+    lastYear,
+    yearsSpan,
+    tenureBadge,
     yearRange:
       years.length > 1
         ? `${years[0]} – ${years[years.length - 1]}`
