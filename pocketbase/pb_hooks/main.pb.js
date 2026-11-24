@@ -1083,3 +1083,98 @@ routerAdd("GET", "/share", (e) => {
 
   return e.html(200, html);
 });
+
+
+// Dynamic per-runner Open Graph meta injection on root "/" (so pasting /?name=...&tab=passport
+// directly into Facebook, WhatsApp, iMessage, or X shows that runner's personalized 1200x630 card!)
+routerAdd("GET", "/", (e) => {
+  const candidates = [
+    "/app/pb_public/index.html",
+    __hooks + "/../pb_public/index.html",
+    __hooks + "/../../dist/index.html"
+  ];
+  let html = "";
+  for (let i = 0; i < candidates.length; i++) {
+    try {
+      const raw = $os.readFile(candidates[i]);
+      if (raw && raw.length > 0) {
+        html = toString(raw);
+        break;
+      }
+    } catch (_) {}
+  }
+  if (!html) {
+    return e.next();
+  }
+
+  const name = String(e.request.url.query().get("name") || "").trim();
+  if (!name) {
+    return e.html(200, html);
+  }
+
+  const escAttr = (s) =>
+    String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const proto = e.request.header.get("X-Forwarded-Proto") || "https";
+  const host =
+    e.request.header.get("X-Forwarded-Host") ||
+    e.request.host ||
+    "ns-running-results.opensrc.mx";
+  const base = proto + "://" + host;
+
+  let displayName = name;
+  let description =
+    "Track official Nova Scotia race results, collect 32 iconic finisher medals, capture all 7 NS regions, and unlock achievement trophies.";
+  let imageUrl = base + "/og-passport.jpg";
+
+  try {
+    const rec = e.app.findFirstRecordByFilter("share_cards", "runner_norm = {:n}", {
+      n: normalize(name)
+    });
+    if (rec.getString("runner_name")) displayName = rec.getString("runner_name");
+    if (rec.getString("summary")) description = rec.getString("summary");
+    const v = rec.getInt("updated_ms") || Date.now();
+    imageUrl = base + "/api/ns-og-image?name=" + encodeURIComponent(displayName) + "&v=" + v;
+  } catch (_) {}
+
+  const title = displayName + " — Nova Scotia Race Passport";
+  const tab = String(e.request.url.query().get("tab") || "").trim();
+  const canonicalUrl =
+    base +
+    "/?name=" +
+    encodeURIComponent(displayName) +
+    (tab ? "&tab=" + encodeURIComponent(tab) : "");
+
+  // Replace static OG & Twitter meta tags with this runner's personalized values
+  const replaceMeta = (src, attrName, attrVal, newContent) => {
+    const re = new RegExp(
+      '(<meta\\s+' + attrName + '="' + attrVal + '"\\s+content=")[^"]*(")',
+      "i"
+    );
+    return src.replace(re, "$1" + escAttr(newContent) + "$2");
+  };
+
+  html = html.replace(/<title>[^<]*<\/title>/i, "<title>" + escAttr(title) + "</title>");
+  html = replaceMeta(html, "property", "og:url", canonicalUrl);
+  html = replaceMeta(html, "property", "og:title", title);
+  html = replaceMeta(html, "property", "og:description", description);
+  html = replaceMeta(html, "property", "og:image", imageUrl);
+  html = replaceMeta(html, "property", "og:image:secure_url", imageUrl);
+  html = replaceMeta(html, "property", "og:image:alt", title + " share card");
+  html = replaceMeta(html, "name", "twitter:title", title);
+  html = replaceMeta(html, "name", "twitter:description", description);
+  html = replaceMeta(html, "name", "twitter:image", imageUrl);
+
+  return e.html(200, html);
+});

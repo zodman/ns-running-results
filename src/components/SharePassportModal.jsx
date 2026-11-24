@@ -30,11 +30,11 @@ export default function SharePassportModal({
       : origin;
   }, []);
 
-  // /share?name=... serves per-runner dynamic og:image & og:title for Facebook/WhatsApp/X,
-  // then immediately redirects humans into /?name=...&tab=passport
+  // Clean direct Passport URL — PocketBase dynamically injects this runner's personalized
+  // 1200x630 og:image, og:title, and og:description right into index.html for Facebook/WhatsApp/X!
   const passportUrl = useMemo(() => {
-    const params = new URLSearchParams({ name: runnerName });
-    return `${shareOrigin}/share?${params.toString()}`;
+    const params = new URLSearchParams({ name: runnerName, tab: "passport" });
+    return `${shareOrigin}/?${params.toString()}`;
   }, [shareOrigin, runnerName]);
 
   const embedUrl = useMemo(() => {
