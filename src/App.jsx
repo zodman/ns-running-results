@@ -27,7 +27,7 @@ export default function App() {
   const [year, setYear] = useState("all");
   const [filterTab, setFilterTab] = useState("all");
   const [graphMode, setGraphMode] = useState("time");
-  const [runnerTab, setRunnerTab] = useState("dashboard"); // dashboard | passport
+  const [runnerTab, setRunnerTab] = useState("passport"); // passport | dashboard
   const [saveToCommunity, setSaveToCommunity] = useState(true);
   const [optOutDone, setOptOutDone] = useState(false);
   const [races, setRaces] = useState([]);
@@ -111,7 +111,9 @@ export default function App() {
     const urlTab = params.get("tab");
     const embedMode = params.get("embed") === "1";
     setIsEmbed(embedMode);
-    if (urlTab === "passport") {
+    if (urlTab === "dashboard") {
+      setRunnerTab("dashboard");
+    } else if (urlTab === "passport") {
       setRunnerTab("passport");
     }
     if (urlView === "community") {
@@ -344,17 +346,9 @@ export default function App() {
 
       {statusMsg && <div className="status-banner">{statusMsg}</div>}
 
-      {/* Runner View Switcher: Dashboard vs NS Race Passport */}
+      {/* Runner View Switcher: NS Race Passport first, Race Dashboard second */}
       {!isEmbed && races.length > 0 && (
         <div className="runner-mode-bar">
-          <button
-            type="button"
-            className={`runner-mode-btn ${runnerTab === "dashboard" ? "active" : ""}`}
-            onClick={() => setRunnerTab("dashboard")}
-          >
-            <LayoutGrid size={16} />
-            <span>Race Dashboard</span>
-          </button>
           <button
             type="button"
             className={`runner-mode-btn ${runnerTab === "passport" ? "active" : ""}`}
@@ -365,6 +359,14 @@ export default function App() {
             <span className="runner-mode-badge">
               {passportSummary.caughtCount}/{passportSummary.totalCount}
             </span>
+          </button>
+          <button
+            type="button"
+            className={`runner-mode-btn ${runnerTab === "dashboard" ? "active" : ""}`}
+            onClick={() => setRunnerTab("dashboard")}
+          >
+            <LayoutGrid size={16} />
+            <span>Race Dashboard</span>
           </button>
         </div>
       )}
