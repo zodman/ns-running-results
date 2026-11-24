@@ -32,7 +32,18 @@ steps:
         fi
 
         mkdir -p ~/.ssh
-        printf "%s\n" "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/id_deploy
+        if printf "%s" "$DEPLOY_SSH_KEY" | grep -q "BEGIN.*PRIVATE KEY"; then
+          HEADER=$(printf "%s" "$DEPLOY_SSH_KEY" | grep -oE -- '-----BEGIN [A-Z0-9 ]+PRIVATE KEY-----' | head -n1)
+          FOOTER=$(printf "%s" "$DEPLOY_SSH_KEY" | grep -oE -- '-----END [A-Z0-9 ]+PRIVATE KEY-----' | head -n1)
+          BODY=$(printf "%s" "$DEPLOY_SSH_KEY" | sed "s|${HEADER}||; s|${FOOTER}||" | tr -d ' \t\r\n')
+          {
+            printf "%s\n" "$HEADER"
+            printf "%s" "$BODY" | fold -w 70
+            printf "\n%s\n" "$FOOTER"
+          } > ~/.ssh/id_deploy
+        else
+          printf "%s" "$DEPLOY_SSH_KEY" | tr -d ' \t\r\n' | base64 -d > ~/.ssh/id_deploy
+        fi
         chmod 600 ~/.ssh/id_deploy
         ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
 
