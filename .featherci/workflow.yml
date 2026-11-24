@@ -13,6 +13,7 @@ steps:
       FORCE_COLOR: "0"
     commands:
       - npm ci
+      - npm test
       - npm run build
 
   - name: build-image
