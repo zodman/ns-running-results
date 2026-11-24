@@ -379,13 +379,15 @@ export default function App() {
         </>
       )}
 
-      {/* Floating Bottom Nav */}
-      <BottomNav
-        totalCount={races.length}
-        categoryCounts={categoryCounts}
-        filterTab={filterTab}
-        onSelectTab={setFilterTab}
-      />
+      {/* Floating Bottom Nav (Race Dashboard only) */}
+      {runnerTab === "dashboard" && (
+        <BottomNav
+          totalCount={races.length}
+          categoryCounts={categoryCounts}
+          filterTab={filterTab}
+          onSelectTab={setFilterTab}
+        />
+      )}
       <SiteFooter />
     </div>
   );

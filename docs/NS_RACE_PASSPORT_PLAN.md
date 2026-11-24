@@ -16,9 +16,24 @@ A visual medal wall featuring **32 iconic Nova Scotia races** across both Atlant
 - **Silver (2× Finishes):** Silver border & `Silver ×2` loyalty pill.
 - **Gold Loyalist (3+ Finishes):** Glowing kinetic yellow (`#fef000`) border & `Gold ×3+` pill.
 
+### Progress & Rank System (`% Collected`)
+- **Circular Progress Ring** displaying `X / 32` and `% Collected` + a progress bar with **25% / 50% / 75% / 100% milestone tick marks**.
+- **Passport Rank Title** tied to collected count:
+  - `0` → **Rookie Runner**
+  - `1–4` (1–15%) → **Local Explorer**
+  - `5–9` (16–30%) → **NS Circuit Regular**
+  - `10–16` (31–50%) → **Provincial Veteran**
+  - `17–24` (51–75%) → **Bluenoser Legend**
+  - `25–31` (76–99%) → **Nova Scotia Elite**
+  - `32/32` (100%) → **Grand Master of NS** 👑
+- **Next-Rank Milestone Nudge** right below the bar (e.g., *"1 more race to reach **NS Circuit Regular** (5/32)"*).
+- **Medal Tier Breakdown Pills** (`Gold`, `Silver`, `Bronze`) so multi-year loyalists see their tier upgrades alongside unique race count.
+- **All-Time vs. Season Filter** (`All-Time` or any specific race year like `2026`).
+
 ### Interactions
 - Filter by **All / Caught / Locked**
 - Filter by **Nova Scotia Region**
+- Switch between **All-Time** and **Season Year**
 - Click any caught medal to jump directly to that race on the main dashboard.
 
 ---

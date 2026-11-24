@@ -1835,44 +1835,153 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   color: #fef000;
 }
 
-.passport-score-box {
+.passport-rank-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 10px;
+}
+
+.passport-rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(254, 240, 0, 0.16);
+  border: 1px solid rgba(254, 240, 0, 0.5);
+  color: #fef000;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.passport-tier-summary {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pts-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(4, 11, 23, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(248, 250, 252, 0.55);
+}
+
+.pts-pill.active {
+  color: #f8fafc;
+}
+
+.pts-pill.gold.active {
+  background: rgba(254, 240, 0, 0.18);
+  border-color: rgba(254, 240, 0, 0.5);
+  color: #fef000;
+}
+
+.pts-pill.silver.active {
+  background: rgba(203, 213, 225, 0.18);
+  border-color: rgba(203, 213, 225, 0.5);
+  color: #f1f5f9;
+}
+
+.pts-pill.bronze.active {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #fde68a;
+}
+
+.passport-score-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.passport-ring-box {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
   background: rgba(4, 11, 23, 0.36);
-  border: 1px solid rgba(254, 240, 0, 0.35);
-  border-radius: 18px;
-  padding: 14px 22px;
+  border-radius: 50%;
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.42);
+}
+
+.passport-ring-svg {
+  transform: rotate(-90deg);
+  display: block;
+}
+
+.passport-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 9;
+}
+
+.passport-ring-fg {
+  fill: none;
+  stroke: #fef000;
+  stroke-width: 9;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.55s ease;
+}
+
+.passport-ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  min-width: 150px;
 }
 
 .passport-score-big {
   font-family: "Oswald", sans-serif;
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 700;
   color: #fef000;
   line-height: 1;
 }
 
 .passport-score-big span {
-  font-size: 20px;
+  font-size: 18px;
   color: rgba(248, 250, 252, 0.72);
 }
 
 .passport-score-pct {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #64a1c9;
-  margin-top: 4px;
+  letter-spacing: 0.05em;
+  color: #93c5fd;
+  margin-top: 3px;
+}
+
+.passport-progress-wrap {
+  margin: 18px 0 18px;
 }
 
 .passport-progress-track {
+  position: relative;
   width: 100%;
   height: 10px;
   border-radius: 999px;
-  background: rgba(4, 11, 23, 0.38);
+  background: rgba(4, 11, 23, 0.42);
   overflow: hidden;
-  margin: 20px 0 18px;
 }
 
 .passport-progress-fill {
@@ -1882,11 +1991,56 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   transition: width 0.5s ease;
 }
 
+.passport-tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+
+.passport-tick.reached {
+  background: rgba(4, 11, 23, 0.65);
+}
+
+.passport-progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(248, 250, 252, 0.85);
+}
+
+.passport-nudge strong {
+  color: #fef000;
+}
+
+.passport-milestones-labels {
+  display: inline-flex;
+  gap: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(248, 250, 252, 0.52);
+}
+
 .passport-filters {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+.passport-filter-selects {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -2007,30 +2161,189 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 .pm-emblem-wrap {
   position: relative;
   margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
 }
 
-.pm-emblem {
-  width: 78px;
-  height: 78px;
+/* Realistic Finisher Medal (Ribbon + Clasp + Metallic Coin) */
+.race-medal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: transform 0.25s ease;
+}
+
+.passport-medal-card.caught:hover .race-medal {
+  transform: translateY(-2px) rotate(-2deg);
+}
+
+.race-medal-ribbon {
+  display: block;
+  margin-bottom: -7px;
+  z-index: 1;
+  filter: drop-shadow(0 3px 5px rgba(2, 6, 23, 0.35));
+}
+
+.race-medal .ribbon-main {
+  fill: #0370b9;
+}
+
+.race-medal .ribbon-main-dark {
+  fill: #02528a;
+}
+
+.race-medal .ribbon-stripe {
+  fill: #fef000;
+}
+
+.race-medal.tier-gold .ribbon-clasp {
+  fill: #facc15;
+}
+
+.race-medal.tier-silver .ribbon-clasp {
+  fill: #cbd5e1;
+}
+
+.race-medal.tier-bronze .ribbon-clasp {
+  fill: #d97706;
+}
+
+.race-medal.tier-locked .ribbon-main {
+  fill: #334155;
+}
+
+.race-medal.tier-locked .ribbon-main-dark {
+  fill: #1e293b;
+}
+
+.race-medal.tier-locked .ribbon-stripe {
+  fill: #475569;
+}
+
+.race-medal.tier-locked .ribbon-clasp {
+  fill: #475569;
+}
+
+[data-theme="light"] .race-medal.tier-locked .ribbon-main {
+  fill: #cbd5e1;
+}
+
+[data-theme="light"] .race-medal.tier-locked .ribbon-main-dark {
+  fill: #94a3b8;
+}
+
+[data-theme="light"] .race-medal.tier-locked .ribbon-stripe {
+  fill: #e2e8f0;
+}
+
+[data-theme="light"] .race-medal.tier-locked .ribbon-clasp {
+  fill: #94a3b8;
+}
+
+.race-medal-coin {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  padding: 5px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  box-shadow:
+    0 10px 22px rgba(2, 6, 23, 0.42),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.35);
+}
+
+.race-medal.tier-bronze .race-medal-coin {
+  background: conic-gradient(
+    from 135deg,
+    #f59e0b,
+    #b45309,
+    #fde68a,
+    #92400e,
+    #d97706,
+    #f59e0b
+  );
+}
+
+.race-medal.tier-silver .race-medal-coin {
+  background: conic-gradient(
+    from 135deg,
+    #f8fafc,
+    #94a3b8,
+    #ffffff,
+    #64748b,
+    #cbd5e1,
+    #f8fafc
+  );
+}
+
+.race-medal.tier-gold .race-medal-coin {
+  background: conic-gradient(
+    from 135deg,
+    #fef000,
+    #ca8a04,
+    #fef9c3,
+    #a16207,
+    #facc15,
+    #fef000
+  );
+  box-shadow:
+    0 10px 24px rgba(254, 240, 0, 0.25),
+    inset 0 2px 3px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 5px rgba(120, 53, 15, 0.4);
+}
+
+.race-medal.tier-locked .race-medal-coin {
+  background: linear-gradient(145deg, #334155, #0f172a);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.08);
+  opacity: 0.72;
+}
+
+[data-theme="light"] .race-medal.tier-locked .race-medal-coin {
+  background: linear-gradient(145deg, #cbd5e1, #94a3b8);
+}
+
+.race-medal-inner-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 2px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.45);
+  display: grid;
+  place-items: center;
+}
+
+.race-medal.tier-locked .race-medal-inner-ring {
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.race-medal-face {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background: #ffffff;
-  padding: 7px;
+  padding: 6px;
   display: grid;
   place-items: center;
   overflow: hidden;
-  border: 3px solid rgba(254, 240, 0, 0.7);
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35);
+  box-shadow: inset 0 2px 6px rgba(2, 6, 23, 0.28);
 }
 
-.pm-emblem.silhouette {
+.race-medal-face.has-short {
+  padding: 0;
+}
+
+.race-medal-face.silhouette {
   background: var(--bg);
-  border-color: var(--border);
   filter: grayscale(100%);
-  opacity: 0.65;
-  box-shadow: none;
+  opacity: 0.75;
+  box-shadow: inset 0 2px 6px rgba(2, 6, 23, 0.35);
 }
 
-.pm-emblem img {
+.race-medal-face img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -2038,14 +2351,16 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 
 .pm-short {
   font-family: "Oswald", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   color: #ffffff;
+  text-shadow: 0 2px 4px rgba(2, 6, 23, 0.55);
 }
 
-.pm-emblem.silhouette .pm-short {
+.race-medal-face.silhouette .pm-short {
   color: var(--text-muted);
+  text-shadow: none;
 }
 
 .pm-check-badge {
@@ -2059,6 +2374,8 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   color: #fef000;
   display: grid;
   place-items: center;
+  border: 2px solid var(--surface);
+  z-index: 3;
 }
 
 .pm-name {
@@ -2407,4 +2724,198 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   .big-number { font-size: 52px; }
   .landing-title { font-size: 36px; }
   .landing-card { padding: 32px 20px; }
+}
+
+/* =========================================================
+   PASSPORT SECTION DETAILS MODAL & HELP BUTTON
+========================================================= */
+.passport-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.info-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.info-help-btn:hover {
+  border-color: var(--rns-blue);
+  color: var(--rns-blue);
+}
+
+.info-help-btn.on-hero {
+  background: rgba(4, 11, 23, 0.35);
+  border-color: rgba(254, 240, 0, 0.35);
+  color: #fef000;
+}
+
+.info-help-btn.on-hero:hover {
+  background: rgba(254, 240, 0, 0.16);
+  border-color: #fef000;
+  color: #fef000;
+}
+
+.info-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(4, 11, 23, 0.72);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.info-modal-card {
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 24px 64px rgba(2, 6, 23, 0.55);
+}
+
+.info-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--divider);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 2;
+}
+
+.info-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-modal-title h3 {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.info-modal-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(3, 112, 185, 0.16);
+  color: var(--rns-blue);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.info-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.info-modal-close:hover {
+  color: var(--text);
+  border-color: var(--rns-blue);
+}
+
+.info-modal-body {
+  padding: 18px 20px 22px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.im-lead {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+}
+
+.im-lead strong {
+  color: var(--text);
+}
+
+.im-subhead {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rns-blue);
+  margin: 16px 0 8px;
+}
+
+.im-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.im-list li {
+  color: var(--text-muted);
+}
+
+.im-list li strong {
+  color: var(--text);
+}
+
+.im-rank-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.im-rank-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--divider);
+  font-size: 13px;
+}
+
+.im-muted {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: right;
+}
+
+.im-footnote {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
 }

@@ -8,7 +8,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "May",
     source: "Atlantic Chip",
-    logo: "/logos/blue_nose.jpg",
+    logosByYear: { 2026: "/logos/2026/blue-nose.jpg" },
     color: "#0370b9",
     match: /blue nose/i
   },
@@ -20,7 +20,7 @@ export const NS_RACE_CATALOG = [
     location: "Dartmouth, NS",
     month: "August",
     source: "Atlantic Chip",
-    logo: "/logos/harbour_hustle.png",
+    logosByYear: { 2026: "/logos/2026/harbour-hustle.png" },
     color: "#ff7a28",
     match: /harbour hustle|macpass miles/i
   },
@@ -32,7 +32,7 @@ export const NS_RACE_CATALOG = [
     location: "Lunenburg, NS",
     month: "June",
     source: "Atlantic Chip",
-    logo: "/logos/lunenburg_5k.png",
+    logosByYear: { 2026: "/logos/2026/lunenburg-5k.png" },
     color: "#06b6d4",
     match: /lunenburg.*5k|muffin run/i
   },
@@ -44,7 +44,7 @@ export const NS_RACE_CATALOG = [
     location: "Bridgewater, NS",
     month: "June",
     source: "Atlantic Chip",
-    logo: "/logos/michelin_tire_trot.jpg",
+    logosByYear: { 2026: "/logos/2026/michelin-tire-trot.jpg" },
     color: "#3b82f6",
     match: /michelin.*tire trot/i
   },
@@ -56,7 +56,7 @@ export const NS_RACE_CATALOG = [
     location: "Wolfville, NS",
     month: "October",
     source: "Atlantic Chip",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/valley-harvest.png" },
     color: "#ea580c",
     match: /valley harvest/i
   },
@@ -68,7 +68,7 @@ export const NS_RACE_CATALOG = [
     location: "Dartmouth, NS",
     month: "August",
     source: "Atlantic Chip",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/natal-day.png" },
     color: "#0ea5e9",
     match: /natal day/i
   },
@@ -80,7 +80,7 @@ export const NS_RACE_CATALOG = [
     location: "New Glasgow, NS",
     month: "June",
     source: "Atlantic Chip",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/johnny-miles.jpg" },
     color: "#2563eb",
     match: /johnny miles/i
   },
@@ -92,7 +92,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "September",
     source: "Atlantic Chip",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/kicking-pancreas.png" },
     color: "#9333ea",
     match: /pancreas/i
   },
@@ -106,7 +106,7 @@ export const NS_RACE_CATALOG = [
     location: "Berwick, NS",
     month: "September",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/berwick-gala.png" },
     color: "#16a34a",
     match: /berwick gala/i
   },
@@ -118,7 +118,7 @@ export const NS_RACE_CATALOG = [
     location: "Louisbourg, NS",
     month: "August",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/louisbourg.png" },
     color: "#0284c7",
     match: /louisbourg/i
   },
@@ -130,7 +130,7 @@ export const NS_RACE_CATALOG = [
     location: "Mabou, NS",
     month: "October",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/run-mabou.png" },
     color: "#0d9488",
     match: /mabou|mhàbu/i
   },
@@ -142,7 +142,7 @@ export const NS_RACE_CATALOG = [
     location: "Chéticamp, NS",
     month: "August",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/escaouette.png" },
     color: "#2563eb",
     match: /escaouette/i
   },
@@ -154,7 +154,7 @@ export const NS_RACE_CATALOG = [
     location: "Tatamagouche, NS",
     month: "June",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/tatamagouche.png" },
     color: "#d97706",
     match: /tatamagouche/i
   },
@@ -166,7 +166,7 @@ export const NS_RACE_CATALOG = [
     location: "Pugwash, NS",
     month: "August",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/pugwash-salt-dash.png" },
     color: "#0891b2",
     match: /pugwash/i
   },
@@ -178,7 +178,7 @@ export const NS_RACE_CATALOG = [
     location: "Truro, NS",
     month: "September",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/nasty-nuttby.png" },
     color: "#dc2626",
     match: /nuttby/i
   },
@@ -190,7 +190,7 @@ export const NS_RACE_CATALOG = [
     location: "Truro, NS",
     month: "September",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/cinnamon-bun.jpg" },
     color: "#b45309",
     match: /cinnamon bun/i
   },
@@ -202,7 +202,7 @@ export const NS_RACE_CATALOG = [
     location: "Truro, NS",
     month: "August",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/back-road-bash.png" },
     color: "#4f46e5",
     match: /back road bash/i
   },
@@ -214,7 +214,7 @@ export const NS_RACE_CATALOG = [
     location: "Dartmouth, NS",
     month: "April",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/bee-hive-fives.png" },
     color: "#eab308",
     match: /bee hive/i
   },
@@ -226,7 +226,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "July",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/mcnabs-half.jpg" },
     color: "#059669",
     match: /mcnab/i
   },
@@ -238,7 +238,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "October",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/mcintosh.png" },
     color: "#15803d",
     match: /mcintosh/i
   },
@@ -250,7 +250,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "June",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/seaside-scramble.png" },
     color: "#0369a1",
     match: /seaside scramble/i
   },
@@ -262,7 +262,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "April",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/callous-crow.png" },
     color: "#475569",
     match: /callous crow/i
   },
@@ -274,9 +274,9 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "January",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/pick-shovel.png" },
     color: "#0284c7",
-    match: /pick & shovel|pick and shovel/i
+    match: /pick & shovel|pick and shovel|shovel/i
   },
   {
     id: "salty-7",
@@ -286,7 +286,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "October",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/salty-7.jpg" },
     color: "#0e7490",
     match: /salty 7/i
   },
@@ -298,7 +298,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "November",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/movember-run.png" },
     color: "#1d4ed8",
     match: /movember/i
   },
@@ -310,7 +310,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "November",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/year-end-celebration.png" },
     color: "#ca8a04",
     match: /year-end celebration/i
   },
@@ -322,7 +322,7 @@ export const NS_RACE_CATALOG = [
     location: "Halifax, NS",
     month: "September",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/penguin-run.png" },
     color: "#38bdf8",
     match: /penguin run/i
   },
@@ -334,7 +334,7 @@ export const NS_RACE_CATALOG = [
     location: "Hantsport, NS",
     month: "July",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/hantsport.png" },
     color: "#dc2626",
     match: /hantsport/i
   },
@@ -346,7 +346,7 @@ export const NS_RACE_CATALOG = [
     location: "Middleton, NS",
     month: "August",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/middleton-heart.png" },
     color: "#e11d48",
     match: /middleton heart/i
   },
@@ -358,7 +358,7 @@ export const NS_RACE_CATALOG = [
     location: "Kentville, NS",
     month: "June",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/spike-family.png" },
     color: "#7c3aed",
     match: /spike family/i
   },
@@ -370,7 +370,7 @@ export const NS_RACE_CATALOG = [
     location: "Barrington, NS",
     month: "March",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/lobster-crawl.png" },
     color: "#ef4444",
     match: /lobster crawl/i
   },
@@ -382,25 +382,65 @@ export const NS_RACE_CATALOG = [
     location: "Weymouth, NS",
     month: "September",
     source: "Route541",
-    logo: null,
+    logosByYear: { 2026: "/logos/2026/sissaboo.png" },
     color: "#f97316",
     match: /sissaboo/i
   }
 ];
 
+function getLatestEdition(item) {
+  const byYear = item.logosByYear || {};
+  const sortedYears = Object.keys(byYear)
+    .map(Number)
+    .filter(Boolean)
+    .sort((a, b) => b - a);
+  if (!sortedYears.length) return { year: null, logo: item.logo || null };
+  return { year: sortedYears[0], logo: byYear[sortedYears[0]] };
+}
+
+function resolveEditionLogo(item, year, matchedForYear) {
+  const byYear = item.logosByYear || {};
+  if (year && byYear[year]) return byYear[year];
+  const dynamic = matchedForYear?.find((r) => r.logo)?.logo;
+  if (dynamic) return dynamic;
+  return getLatestEdition(item).logo;
+}
+
+export const PASSPORT_RANKS = [
+  { min: 0, title: "Rookie Runner", icon: "👟" },
+  { min: 1, title: "Local Explorer", icon: "🧭" },
+  { min: 5, title: "NS Circuit Regular", icon: "🏃" },
+  { min: 10, title: "Provincial Veteran", icon: "⚓" },
+  { min: 17, title: "Bluenoser Legend", icon: "🌊" },
+  { min: 25, title: "Nova Scotia Elite", icon: "⚡" },
+  { min: 32, title: "Grand Master of NS", icon: "👑" }
+];
+
+export function getPassportRank(caughtCount, totalCount) {
+  let currentIdx = 0;
+  for (let i = 0; i < PASSPORT_RANKS.length; i++) {
+    if (caughtCount >= PASSPORT_RANKS[i].min) currentIdx = i;
+  }
+  const current = PASSPORT_RANKS[currentIdx];
+  const next = PASSPORT_RANKS[currentIdx + 1] || null;
+  const nextTarget = next ? Math.min(next.min, totalCount) : null;
+  return {
+    current,
+    next,
+    nextTarget,
+    racesToNext: nextTarget !== null ? Math.max(0, nextTarget - caughtCount) : 0
+  };
+}
+
 export function evaluatePassport(races) {
   const entries = NS_RACE_CATALOG.map((item) => {
     const matched = races.filter((r) => item.match.test(`${r.name} ${r.subEvent || ""}`));
-    const years = [
-      ...new Set(
-        matched
-          .map((r) => {
-            const d = new Date(r.iso);
-            return Number.isNaN(d.getTime()) ? null : d.getFullYear();
-          })
-          .filter(Boolean)
-      )
-    ].sort((a, b) => a - b);
+    const withYear = matched.map((r) => {
+      const d = new Date(r.iso);
+      return { r, year: Number.isNaN(d.getTime()) ? null : d.getFullYear() };
+    });
+
+    const years = [...new Set(withYear.map((x) => x.year).filter(Boolean))].sort((a, b) => a - b);
 
     const timed = matched.filter((r) => r.officialSec);
     const best = timed.length
@@ -409,11 +449,29 @@ export function evaluatePassport(races) {
 
     const count = matched.length;
     const tier = count >= 3 ? "gold" : count === 2 ? "silver" : count === 1 ? "bronze" : "locked";
-    const dynamicLogo = matched.find((r) => r.logo)?.logo || item.logo;
+
+    const latestCatalog = getLatestEdition(item);
+    const editions = years.map((yr) => ({
+      year: yr,
+      logo: resolveEditionLogo(
+        item,
+        yr,
+        withYear.filter((x) => x.year === yr).map((x) => x.r)
+      )
+    }));
+
+    // Caught medals show the edition logo from the runner's most recent completed year;
+    // locked medals show the latest season's logo from the catalog.
+    const latestCaughtEdition = editions.length ? editions[editions.length - 1] : null;
+    const resolvedLogo = latestCaughtEdition
+      ? latestCaughtEdition.logo
+      : latestCatalog.logo;
 
     return {
       ...item,
-      logo: dynamicLogo,
+      logo: resolvedLogo,
+      editionYear: latestCaughtEdition ? latestCaughtEdition.year : latestCatalog.year,
+      editions,
       caught: count > 0,
       count,
       tier,
@@ -425,14 +483,21 @@ export function evaluatePassport(races) {
 
   // Sort caught medals first (gold -> silver -> bronze), then locked alphabetically
   const caughtList = entries.filter((e) => e.caught);
-  const lockedList = entries.filter((e) => !e.caught);
   const pct = Math.round((caughtList.length / entries.length) * 100);
+  const tiers = {
+    gold: caughtList.filter((e) => e.tier === "gold").length,
+    silver: caughtList.filter((e) => e.tier === "silver").length,
+    bronze: caughtList.filter((e) => e.tier === "bronze").length
+  };
+  const rank = getPassportRank(caughtList.length, entries.length);
 
   return {
     entries,
     caughtCount: caughtList.length,
     totalCount: entries.length,
     percent: pct,
+    tiers,
+    rank,
     regions: [...new Set(NS_RACE_CATALOG.map((c) => c.region))]
   };
 }
@@ -523,21 +588,39 @@ export function evaluateRegions(races, passport) {
 export function evaluateTrophies(races, passport, regionStats) {
   // 1. Distance Grand Slam
   const standardDists = ["5K", "10K", "Half Marathon", "Marathon"];
-  const doneDists = standardDists.filter((d) => races.some((r) => r.category === d));
+  const grandSlamRaces = standardDists
+    .map((d) => {
+      const matching = races.filter((r) => r.category === d);
+      if (!matching.length) return null;
+      const timed = matching.filter((r) => r.officialSec);
+      return timed.length
+        ? timed.reduce((a, b) => (a.officialSec < b.officialSec ? a : b))
+        : matching[0];
+    })
+    .filter(Boolean);
+  const doneDists = grandSlamRaces.map((r) => r.category);
 
   // 2. 5K Club
-  const fiveKCount = races.filter((r) => r.category === "5K").length;
+  const fiveKRaces = races
+    .filter((r) => r.category === "5K")
+    .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  const fiveKCount = fiveKRaces.length;
 
   // 3. Bridge Runner
-  const bridgeRace = races.find((r) => /harbour hustle|macpass miles/i.test(r.name));
+  const bridgeRaces = races
+    .filter((r) => /harbour hustle|macpass miles/i.test(r.name))
+    .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  const bridgeRace = bridgeRaces[0] || null;
 
   // 4. Island Hopper
-  const islandRace = races.find(
-    (r) =>
+  const islandRaces = races
+    .filter((r) =>
       /mcnab|louisbourg|mabou|mhàbu|escaouette|cape breton|sydney/i.test(
         `${r.name} ${r.raceLocation || ""}`
       )
-  );
+    )
+    .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  const islandRace = islandRaces[0] || null;
 
   // 5. Back-to-Back Warrior (2 races within 14 days)
   const dated = races
@@ -547,52 +630,92 @@ export function evaluateTrophies(races, passport, regionStats) {
   for (let i = 1; i < dated.length; i++) {
     const diffDays = Math.round((dated[i].timestamp - dated[i - 1].timestamp) / (1000 * 60 * 60 * 24));
     if (diffDays >= 1 && diffDays <= 14) {
-      backToBackPair = { a: dated[i - 1].name, b: dated[i].name, days: diffDays };
+      backToBackPair = {
+        a: dated[i - 1].name,
+        b: dated[i].name,
+        days: diffDays,
+        races: [dated[i - 1], dated[i]]
+      };
       break;
     }
   }
 
   // 6. All-Seasons Runner
   const seasonLabels = ["Winter", "Spring", "Summer", "Fall"];
-  const seasonsHit = new Set();
+  const seasonRaceMap = {};
   for (const r of races) {
     const d = new Date(r.iso);
     if (Number.isNaN(d.getTime())) continue;
     const m = d.getMonth() + 1;
-    if (m <= 3) seasonsHit.add("Winter");
-    else if (m <= 6) seasonsHit.add("Spring");
-    else if (m <= 9) seasonsHit.add("Summer");
-    else seasonsHit.add("Fall");
+    const season = m <= 3 ? "Winter" : m <= 6 ? "Spring" : m <= 9 ? "Summer" : "Fall";
+    if (!seasonRaceMap[season]) seasonRaceMap[season] = r;
   }
+  const seasonsHit = new Set(Object.keys(seasonRaceMap));
   const missingSeasons = seasonLabels.filter((s) => !seasonsHit.has(s));
+  const seasonRacesList = seasonLabels.map((s) => seasonRaceMap[s]).filter(Boolean);
 
-  // 7. Course PR Crusher (beat previous year's time on same catalog race)
+  // 7. Course PR Crusher (beat previous year's time on same catalog race & same distance)
   let coursePR = null;
   for (const item of passport.entries) {
     if (item.count < 2) continue;
     const runs = races
       .filter((r) => item.match.test(`${r.name} ${r.subEvent || ""}`) && r.officialSec && r.timestamp)
       .sort((a, b) => a.timestamp - b.timestamp);
-    for (let i = 1; i < runs.length; i++) {
-      if (runs[i].officialSec < runs[i - 1].officialSec) {
-        const diff = runs[i - 1].officialSec - runs[i].officialSec;
-        coursePR = {
-          name: item.name,
-          saved: `${Math.floor(diff / 60)}m ${diff % 60}s faster`
-        };
-        break;
+    // Group by distance/category so Half -> 5K doesn't false-trigger
+    const byCat = {};
+    for (const r of runs) {
+      const key = r.category || "Other";
+      if (!byCat[key]) byCat[key] = [];
+      byCat[key].push(r);
+    }
+    for (const catRuns of Object.values(byCat)) {
+      for (let i = 1; i < catRuns.length; i++) {
+        if (catRuns[i].officialSec < catRuns[i - 1].officialSec) {
+          const diff = catRuns[i - 1].officialSec - catRuns[i].officialSec;
+          coursePR = {
+            name: item.name,
+            saved: `${Math.floor(diff / 60)}m ${diff % 60}s faster`,
+            races: [catRuns[i - 1], catRuns[i]]
+          };
+          break;
+        }
       }
+      if (coursePR) break;
     }
     if (coursePR) break;
   }
 
   // 8. NS Road Tripper (5+ unique towns)
-  const uniqueTowns = new Set(
-    races.map((r) => r.shortLocation).filter((l) => l && l !== "Nova Scotia")
-  );
+  const townRaceMap = {};
+  for (const r of races) {
+    const loc = r.shortLocation;
+    if (loc && loc !== "Nova Scotia" && !townRaceMap[loc]) {
+      townRaceMap[loc] = r;
+    }
+  }
+  const uniqueTowns = new Set(Object.keys(townRaceMap));
+  const townRacesList = Object.values(townRaceMap);
 
   // 9. Multi-Year Loyalist (same annual race 3+ times)
   const loyalistRace = passport.entries.find((e) => e.count >= 3);
+  const loyalistRaces = loyalistRace
+    ? races
+        .filter((r) => loyalistRace.match.test(`${r.name} ${r.subEvent || ""}`))
+        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0))
+    : [];
+
+  // 10 & 11. Region Explorer / Conqueror representative races
+  const regionSampleRaces = regionStats.regions
+    .filter((reg) => reg.unlocked)
+    .map((reg) => {
+      const catInReg = passport.entries.filter((e) => e.region === reg.id);
+      return races.find(
+        (r) =>
+          reg.locMatch.test(r.raceLocation || "") ||
+          catInReg.some((c) => c.match.test(`${r.name} ${r.subEvent || ""}`))
+      );
+    })
+    .filter(Boolean);
 
   const trophies = [
     {
@@ -601,7 +724,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "Distance Grand Slam",
       desc: "Finish a 5K, 10K, Half Marathon & Marathon",
       unlocked: doneDists.length === 4,
-      progress: `${doneDists.length} / 4 distances (${doneDists.join(", ") || "none yet"})`
+      progress: `${doneDists.length} / 4 distances (${doneDists.join(", ") || "none yet"})`,
+      races: grandSlamRaces
     },
     {
       id: "5k-club",
@@ -609,7 +733,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "5K Club",
       desc: "Complete 3 or more official 5K races",
       unlocked: fiveKCount >= 3,
-      progress: fiveKCount >= 3 ? `${fiveKCount}× 5K finishes` : `${fiveKCount} / 3 5K races`
+      progress: fiveKCount >= 3 ? `${fiveKCount}× 5K finishes` : `${fiveKCount} / 3 5K races`,
+      races: fiveKRaces
     },
     {
       id: "bridge-runner",
@@ -617,7 +742,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "Bridge Runner",
       desc: "Run across the Macdonald Bridge at Harbour Hustle",
       unlocked: Boolean(bridgeRace),
-      progress: bridgeRace ? `Completed (${bridgeRace.officialTime})` : "Run Harbour Hustle (Aug)"
+      progress: bridgeRace ? `Completed (${bridgeRace.officialTime})` : "Run Harbour Hustle (Aug)",
+      races: bridgeRaces
     },
     {
       id: "island-hopper",
@@ -625,7 +751,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "Island Hopper",
       desc: "Finish McNabs Half Marathon or any Cape Breton race",
       unlocked: Boolean(islandRace),
-      progress: islandRace ? islandRace.name : "Run McNabs or Cape Breton"
+      progress: islandRace ? islandRace.name : "Run McNabs or Cape Breton",
+      races: islandRaces
     },
     {
       id: "back-to-back",
@@ -635,7 +762,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       unlocked: Boolean(backToBackPair),
       progress: backToBackPair
         ? `${backToBackPair.days} days apart`
-        : "Race twice within 2 weeks"
+        : "Race twice within 2 weeks",
+      races: backToBackPair ? backToBackPair.races : []
     },
     {
       id: "all-seasons",
@@ -646,15 +774,17 @@ export function evaluateTrophies(races, passport, regionStats) {
       progress:
         seasonsHit.size === 4
           ? "All 4 seasons unlocked"
-          : `Missing: ${missingSeasons.join(", ")}`
+          : `Missing: ${missingSeasons.join(", ")}`,
+      races: seasonRacesList
     },
     {
       id: "course-pr",
       icon: "📈",
       title: "Course PR Crusher",
-      desc: "Beat your own previous time on the exact same race",
+      desc: "Beat your own previous time on the exact same race & distance",
       unlocked: Boolean(coursePR),
-      progress: coursePR ? `${coursePR.name} (${coursePR.saved})` : "Return & beat a course PB"
+      progress: coursePR ? `${coursePR.name} (${coursePR.saved})` : "Return & beat a course PB",
+      races: coursePR ? coursePR.races : []
     },
     {
       id: "road-tripper",
@@ -662,7 +792,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "NS Road Tripper",
       desc: "Race in 5+ different Nova Scotia towns",
       unlocked: uniqueTowns.size >= 5,
-      progress: `${uniqueTowns.size} / 5 towns raced`
+      progress: `${uniqueTowns.size} / 5 towns raced`,
+      races: townRacesList
     },
     {
       id: "loyalist",
@@ -670,7 +801,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "Multi-Year Loyalist",
       desc: "Finish the same annual race 3+ times",
       unlocked: Boolean(loyalistRace),
-      progress: loyalistRace ? `${loyalistRace.name} (×${loyalistRace.count})` : "Run an event 3+ times"
+      progress: loyalistRace ? `${loyalistRace.name} (×${loyalistRace.count})` : "Run an event 3+ times",
+      races: loyalistRaces
     },
     {
       id: "half-province",
@@ -678,7 +810,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "Half-Province Explorer",
       desc: "Capture 4+ of Nova Scotia's 7 running regions",
       unlocked: regionStats.unlockedCount >= 4,
-      progress: `${regionStats.unlockedCount} / 4 regions`
+      progress: `${regionStats.unlockedCount} / 4 regions`,
+      races: regionSampleRaces
     },
     {
       id: "province-conqueror",
@@ -686,7 +819,8 @@ export function evaluateTrophies(races, passport, regionStats) {
       title: "Province Conqueror",
       desc: "Capture all 7 Nova Scotia running regions",
       unlocked: regionStats.unlockedCount === 7,
-      progress: `${regionStats.unlockedCount} / 7 regions`
+      progress: `${regionStats.unlockedCount} / 7 regions`,
+      races: regionSampleRaces
     }
   ];
 
