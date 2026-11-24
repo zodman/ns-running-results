@@ -667,3 +667,167 @@ routerAdd("GET", "/api/ns-overview", (e) => {
     fastestMarathon: dedupFastest(fastestMarathon)
   });
 });
+
+// Shared 24h cache lookup for client-direct Atlantic Chip + local Route541 results
+routerAdd("GET", "/api/ns-cache", (e) => {
+  const name = (e.request.url.query().get("name") || "").trim();
+  const year = (e.request.url.query().get("year") || "all").trim();
+  if (!name) {
+    return e.json(200, { cacheHit: false, count: 0, results: [] });
+  }
+
+  const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const queryNorm = normalize(name);
+  let cacheHit = false;
+  let cachedAt = null;
+  try {
+    const c = e.app.findFirstRecordByFilter("search_cache", "query_norm = {:q}", { q: queryNorm });
+    const fetchedAt = c.getFloat("fetched_at");
+    if (fetchedAt && Date.now() - fetchedAt < CACHE_TTL_MS) {
+      cacheHit = true;
+      cachedAt = new Date(fetchedAt).toISOString();
+    }
+  } catch (_) {}
+
+  const tokens = queryNorm.split(/\s+/).filter(Boolean);
+  const filterParts = tokens.map((_, idx) => `participant_norm ~ {:t${idx}}`);
+  const params = {};
+  tokens.forEach((t, idx) => {
+    params["t" + idx] = t;
+  });
+  if (year && year !== "all") {
+    filterParts.push("race_date ~ {:yr}");
+    params.yr = year;
+  }
+
+  const records = e.app.findRecordsByFilter(
+    "race_results",
+    filterParts.join(" && "),
+    "-race_date",
+    200,
+    0,
+    params
+  );
+
+  const results = records.map((r) => ({
+    id: r.id,
+    source: r.getString("source"),
+    iso: r.getString("race_date"),
+    participant: r.getString("participant"),
+    name: r.getString("event_name"),
+    subEvent: r.getString("sub_event"),
+    city: r.getString("city"),
+    rank: /^\d+$/.test(r.getString("rank")) ? Number(r.getString("rank")) : r.getString("rank") || "—",
+    gunTime: r.getString("gun_time") || null,
+    chipTime: r.getString("chip_time") || null,
+    division: r.getString("division"),
+    url: r.getString("result_url") || "#",
+    logo: r.getString("logo_url") || null
+  }));
+
+  return e.json(200, {
+    query: name,
+    year,
+    cacheHit,
+    cachedAt,
+    count: results.length,
+    sources: {
+      atlanticChip: results.filter((r) => r.source === "Atlantic Chip").length,
+      route541: results.filter((r) => r.source === "Route541").length
+    },
+    results
+  });
+});
+
+// Store client-fetched Atlantic Chip results into PocketBase so future searches skip the API
+routerAdd("POST", "/api/ns-cache", (e) => {
+  const body = e.requestInfo().body || {};
+  const query = String(body.query || "").trim();
+  const rows = Array.isArray(body.rows) ? body.rows.slice(0, 200) : [];
+
+  if (!query) {
+    return e.json(400, { error: "Missing query" });
+  }
+
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const KNOWN_LOGOS = {
+    bc4yxdar5jrrs7cp: "/logos/harbour_hustle.png",
+    fgbssgvgwaufvvcb: "/logos/michelin_tire_trot.jpg",
+    ysymrwectm43zhk7: "/logos/lunenburg_5k.png",
+    "3h6dmuf3xwvwbum9": "/logos/blue_nose.jpg"
+  };
+
+  const raceCol = e.app.findCollectionByNameOrId("race_results");
+  const cacheCol = e.app.findCollectionByNameOrId("search_cache");
+  const queryNorm = normalize(query);
+  let saved = 0;
+
+  e.app.runInTransaction((txApp) => {
+    for (let i = 0; i < rows.length; i++) {
+      const item = rows[i];
+      if (!item || !item.participant || !item.name) continue;
+      const iso = String(item.iso || "");
+      const participant = String(item.participant || "").trim();
+      const evName = String(item.name || "").trim();
+      const subEvent = String(item.subEvent || "").trim();
+      const resUrl = String(item.url || "");
+      const slugMatch = resUrl.match(/\/events\/([^/]+)\//);
+      const slug = slugMatch ? slugMatch[1] : "";
+      const logoUrl = String(item.logo || KNOWN_LOGOS[slug] || "");
+      const ukey = "ac|" + iso + "|" + participant + "|" + evName + "|" + subEvent;
+
+      try {
+        txApp.findFirstRecordByFilter("race_results", "unique_key = {:k}", { k: ukey });
+        continue;
+      } catch (_) {}
+
+      try {
+        const rec = new Record(raceCol);
+        rec.set("unique_key", ukey);
+        rec.set("source", "Atlantic Chip");
+        rec.set("participant", participant);
+        rec.set("participant_norm", normalize(participant));
+        rec.set("event_name", evName);
+        rec.set("sub_event", subEvent);
+        rec.set("race_date", iso);
+        rec.set("city", String(item.city || ""));
+        rec.set("rank", item.rank !== null && item.rank !== undefined ? String(item.rank) : "");
+        rec.set("gun_time", item.gunTime ? String(item.gunTime) : "");
+        rec.set("chip_time", item.chipTime ? String(item.chipTime) : "");
+        rec.set("division", String(item.division || ""));
+        rec.set("result_url", resUrl);
+        rec.set("logo_url", logoUrl);
+        rec.set("event_slug", slug);
+        txApp.save(rec);
+        saved++;
+      } catch (_) {}
+    }
+
+    // Record query timestamp in search_cache (24h TTL)
+    let cacheRec = null;
+    try {
+      cacheRec = txApp.findFirstRecordByFilter("search_cache", "query_norm = {:q}", { q: queryNorm });
+    } catch (_) {
+      cacheRec = new Record(cacheCol);
+    }
+    cacheRec.set("query_norm", queryNorm);
+    cacheRec.set("fetched_at", Date.now());
+    cacheRec.set("ac_count", rows.length);
+    txApp.save(cacheRec);
+  });
+
+  return e.json(200, { saved, cachedQuery: queryNorm });
+});

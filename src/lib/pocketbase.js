@@ -168,18 +168,48 @@ async function fetchRoute541FromPocketBase(name, year = "all") {
 }
 
 export async function searchRunner(name, year = "all") {
-  const [acResults, r541Results] = await Promise.all([
-    fetchAtlanticChipDirect(name, year).catch(() => []),
-    fetchRoute541FromPocketBase(name, year)
-  ]);
+  // 1. Check shared PocketBase 24h database cache first (saves Atlantic Chip API calls for all users!)
+  let cachedData = null;
+  try {
+    const qs = new URLSearchParams({ name, year });
+    const res = await fetch(`/api/ns-cache?${qs.toString()}`);
+    if (res.ok) {
+      cachedData = await res.json();
+      if (cachedData.cacheHit) {
+        return cachedData;
+      }
+    }
+  } catch (_) {}
 
-  const combined = [...acResults, ...r541Results];
+  // 2. Cache miss: fetch Atlantic Chip directly from the browser (no proxy!)
+  const acAllYears = await fetchAtlanticChipDirect(name, "all").catch(() => []);
+
+  // 3. Persist fetched Atlantic Chip results into PocketBase in the background
+  if (acAllYears.length > 0) {
+    fetch("/api/ns-cache", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: name, rows: acAllYears })
+    }).catch(() => {});
+  }
+
+  // Filter Atlantic Chip results for requested year and merge with Route541 results from DB
+  const acFiltered =
+    year && year !== "all"
+      ? acAllYears.filter((r) => String(r.iso || "").startsWith(year))
+      : acAllYears;
+
+  const r541Results = cachedData
+    ? (cachedData.results || []).filter((r) => r.source === "Route541")
+    : await fetchRoute541FromPocketBase(name, year);
+
+  const combined = [...acFiltered, ...r541Results];
   return {
     query: name,
     year,
     count: combined.length,
     sources: {
-      atlanticChip: acResults.length,
+      atlanticChip: acFiltered.length,
       route541: r541Results.length
     },
     results: combined
