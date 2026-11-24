@@ -606,6 +606,28 @@ export function evaluateTrophies(races, passport, regionStats) {
     .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
   const fiveKCount = fiveKRaces.length;
 
+  // 2b. First Half Marathon Finisher (21.1K)
+  const halfRaces = races
+    .filter((r) => r.category === "Half" || (r.km >= 21 && r.km <= 22) || /half\s*marathon/i.test(`${r.name} ${r.subEvent || ""}`))
+    .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)); // Earliest first
+  const firstHalf = halfRaces[0] || null;
+
+  // 2c. First Full Marathon Finisher (42.2K)
+  const marathonRaces = races
+    .filter((r) => r.category === "Marathon" || (r.km >= 42 && r.km <= 43) || (/\bmarathon\b/i.test(`${r.name} ${r.subEvent || ""}`) && !/half/i.test(`${r.name} ${r.subEvent || ""}`)))
+    .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)); // Earliest first
+  const firstMarathon = marathonRaces[0] || null;
+
+  // 2d. 10K Milestone Finisher
+  const tenKRaces = races
+    .filter((r) => r.category === "10K" || (r.km >= 9.8 && r.km <= 10.5))
+    .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+  const firstTenK = tenKRaces[0] || null;
+
+  // 2e. Cumulative race kilometers (Century Club)
+  const totalKm = races.reduce((sum, r) => sum + (Number(r.km) || 0), 0);
+  const racesWithKm = races.filter((r) => Number(r.km) > 0);
+
   // 3. Bridge Runner
   const bridgeRaces = races
     .filter((r) => /harbour hustle|macpass miles/i.test(r.name))
@@ -719,6 +741,39 @@ export function evaluateTrophies(races, passport, regionStats) {
 
   const trophies = [
     {
+      id: "first-marathon",
+      icon: "🏅",
+      title: "First Marathon",
+      desc: "Conquer the iconic 42.2K distance in an official Nova Scotia marathon",
+      unlocked: Boolean(firstMarathon),
+      progress: firstMarathon
+        ? `Completed at ${firstMarathon.name} (${firstMarathon.officialTime})`
+        : "Finish a 42.2K Marathon in NS",
+      races: marathonRaces
+    },
+    {
+      id: "first-half",
+      icon: "🏃",
+      title: "First Half Marathon",
+      desc: "Conquer 21.1K in an official Nova Scotia half marathon",
+      unlocked: Boolean(firstHalf),
+      progress: firstHalf
+        ? `Completed at ${firstHalf.name} (${firstHalf.officialTime})`
+        : "Finish a 21.1K Half Marathon in NS",
+      races: halfRaces
+    },
+    {
+      id: "first-10k",
+      icon: "🎯",
+      title: "10K Milestone",
+      desc: "Complete an official 10K road race in Nova Scotia",
+      unlocked: Boolean(firstTenK),
+      progress: firstTenK
+        ? `Completed at ${firstTenK.name} (${firstTenK.officialTime})`
+        : "Finish a 10K Race in NS",
+      races: tenKRaces
+    },
+    {
       id: "grand-slam",
       icon: "🏆",
       title: "Distance Grand Slam",
@@ -726,6 +781,18 @@ export function evaluateTrophies(races, passport, regionStats) {
       unlocked: doneDists.length === 4,
       progress: `${doneDists.length} / 4 distances (${doneDists.join(", ") || "none yet"})`,
       races: grandSlamRaces
+    },
+    {
+      id: "100k-club",
+      icon: "💯",
+      title: "Century Club (100K)",
+      desc: "Accumulate 100+ official racing kilometers across Nova Scotia",
+      unlocked: totalKm >= 100,
+      progress:
+        totalKm >= 100
+          ? `${Math.round(totalKm)} km total raced across NS`
+          : `${totalKm.toFixed(1)} / 100 km completed`,
+      races: racesWithKm
     },
     {
       id: "5k-club",

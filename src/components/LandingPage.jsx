@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowRight, Moon, Search, Sun, Users } from "lucide-react";
 import SiteFooter from "../SiteFooter.jsx";
+import OpenSrcBanner from "./OpenSrcBanner.jsx";
 
 export default function LandingPage({
   theme,
@@ -126,6 +127,8 @@ export default function LandingPage({
             </div>
           </div>
         </div>
+
+        <OpenSrcBanner className="landing-banner" />
       </section>
       <SiteFooter />
     </div>

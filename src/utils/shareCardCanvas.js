@@ -40,8 +40,20 @@ export async function renderPassportShareCard({
   regionStats,
   trophyStats,
   selectedMedal = null,
+  selectedTrophy = null,
   format = "story" // "story" (1080x1920) | "square" (1080x1080) | "fb" / "og" (1200x630)
 }) {
+  if (selectedTrophy) {
+    return renderSingleTrophyCard({
+      runnerName,
+      seasonLabel,
+      trophy: selectedTrophy,
+      passport,
+      trophyStats,
+      format
+    });
+  }
+
   if (selectedMedal) {
     return renderSingleMedalCard({
       runnerName,
@@ -105,9 +117,9 @@ export async function renderPassportShareCard({
 
   // 2. Eyebrow Pill
   const eyebrow = `NOVA SCOTIA RACE PASSPORT  •  ${seasonLabel.toUpperCase()}`;
-  ctx.font = "700 22px Oswald, Arial, sans-serif";
-  const eyeW = ctx.measureText(eyebrow).width + 44;
-  drawRoundedRect(ctx, padX, y, eyeW, 44, 22);
+  ctx.font = isStory ? "700 28px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + (isStory ? 52 : 44);
+  drawRoundedRect(ctx, padX, y, eyeW, isStory ? 52 : 44, isStory ? 26 : 22);
   ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
   ctx.fill();
   ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
@@ -115,23 +127,23 @@ export async function renderPassportShareCard({
   ctx.stroke();
   ctx.fillStyle = "#fef000";
   ctx.textBaseline = "middle";
-  ctx.fillText(eyebrow, padX + 22, y + 23);
+  ctx.fillText(eyebrow, padX + (isStory ? 26 : 22), y + (isStory ? 26 : 22));
 
-  y += isStory ? 74 : 62;
+  y += isStory ? 84 : 64;
 
   // 3. Runner Name + Progress Ring Row
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "#ffffff";
-  ctx.font = isStory ? "700 72px Oswald, Arial, sans-serif" : "700 58px Oswald, Arial, sans-serif";
-  const maxNameW = W - padX * 2 - 240;
-  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), maxNameW), padX, y + (isStory ? 56 : 44));
+  ctx.font = isStory ? "800 86px Oswald, Arial, sans-serif" : "800 68px Oswald, Arial, sans-serif";
+  const maxNameW = W - padX * 2 - (isStory ? 270 : 230);
+  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), maxNameW), padX, y + (isStory ? 68 : 50));
 
   // Rank Badge under runner name
   const rankText = `${passport.rank.current.icon}  ${passport.rank.current.title.toUpperCase()}`;
-  ctx.font = "700 26px Oswald, Arial, sans-serif";
-  const rankW = ctx.measureText(rankText).width + 44;
-  const rankY = y + (isStory ? 84 : 68);
-  drawRoundedRect(ctx, padX, rankY, rankW, 50, 25);
+  ctx.font = isStory ? "700 32px Oswald, Arial, sans-serif" : "700 26px Oswald, Arial, sans-serif";
+  const rankW = ctx.measureText(rankText).width + (isStory ? 50 : 44);
+  const rankY = y + (isStory ? 104 : 76);
+  drawRoundedRect(ctx, padX, rankY, rankW, isStory ? 56 : 48, isStory ? 28 : 24);
   ctx.fillStyle = "rgba(254, 240, 0, 0.18)";
   ctx.fill();
   ctx.strokeStyle = "#fef000";
@@ -139,28 +151,28 @@ export async function renderPassportShareCard({
   ctx.stroke();
   ctx.fillStyle = "#fef000";
   ctx.textBaseline = "middle";
-  ctx.fillText(rankText, padX + 22, rankY + 26);
+  ctx.fillText(rankText, padX + (isStory ? 25 : 22), rankY + (isStory ? 28 : 24));
 
   // Tier summary under rank
   const tierLine = `🥇 ${passport.tiers.gold} Gold   •   🥈 ${passport.tiers.silver} Silver   •   🥉 ${passport.tiers.bronze} Bronze`;
-  ctx.font = "600 24px Jost, Arial, sans-serif";
-  ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
-  ctx.fillText(tierLine, padX, rankY + 84);
+  ctx.font = isStory ? "700 28px Jost, Arial, sans-serif" : "600 24px Jost, Arial, sans-serif";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.9)";
+  ctx.fillText(tierLine, padX, rankY + (isStory ? 94 : 80));
 
   // Circular Progress Ring on Right
-  const ringR = isStory ? 96 : 84;
+  const ringR = isStory ? 108 : 88;
   const ringCx = W - padX - ringR;
-  const ringCy = y + ringR - 6;
+  const ringCy = y + ringR - (isStory ? 10 : 6);
 
   ctx.beginPath();
-  ctx.arc(ringCx, ringCy, ringR + 12, 0, Math.PI * 2);
+  ctx.arc(ringCx, ringCy, ringR + 14, 0, Math.PI * 2);
   ctx.fillStyle = "rgba(4, 11, 23, 0.45)";
   ctx.fill();
 
   ctx.beginPath();
   ctx.arc(ringCx, ringCy, ringR, 0, Math.PI * 2);
   ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
-  ctx.lineWidth = 14;
+  ctx.lineWidth = isStory ? 16 : 14;
   ctx.stroke();
 
   const startAngle = -Math.PI / 2;
@@ -168,25 +180,25 @@ export async function renderPassportShareCard({
   ctx.beginPath();
   ctx.arc(ringCx, ringCy, ringR, startAngle, endAngle);
   ctx.strokeStyle = "#fef000";
-  ctx.lineWidth = 14;
+  ctx.lineWidth = isStory ? 16 : 14;
   ctx.lineCap = "round";
   ctx.stroke();
 
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = isStory ? "700 50px Oswald, Arial, sans-serif" : "700 44px Oswald, Arial, sans-serif";
-  ctx.fillText(`${passport.caughtCount}/${passport.totalCount}`, ringCx, ringCy - 12);
+  ctx.font = isStory ? "800 60px Oswald, Arial, sans-serif" : "700 48px Oswald, Arial, sans-serif";
+  ctx.fillText(`${passport.caughtCount}/${passport.totalCount}`, ringCx, ringCy - (isStory ? 16 : 12));
   ctx.fillStyle = "#93c5fd";
-  ctx.font = "700 24px Jost, Arial, sans-serif";
-  ctx.fillText(`${passport.percent}%`, ringCx, ringCy + 34);
+  ctx.font = isStory ? "700 30px Jost, Arial, sans-serif" : "700 24px Jost, Arial, sans-serif";
+  ctx.fillText(`${passport.percent}%`, ringCx, ringCy + (isStory ? 38 : 32));
   ctx.textAlign = "left";
 
   // 4. Three KPI Cards (Medals, Regions, Trophies)
-  y = rankY + (isStory ? 140 : 124);
+  y = rankY + (isStory ? 154 : 124);
   const kpiGap = 24;
   const kpiW = (W - padX * 2 - kpiGap * 2) / 3;
-  const kpiH = isStory ? 148 : 118;
+  const kpiH = isStory ? 160 : 120;
 
   const kpis = [
     {
@@ -217,16 +229,16 @@ export async function renderPassportShareCard({
 
     ctx.textBaseline = "top";
     ctx.fillStyle = "#93c5fd";
-    ctx.font = "700 18px Oswald, Arial, sans-serif";
-    ctx.fillText(k.label, kx + 24, y + (isStory ? 24 : 18));
+    ctx.font = isStory ? "700 22px Oswald, Arial, sans-serif" : "700 18px Oswald, Arial, sans-serif";
+    ctx.fillText(k.label, kx + 22, y + (isStory ? 22 : 18));
 
     ctx.fillStyle = "#fef000";
-    ctx.font = isStory ? "700 46px Oswald, Arial, sans-serif" : "700 38px Oswald, Arial, sans-serif";
-    ctx.fillText(k.val, kx + 24, y + (isStory ? 52 : 42));
+    ctx.font = isStory ? "800 52px Oswald, Arial, sans-serif" : "700 42px Oswald, Arial, sans-serif";
+    ctx.fillText(k.val, kx + 22, y + (isStory ? 52 : 44));
 
-    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-    ctx.font = "500 18px Jost, Arial, sans-serif";
-    ctx.fillText(k.sub, kx + 24, y + (isStory ? 108 : 88));
+    ctx.fillStyle = "rgba(248, 250, 252, 0.78)";
+    ctx.font = isStory ? "600 21px Jost, Arial, sans-serif" : "500 18px Jost, Arial, sans-serif";
+    ctx.fillText(k.sub, kx + 22, y + (isStory ? 116 : 90));
   });
 
   y += kpiH + (isStory ? 56 : 36);
@@ -240,7 +252,7 @@ export async function renderPassportShareCard({
 
   ctx.textBaseline = "top";
   ctx.fillStyle = "#ffffff";
-  ctx.font = "700 28px Oswald, Arial, sans-serif";
+  ctx.font = isStory ? "800 36px Oswald, Arial, sans-serif" : "700 30px Oswald, Arial, sans-serif";
   ctx.fillText(
     caughtMedals.length
       ? `COLLECTED MEDALS (${caughtMedals.length})`
@@ -248,7 +260,7 @@ export async function renderPassportShareCard({
     padX,
     y
   );
-  y += 46;
+  y += isStory ? 54 : 46;
 
   // Preload all shown medal logos in parallel
   const loadedLogos = await Promise.all(shownMedals.map((m) => loadImage(m.logo)));
@@ -335,17 +347,17 @@ export async function renderPassportShareCard({
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#ffffff";
-    ctx.font = "700 20px Oswald, Arial, sans-serif";
+    ctx.font = isStory ? "700 22px Oswald, Arial, sans-serif" : "700 20px Oswald, Arial, sans-serif";
     ctx.fillText(truncateText(ctx, m.name, cardW - 24), midX, coinY + coinR + 14);
 
     ctx.fillStyle = "#fef000";
-    ctx.font = "700 24px Oswald, Arial, sans-serif";
-    ctx.fillText(m.bestTime || "Finisher", midX, coinY + coinR + 44);
+    ctx.font = isStory ? "700 28px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+    ctx.fillText(m.bestTime || "Finisher", midX, coinY + coinR + (isStory ? 46 : 42));
 
-    ctx.fillStyle = "rgba(248, 250, 252, 0.65)";
-    ctx.font = "600 15px Jost, Arial, sans-serif";
+    ctx.fillStyle = "rgba(248, 250, 252, 0.75)";
+    ctx.font = isStory ? "600 17px Jost, Arial, sans-serif" : "600 15px Jost, Arial, sans-serif";
     const yearTxt = m.count > 1 ? `×${m.count}  •  ${m.years.join(" • ")}` : m.years.join(" • ");
-    ctx.fillText(truncateText(ctx, yearTxt, cardW - 20), midX, coinY + coinR + 76);
+    ctx.fillText(truncateText(ctx, yearTxt, cardW - 20), midX, coinY + coinR + (isStory ? 80 : 74));
     ctx.textAlign = "left";
   });
 
@@ -359,20 +371,20 @@ export async function renderPassportShareCard({
 
     if (unlockedRegions.length > 0) {
       ctx.fillStyle = "#ffffff";
-      ctx.font = "700 26px Oswald, Arial, sans-serif";
+      ctx.font = "800 34px Oswald, Arial, sans-serif";
       ctx.fillText(`NOVA SCOTIA REGIONS CAPTURED (${unlockedRegions.length}/7)`, padX, y);
-      y += 42;
+      y += 48;
 
       let px = padX;
-      ctx.font = "600 22px Jost, Arial, sans-serif";
+      ctx.font = "700 24px Jost, Arial, sans-serif";
       for (const reg of unlockedRegions) {
         const label = `${reg.icon} ${reg.id}${reg.mastered ? " ★" : ""}`;
-        const pw = ctx.measureText(label).width + 36;
+        const pw = ctx.measureText(label).width + 40;
         if (px + pw > W - padX) {
           px = padX;
-          y += 58;
+          y += 62;
         }
-        drawRoundedRect(ctx, px, y, pw, 46, 23);
+        drawRoundedRect(ctx, px, y, pw, 50, 25);
         ctx.fillStyle = reg.mastered ? "rgba(254, 240, 0, 0.16)" : "rgba(3, 112, 185, 0.35)";
         ctx.fill();
         ctx.strokeStyle = reg.mastered ? "rgba(254, 240, 0, 0.55)" : "rgba(56, 189, 248, 0.5)";
@@ -380,30 +392,30 @@ export async function renderPassportShareCard({
         ctx.stroke();
         ctx.fillStyle = reg.mastered ? "#fef000" : "#f8fafc";
         ctx.textBaseline = "middle";
-        ctx.fillText(label, px + 18, y + 24);
-        px += pw + 14;
+        ctx.fillText(label, px + 20, y + 26);
+        px += pw + 16;
       }
-      y += 82;
+      y += 88;
     }
 
     if (unlockedTrophies.length > 0) {
       ctx.textBaseline = "top";
       ctx.fillStyle = "#ffffff";
-      ctx.font = "700 26px Oswald, Arial, sans-serif";
+      ctx.font = "800 34px Oswald, Arial, sans-serif";
       ctx.fillText(`UNLOCKED TROPHIES (${trophyStats.unlockedCount}/${trophyStats.totalCount})`, padX, y);
-      y += 42;
+      y += 48;
 
       let px = padX;
-      ctx.font = "600 21px Jost, Arial, sans-serif";
+      ctx.font = "700 23px Jost, Arial, sans-serif";
       for (const tr of unlockedTrophies) {
         const label = `${tr.icon} ${tr.title}`;
-        const pw = ctx.measureText(label).width + 34;
+        const pw = ctx.measureText(label).width + 40;
         if (px + pw > W - padX) {
           px = padX;
-          y += 56;
+          y += 60;
         }
         if (y > H - 180) break;
-        drawRoundedRect(ctx, px, y, pw, 44, 22);
+        drawRoundedRect(ctx, px, y, pw, 48, 24);
         ctx.fillStyle = "rgba(4, 11, 23, 0.55)";
         ctx.fill();
         ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
@@ -411,8 +423,8 @@ export async function renderPassportShareCard({
         ctx.stroke();
         ctx.fillStyle = "#f8fafc";
         ctx.textBaseline = "middle";
-        ctx.fillText(label, px + 17, y + 23);
-        px += pw + 14;
+        ctx.fillText(label, px + 20, y + 25);
+        px += pw + 16;
       }
     }
   }
@@ -428,12 +440,12 @@ export async function renderPassportShareCard({
 
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = "700 26px Oswald, Arial, sans-serif";
+  ctx.font = isStory ? "800 32px Oswald, Arial, sans-serif" : "700 26px Oswald, Arial, sans-serif";
   ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, footY + (isStory ? 54 : 42));
 
   ctx.textAlign = "right";
-  ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-  ctx.font = "600 20px Jost, Arial, sans-serif";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.78)";
+  ctx.font = isStory ? "600 24px Jost, Arial, sans-serif" : "600 20px Jost, Arial, sans-serif";
   ctx.fillText("Atlantic Chip • Route541", W - padX, footY + (isStory ? 54 : 42));
   ctx.textAlign = "left";
 
@@ -506,9 +518,9 @@ async function renderOgLandscapeCard({
 
   // 2. Top-Left Identity Block
   const eyebrow = `NOVA SCOTIA RACE PASSPORT  •  ${seasonLabel.toUpperCase()}`;
-  ctx.font = "700 16px Oswald, Arial, sans-serif";
-  const eyeW = ctx.measureText(eyebrow).width + 32;
-  drawRoundedRect(ctx, padX, 34, eyeW, 32, 16);
+  ctx.font = "700 18px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + 36;
+  drawRoundedRect(ctx, padX, 30, eyeW, 36, 18);
   ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
   ctx.fill();
   ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
@@ -516,13 +528,13 @@ async function renderOgLandscapeCard({
   ctx.stroke();
   ctx.fillStyle = "#fef000";
   ctx.textBaseline = "middle";
-  ctx.fillText(eyebrow, padX + 16, 51);
+  ctx.fillText(eyebrow, padX + 18, 48);
 
   // Runner Name
   ctx.textBaseline = "top";
   ctx.fillStyle = "#ffffff";
-  ctx.font = "700 62px Oswald, Arial, sans-serif";
-  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), 760), padX, 78);
+  ctx.font = "800 78px Oswald, Arial, sans-serif";
+  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), 760), padX, 72);
 
   // 3 Balanced KPI Cards spanning full left column (756px total)
   const unlockedRegNames = regionStats.regions
@@ -548,12 +560,12 @@ async function renderOgLandscapeCard({
     }
   ];
 
-  const kpiW = 240;
-  const kpiGap = 18;
+  const kpiW = 244;
+  const kpiGap = 16;
   kpis.forEach((k, i) => {
     const kx = padX + i * (kpiW + kpiGap);
-    const ky = 166;
-    drawRoundedRect(ctx, kx, ky, kpiW, 110, 16);
+    const ky = 164;
+    drawRoundedRect(ctx, kx, ky, kpiW, 118, 16);
     ctx.fillStyle = "rgba(4, 11, 23, 0.56)";
     ctx.fill();
     ctx.strokeStyle = "rgba(255, 255, 255, 0.14)";
@@ -562,16 +574,16 @@ async function renderOgLandscapeCard({
 
     ctx.textBaseline = "top";
     ctx.fillStyle = "#93c5fd";
-    ctx.font = "700 14px Oswald, Arial, sans-serif";
-    ctx.fillText(k.label, kx + 18, ky + 16);
+    ctx.font = "700 17px Oswald, Arial, sans-serif";
+    ctx.fillText(k.label, kx + 18, ky + 14);
 
     ctx.fillStyle = "#fef000";
-    ctx.font = "700 36px Oswald, Arial, sans-serif";
+    ctx.font = "700 44px Oswald, Arial, sans-serif";
     ctx.fillText(k.val, kx + 18, ky + 36);
 
-    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-    ctx.font = "600 14px Jost, Arial, sans-serif";
-    ctx.fillText(truncateText(ctx, k.sub, kpiW - 32), kx + 18, ky + 82);
+    ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
+    ctx.font = "600 16px Jost, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, k.sub, kpiW - 32), kx + 18, ky + 88);
   });
 
   // 3. Top-Right Circular Progress Ring + Rank Title Directly Underneath
@@ -605,19 +617,19 @@ async function renderOgLandscapeCard({
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = "700 46px Oswald, Arial, sans-serif";
+  ctx.font = "700 54px Oswald, Arial, sans-serif";
   ctx.fillText(`${passport.caughtCount}/${passport.totalCount}`, ringCx, ringCy - 12);
   ctx.fillStyle = "#93c5fd";
-  ctx.font = "700 20px Jost, Arial, sans-serif";
-  ctx.fillText(`${passport.percent}%`, ringCx, ringCy + 30);
+  ctx.font = "700 26px Jost, Arial, sans-serif";
+  ctx.fillText(`${passport.percent}%`, ringCx, ringCy + 32);
 
   // Rank Badge centered right below the ring
   const rankText = `${passport.rank.current.icon}  ${passport.rank.current.title.toUpperCase()}`;
-  ctx.font = "700 18px Oswald, Arial, sans-serif";
-  const rankW = Math.min(290, ctx.measureText(rankText).width + 36);
+  ctx.font = "700 22px Oswald, Arial, sans-serif";
+  const rankW = Math.min(310, ctx.measureText(rankText).width + 36);
   const rankX = ringCx - rankW / 2;
-  const rankY = 248;
-  drawRoundedRect(ctx, rankX, rankY, rankW, 38, 19);
+  const rankY = 246;
+  drawRoundedRect(ctx, rankX, rankY, rankW, 42, 21);
   ctx.fillStyle = "rgba(254, 240, 0, 0.18)";
   ctx.fill();
   ctx.strokeStyle = "#fef000";
@@ -625,7 +637,7 @@ async function renderOgLandscapeCard({
   ctx.stroke();
   ctx.fillStyle = "#fef000";
   ctx.textBaseline = "middle";
-  ctx.fillText(truncateText(ctx, rankText, rankW - 20), ringCx, rankY + 20);
+  ctx.fillText(truncateText(ctx, rankText, rankW - 20), ringCx, rankY + 22);
   ctx.textAlign = "left";
 
   // 4. Full-Width Collected Finisher Medals Showcase Panel
@@ -649,7 +661,7 @@ async function renderOgLandscapeCard({
 
   ctx.textBaseline = "top";
   ctx.fillStyle = "#ffffff";
-  ctx.font = "700 18px Oswald, Arial, sans-serif";
+  ctx.font = "700 24px Oswald, Arial, sans-serif";
   ctx.fillText(
     caught.length
       ? `COLLECTED FINISHER MEDALS (${caught.length} OF ${passport.totalCount})`
@@ -661,12 +673,12 @@ async function renderOgLandscapeCard({
   // Right-aligned extra count or tier hint
   ctx.textAlign = "right";
   ctx.fillStyle = "#93c5fd";
-  ctx.font = "600 15px Jost, Arial, sans-serif";
+  ctx.font = "700 18px Jost, Arial, sans-serif";
   const rightHint =
     caught.length > 5
       ? `+${caught.length - 5} more medals on Passport`
       : `🥇 ${passport.tiers.gold} Gold   🥈 ${passport.tiers.silver} Silver   🥉 ${passport.tiers.bronze} Bronze`;
-  ctx.fillText(rightHint, panelX + panelW - 22, panelY + 17);
+  ctx.fillText(rightHint, panelX + panelW - 22, panelY + 18);
   ctx.textAlign = "left";
 
   if (shown.length > 0) {
@@ -768,12 +780,12 @@ async function renderOgLandscapeCard({
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
       ctx.fillStyle = "#ffffff";
-      ctx.font = "700 16px Oswald, Arial, sans-serif";
+      ctx.font = "700 20px Oswald, Arial, sans-serif";
       ctx.fillText(truncateText(ctx, m.name, slotW - 14), midX, coinY + coinR + 10);
 
       ctx.fillStyle = "#fef000";
-      ctx.font = "700 19px Oswald, Arial, sans-serif";
-      ctx.fillText(m.bestTime || "Finisher", midX, coinY + coinR + 33);
+      ctx.font = "700 24px Oswald, Arial, sans-serif";
+      ctx.fillText(m.bestTime || "Finisher", midX, coinY + coinR + 32);
       ctx.textAlign = "left";
     });
   }
@@ -781,12 +793,12 @@ async function renderOgLandscapeCard({
   // 5. Crisp Footer Bar
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = "700 20px Oswald, Arial, sans-serif";
+  ctx.font = "700 22px Oswald, Arial, sans-serif";
   ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 34);
 
   ctx.textAlign = "right";
-  ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-  ctx.font = "600 16px Jost, Arial, sans-serif";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.78)";
+  ctx.font = "600 18px Jost, Arial, sans-serif";
   ctx.fillText("Official Results • Atlantic Chip & Route541", W - padX, H - 34);
   ctx.textAlign = "left";
 
@@ -848,10 +860,10 @@ async function renderSingleMedalCard({
 
   // Eyebrow
   const eyebrow = `NOVA SCOTIA RACE PASSPORT  •  OFFICIAL FINISHER MEDAL`;
-  ctx.font = isFb ? "700 16px Oswald, Arial, sans-serif" : "700 22px Oswald, Arial, sans-serif";
-  const eyeW = ctx.measureText(eyebrow).width + (isFb ? 32 : 44);
-  const eyeY = isFb ? 32 : isStory ? 90 : 56;
-  drawRoundedRect(ctx, padX, eyeY, eyeW, isFb ? 32 : 44, isFb ? 16 : 22);
+  ctx.font = isFb ? "700 20px Oswald, Arial, sans-serif" : isStory ? "700 28px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + (isFb ? 36 : 44);
+  const eyeY = isFb ? 30 : isStory ? 90 : 56;
+  drawRoundedRect(ctx, padX, eyeY, eyeW, isFb ? 36 : 44, isFb ? 18 : 22);
   ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
   ctx.fill();
   ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
@@ -859,16 +871,16 @@ async function renderSingleMedalCard({
   ctx.stroke();
   ctx.fillStyle = "#fef000";
   ctx.textBaseline = "middle";
-  ctx.fillText(eyebrow, padX + (isFb ? 16 : 22), eyeY + (isFb ? 16 : 22));
+  ctx.fillText(eyebrow, padX + (isFb ? 18 : 22), eyeY + (isFb ? 18 : 22));
 
   // Runner Name
   ctx.textBaseline = "top";
   ctx.fillStyle = "#ffffff";
-  ctx.font = isFb ? "700 48px Oswald, Arial, sans-serif" : "700 64px Oswald, Arial, sans-serif";
-  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), W - padX * 2), padX, eyeY + (isFb ? 42 : 56));
+  ctx.font = isFb ? "800 74px Oswald, Arial, sans-serif" : isStory ? "800 88px Oswald, Arial, sans-serif" : "800 70px Oswald, Arial, sans-serif";
+  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), W - padX * 2), padX, eyeY + (isFb ? 44 : 56));
 
   // Medal Coin position & size
-  const coinR = isFb ? 140 : isStory ? 240 : 200;
+  const coinR = isFb ? 148 : isStory ? 240 : 200;
   const coinCx = isFb ? padX + coinR + 10 : W / 2;
   const coinCy = isFb ? 350 : isStory ? 580 : 420;
 
@@ -946,8 +958,8 @@ async function renderSingleMedalCard({
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#ffffff";
-    ctx.font = "700 36px Oswald, Arial, sans-serif";
-    ctx.fillText(truncateText(ctx, medal.name.toUpperCase(), rw), rx, 175);
+    ctx.font = "800 52px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, medal.name.toUpperCase(), rw), rx, 156);
 
     // Tier badge pill
     const tierLabel =
@@ -956,9 +968,9 @@ async function renderSingleMedalCard({
         : tier === "silver"
           ? `🥈 SILVER LOYALIST  •  ${medal.count || 2}× FINISHES`
           : "🥉 OFFICIAL FINISHER MEDAL";
-    ctx.font = "700 15px Oswald, Arial, sans-serif";
-    const tierPillW = ctx.measureText(tierLabel).width + 28;
-    drawRoundedRect(ctx, rx, 230, tierPillW, 30, 15);
+    ctx.font = "700 18px Oswald, Arial, sans-serif";
+    const tierPillW = ctx.measureText(tierLabel).width + 34;
+    drawRoundedRect(ctx, rx, 220, tierPillW, 36, 18);
     ctx.fillStyle = tier === "gold" ? "rgba(254, 240, 0, 0.18)" : "rgba(255, 255, 255, 0.12)";
     ctx.fill();
     ctx.strokeStyle = tier === "gold" ? "#fef000" : "rgba(255, 255, 255, 0.25)";
@@ -966,75 +978,75 @@ async function renderSingleMedalCard({
     ctx.stroke();
     ctx.fillStyle = tier === "gold" ? "#fef000" : "#ffffff";
     ctx.textBaseline = "middle";
-    ctx.fillText(tierLabel, rx + 14, 245);
+    ctx.fillText(tierLabel, rx + 17, 238);
 
     // 2 stat boxes side by side
     const boxW = Math.floor((rw - 16) / 2);
     // Box 1: Best Time
-    drawRoundedRect(ctx, rx, 276, boxW, 110, 14);
+    drawRoundedRect(ctx, rx, 268, boxW, 122, 16);
     ctx.fillStyle = "rgba(4, 11, 23, 0.58)";
     ctx.fill();
     ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
     ctx.stroke();
     ctx.fillStyle = "#93c5fd";
-    ctx.font = "700 14px Oswald, Arial, sans-serif";
+    ctx.font = "700 17px Oswald, Arial, sans-serif";
     ctx.textBaseline = "top";
-    ctx.fillText("OFFICIAL BEST TIME", rx + 18, 292);
+    ctx.fillText("OFFICIAL BEST TIME", rx + 18, 284);
     ctx.fillStyle = "#fef000";
-    ctx.font = "700 38px Oswald, Arial, sans-serif";
-    ctx.fillText(medal.bestTime || "Finisher", rx + 18, 314);
-    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-    ctx.font = "600 13px Jost, Arial, sans-serif";
+    ctx.font = "700 48px Oswald, Arial, sans-serif";
+    ctx.fillText(medal.bestTime || "Finisher", rx + 18, 306);
+    ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
+    ctx.font = "600 16px Jost, Arial, sans-serif";
     const yearsText = medal.years && medal.years.length ? `Years: ${medal.years.join(", ")}` : "Recorded in Results";
-    ctx.fillText(truncateText(ctx, yearsText, boxW - 32), rx + 18, 358);
+    ctx.fillText(truncateText(ctx, yearsText, boxW - 32), rx + 18, 360);
 
     // Box 2: Location & Region
     const bx2 = rx + boxW + 16;
-    drawRoundedRect(ctx, bx2, 276, boxW, 110, 14);
+    drawRoundedRect(ctx, bx2, 268, boxW, 122, 16);
     ctx.fillStyle = "rgba(4, 11, 23, 0.58)";
     ctx.fill();
     ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
     ctx.stroke();
     ctx.fillStyle = "#93c5fd";
-    ctx.font = "700 14px Oswald, Arial, sans-serif";
-    ctx.fillText("RACE LOCATION & REGION", bx2 + 18, 292);
+    ctx.font = "700 17px Oswald, Arial, sans-serif";
+    ctx.fillText("RACE LOCATION & REGION", bx2 + 18, 284);
     ctx.fillStyle = "#ffffff";
-    ctx.font = "700 24px Oswald, Arial, sans-serif";
-    ctx.fillText(truncateText(ctx, medal.location || "Nova Scotia", boxW - 32), bx2 + 18, 318);
-    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-    ctx.font = "600 13px Jost, Arial, sans-serif";
-    ctx.fillText(medal.region || "Nova Scotia", bx2 + 18, 358);
+    ctx.font = "700 30px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, medal.location || "Nova Scotia", boxW - 32), bx2 + 18, 310);
+    ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
+    ctx.font = "600 16px Jost, Arial, sans-serif";
+    ctx.fillText(medal.region || "Nova Scotia", bx2 + 18, 360);
 
     // Overall passport summary strip
-    drawRoundedRect(ctx, rx, 400, rw, 50, 14);
-    ctx.fillStyle = "rgba(4, 11, 23, 0.45)";
+    drawRoundedRect(ctx, rx, 404, rw, 58, 14);
+    ctx.fillStyle = "rgba(4, 11, 23, 0.52)";
     ctx.fill();
-    ctx.strokeStyle = "rgba(254, 240, 0, 0.25)";
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.3)";
     ctx.stroke();
     ctx.fillStyle = "#fef000";
-    ctx.font = "700 15px Oswald, Arial, sans-serif";
+    ctx.font = "700 20px Oswald, Arial, sans-serif";
     ctx.textBaseline = "middle";
-    const passSummary = `PASSPORT STANDING: ${passport.caughtCount}/${passport.totalCount} MEDALS (${passport.percent}%) • ${passport.rank?.current?.title || "Explorer"}`;
-    ctx.fillText(passSummary, rx + 18, 425);
+    const passSummary = `PASSPORT: ${passport.caughtCount}/${passport.totalCount} MEDALS (${passport.percent}%) • ${passport.rank?.current?.title?.toUpperCase() || "EXPLORER"}`;
+    ctx.fillText(passSummary, rx + 18, 433);
   } else {
     // Vertical / Square layout: details below coin
     let dy = coinCy + coinR + 32;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#ffffff";
-    ctx.font = `700 ${isStory ? 48 : 36}px Oswald, Arial, sans-serif`;
+    ctx.font = `800 ${isStory ? 64 : 44}px Oswald, Arial, sans-serif`;
     ctx.fillText(truncateText(ctx, medal.name.toUpperCase(), W - padX * 2), W / 2, dy);
-    dy += isStory ? 60 : 44;
+    dy += isStory ? 70 : 48;
 
     ctx.fillStyle = "#fef000";
-    ctx.font = `700 ${isStory ? 54 : 40}px Oswald, Arial, sans-serif`;
+    ctx.font = `800 ${isStory ? 68 : 46}px Oswald, Arial, sans-serif`;
     ctx.fillText(`Best Time: ${medal.bestTime || "Finisher"}`, W / 2, dy);
-    dy += isStory ? 64 : 48;
+    dy += isStory ? 74 : 52;
 
-    ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
-    ctx.font = `600 ${isStory ? 24 : 18}px Jost, Arial, sans-serif`;
+    ctx.fillStyle = "rgba(248, 250, 252, 0.9)";
+    ctx.font = `600 ${isStory ? 32 : 22}px Jost, Arial, sans-serif`;
     ctx.fillText(`${medal.location} • ${medal.region}`, W / 2, dy);
-    dy += isStory ? 44 : 34;
+    dy += isStory ? 52 : 38;
 
     const tierStr =
       tier === "gold"
@@ -1043,8 +1055,24 @@ async function renderSingleMedalCard({
           ? `🥈 Silver Loyalist (${medal.count} finishes)`
           : "🥉 Official Finisher";
     ctx.fillStyle = "#93c5fd";
-    ctx.font = `700 ${isStory ? 26 : 20}px Oswald, Arial, sans-serif`;
+    ctx.font = `700 ${isStory ? 32 : 24}px Oswald, Arial, sans-serif`;
     ctx.fillText(tierStr, W / 2, dy);
+
+    if (isStory) {
+      dy += 68;
+      const boxW = W - padX * 2;
+      drawRoundedRect(ctx, padX, dy, boxW, 80, 20);
+      ctx.fillStyle = "rgba(4, 11, 23, 0.55)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(254, 240, 0, 0.35)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.fillStyle = "#fef000";
+      ctx.font = "700 28px Oswald, Arial, sans-serif";
+      ctx.textBaseline = "middle";
+      const passSummary = `PASSPORT: ${passport.caughtCount}/${passport.totalCount} MEDALS (${passport.percent}%) • ${passport.rank?.current?.title?.toUpperCase() || "RUNNER"}`;
+      ctx.fillText(passSummary, W / 2, dy + 40);
+    }
     ctx.textAlign = "left";
   }
 
@@ -1052,13 +1080,295 @@ async function renderSingleMedalCard({
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = isFb ? "700 20px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+  ctx.font = isFb ? "700 22px Oswald, Arial, sans-serif" : isStory ? "800 30px Oswald, Arial, sans-serif" : "700 26px Oswald, Arial, sans-serif";
   ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 34);
 
   ctx.textAlign = "right";
-  ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-  ctx.font = isFb ? "600 16px Jost, Arial, sans-serif" : "600 18px Jost, Arial, sans-serif";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.78)";
+  ctx.font = isFb ? "600 18px Jost, Arial, sans-serif" : isStory ? "600 22px Jost, Arial, sans-serif" : "600 20px Jost, Arial, sans-serif";
   ctx.fillText("Official Results • Atlantic Chip & Route541", W - padX, H - 34);
+  ctx.textAlign = "left";
+
+  const mime = isFb ? "image/jpeg" : "image/png";
+  const dataUrl = canvas.toDataURL(mime, 0.92);
+  const blob = await new Promise((res) => canvas.toBlob(res, mime, 0.92));
+  return { dataUrl, blob, jpegBase64: dataUrl };
+}
+
+/**
+ * Render single achievement trophy card (1200x630 fb landscape, 9:16 story, or 1:1 square).
+ */
+async function renderSingleTrophyCard({
+  runnerName,
+  seasonLabel,
+  trophy,
+  passport,
+  trophyStats,
+  format = "fb"
+}) {
+  const isFb = format === "fb" || format === "og" || format === "facebook";
+  const isStory = format === "story";
+  const W = isFb ? 1200 : 1080;
+  const H = isFb ? 630 : isStory ? 1920 : 1080;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  // Run NS Deep Navy -> Ocean Blue gradient background
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, "#040b17");
+  bg.addColorStop(0.55, "#072047");
+  bg.addColorStop(1, "#0370b9");
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Atmospheric athletic glows
+  const glow1 = ctx.createRadialGradient(W * 0.8, H * 0.25, 10, W * 0.8, H * 0.25, 380);
+  glow1.addColorStop(0, "rgba(254, 240, 0, 0.18)");
+  glow1.addColorStop(1, "rgba(254, 240, 0, 0)");
+  ctx.fillStyle = glow1;
+  ctx.fillRect(0, 0, W, H);
+
+  const glow2 = ctx.createRadialGradient(W * 0.2, H * 0.85, 10, W * 0.2, H * 0.85, 420);
+  glow2.addColorStop(0, "rgba(56, 189, 248, 0.22)");
+  glow2.addColorStop(1, "rgba(56, 189, 248, 0)");
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Top kinetic accent bar
+  const topBar = ctx.createLinearGradient(0, 0, W, 0);
+  topBar.addColorStop(0, "#38bdf8");
+  topBar.addColorStop(0.5, "#fef000");
+  topBar.addColorStop(1, "#38bdf8");
+  ctx.fillStyle = topBar;
+  ctx.fillRect(0, 0, W, isFb ? 8 : 12);
+
+  const padX = isFb ? 56 : 72;
+
+  // Eyebrow
+  const eyebrow = `NOVA SCOTIA RACE PASSPORT  •  ACHIEVEMENT TROPHY`;
+  ctx.font = isFb ? "700 20px Oswald, Arial, sans-serif" : isStory ? "700 28px Oswald, Arial, sans-serif" : "700 24px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + (isFb ? 36 : 48);
+  const eyeY = isFb ? 30 : isStory ? 90 : 56;
+  drawRoundedRect(ctx, padX, eyeY, eyeW, isFb ? 36 : 50, isFb ? 18 : 25);
+  ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.fillStyle = "#fef000";
+  ctx.textBaseline = "middle";
+  ctx.fillText(eyebrow, padX + (isFb ? 18 : 24), eyeY + (isFb ? 18 : 25));
+
+  if (isFb) {
+    // Landscape Layout
+    // Left side: Large Trophy Disc
+    const discX = padX + 160;
+    const discY = 320;
+    const discR = 125;
+
+    // Outer glow ring
+    ctx.beginPath();
+    ctx.arc(discX, discY, discR + 14, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(254, 240, 0, 0.16)";
+    ctx.fill();
+
+    // Disc background
+    ctx.beginPath();
+    ctx.arc(discX, discY, discR, 0, Math.PI * 2);
+    const discGrad = ctx.createLinearGradient(discX - discR, discY - discR, discX + discR, discY + discR);
+    discGrad.addColorStop(0, "#1e293b");
+    discGrad.addColorStop(1, "#0f172a");
+    ctx.fillStyle = discGrad;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.75)";
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Trophy emoji icon
+    ctx.font = "96px Apple Color Emoji, Segoe UI Emoji, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(trophy.icon || "🏆", discX, discY + 4);
+
+    // Pill below disc
+    const pillY = discY + discR + 18;
+    drawRoundedRect(ctx, discX - 105, pillY, 210, 34, 17);
+    ctx.fillStyle = "rgba(56, 189, 248, 0.18)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(56, 189, 258, 0.55)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "700 15px Oswald, Arial, sans-serif";
+    ctx.fillText("UNLOCKED TROPHY", discX, pillY + 17);
+
+    // Right Side: Trophy Details
+    const rx = discX + discR + 56;
+    const rw = W - padX - rx;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+
+    // Runner Name Callout
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "700 24px Oswald, Arial, sans-serif";
+    ctx.fillText(`${runnerName.toUpperCase()} EARNED`, rx, 130);
+
+    // Trophy Title
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 56px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, trophy.title.toUpperCase(), rw), rx, 168);
+
+    // Label: ACHIEVEMENT REQUIREMENT
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 16px Oswald, Arial, sans-serif";
+    ctx.fillText("ACHIEVEMENT REQUIREMENT", rx, 238);
+
+    // Description
+    ctx.fillStyle = "rgba(248, 250, 252, 0.95)";
+    ctx.font = "500 24px Jost, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, trophy.desc, rw), rx, 268);
+
+    // Progress Box / Milestone
+    const boxW = Math.min(rw, 720);
+    const boxH = 68;
+    drawRoundedRect(ctx, rx, 318, boxW, boxH, 14);
+    ctx.fillStyle = "rgba(15, 23, 42, 0.65)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.4)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "700 21px Oswald, Arial, sans-serif";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`✓ Milestone: ${trophy.progress}`, rx + 24, 318 + boxH / 2);
+
+    // Runner Summary Banner
+    const rankTitle = passport?.rank?.current?.title || "Nova Scotia Runner";
+    const medalsCount = passport?.caughtCount ?? 0;
+    const trophiesCount = trophyStats?.unlockedCount ?? 1;
+
+    ctx.fillStyle = "rgba(148, 163, 184, 0.95)";
+    ctx.font = "600 20px Jost, Arial, sans-serif";
+    ctx.fillText(
+      `Rank: ${rankTitle}  •  ${medalsCount} NS Medals Caught  •  ${trophiesCount} Trophies Unlocked`,
+      rx,
+      418
+    );
+  } else {
+    // Portrait (Story) or Square Layout
+    let cy = isStory ? 250 : 150;
+    const discR = isStory ? 140 : 105;
+
+    // Runner eyebrow
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = `800 ${isStory ? 40 : 28}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`${runnerName.toUpperCase()}`, W / 2, cy);
+    cy += isStory ? 52 : 36;
+
+    // Disc
+    const discCenterY = cy + discR;
+    ctx.beginPath();
+    ctx.arc(W / 2, discCenterY, discR + 16, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(254, 240, 0, 0.16)";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(W / 2, discCenterY, discR, 0, Math.PI * 2);
+    const discGrad = ctx.createLinearGradient(W / 2 - discR, discCenterY - discR, W / 2 + discR, discCenterY + discR);
+    discGrad.addColorStop(0, "#1e293b");
+    discGrad.addColorStop(1, "#0f172a");
+    ctx.fillStyle = discGrad;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.75)";
+    ctx.lineWidth = 4.5;
+    ctx.stroke();
+
+    // Emoji icon
+    ctx.font = `${isStory ? 124 : 92}px Apple Color Emoji, Segoe UI Emoji, sans-serif`;
+    ctx.textBaseline = "middle";
+    ctx.fillText(trophy.icon || "🏆", W / 2, discCenterY + 4);
+
+    cy = discCenterY + discR + (isStory ? 36 : 24);
+
+    // Pill below disc
+    const pillW = isStory ? 280 : 220;
+    const pillH = isStory ? 46 : 34;
+    drawRoundedRect(ctx, W / 2 - pillW / 2, cy, pillW, pillH, pillH / 2);
+    ctx.fillStyle = "rgba(56, 189, 248, 0.18)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.55)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = `700 ${isStory ? 22 : 16}px Oswald, Arial, sans-serif`;
+    ctx.fillText("UNLOCKED TROPHY", W / 2, cy + pillH / 2);
+
+    cy += pillH + (isStory ? 60 : 38);
+
+    // Trophy Title
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `800 ${isStory ? 76 : 52}px Oswald, Arial, sans-serif`;
+    ctx.fillText(trophy.title.toUpperCase(), W / 2, cy);
+    cy += isStory ? 58 : 40;
+
+    // Achievement Label
+    ctx.fillStyle = "#fef000";
+    ctx.font = `700 ${isStory ? 22 : 16}px Oswald, Arial, sans-serif`;
+    ctx.fillText("ACHIEVEMENT REQUIREMENT", W / 2, cy);
+    cy += isStory ? 36 : 24;
+
+    // Description
+    ctx.fillStyle = "rgba(248, 250, 252, 0.95)";
+    ctx.font = `500 ${isStory ? 34 : 24}px Jost, Arial, sans-serif`;
+    ctx.fillText(trophy.desc, W / 2, cy);
+    cy += isStory ? 72 : 48;
+
+    // Milestone / Progress Box
+    const boxW = Math.min(W - 120, 800);
+    const boxH = isStory ? 88 : 64;
+    drawRoundedRect(ctx, W / 2 - boxW / 2, cy, boxW, boxH, 16);
+    ctx.fillStyle = "rgba(15, 23, 42, 0.7)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(254, 240, 0, 0.4)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = `700 ${isStory ? 30 : 22}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`✓ Milestone: ${trophy.progress}`, W / 2, cy + boxH / 2);
+    cy += boxH + (isStory ? 72 : 44);
+
+    // Runner stats card
+    const rankTitle = passport?.rank?.current?.title || "Nova Scotia Runner";
+    const medalsCount = passport?.caughtCount ?? 0;
+    const trophiesCount = trophyStats?.unlockedCount ?? 1;
+
+    ctx.fillStyle = "rgba(148, 163, 184, 0.95)";
+    ctx.font = `600 ${isStory ? 28 : 20}px Jost, Arial, sans-serif`;
+    ctx.fillText(
+      `${rankTitle}  •  ${medalsCount} Medals Caught  •  ${trophiesCount} Trophies`,
+      W / 2,
+      cy
+    );
+  }
+
+  // Footer bar
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#fef000";
+  ctx.font = isFb ? "700 22px Oswald, Arial, sans-serif" : isStory ? "800 30px Oswald, Arial, sans-serif" : "700 26px Oswald, Arial, sans-serif";
+  ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 34);
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = "rgba(248, 250, 252, 0.78)";
+  ctx.font = isFb ? "600 18px Jost, Arial, sans-serif" : isStory ? "600 22px Jost, Arial, sans-serif" : "600 20px Jost, Arial, sans-serif";
+  ctx.fillText("app.opensrc.mx • Open-Source Athletic Ecosystem", W - padX, H - 34);
+  ctx.textAlign = "left";
   ctx.textAlign = "left";
 
   const mime = isFb ? "image/jpeg" : "image/png";

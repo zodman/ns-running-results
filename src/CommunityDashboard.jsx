@@ -13,6 +13,7 @@ import {
 import { getCommunityOverview } from "./lib/pocketbase";
 import SiteFooter from "./SiteFooter.jsx";
 import LoadingProgress from "./components/LoadingProgress.jsx";
+import OpenSrcBanner from "./components/OpenSrcBanner.jsx";
 
 export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSelectRunner }) {
   const [year, setYear] = useState("all");
@@ -72,6 +73,7 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
             className="year-select"
             value={year}
             onChange={(e) => setYear(e.target.value)}
+            disabled={loading}
             aria-label="Filter community stats by year"
           >
             <option value="all">All Years</option>
@@ -425,6 +427,7 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
           </main>
         </>
       )}
+      <OpenSrcBanner className="community-banner" />
       <SiteFooter />
     </div>
   );

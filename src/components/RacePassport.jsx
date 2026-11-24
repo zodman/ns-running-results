@@ -11,6 +11,7 @@ import TrophyShelf from "./TrophyShelf.jsx";
 import RaceMedal from "./RaceMedal.jsx";
 import InfoModal from "./InfoModal.jsx";
 import SharePassportModal from "./SharePassportModal.jsx";
+import OpenSrcBanner from "./OpenSrcBanner.jsx";
 
 const SHOW_REGIONS = true;
 const SHOW_TROPHIES = true;
@@ -271,7 +272,18 @@ export default function RacePassport({
       )}
 
       {/* #4: Auto-Unlocked Achievement Trophies */}
-      {SHOW_TROPHIES && <TrophyShelf trophyStats={trophyStats} />}
+      {SHOW_TROPHIES && (
+        <TrophyShelf
+          trophyStats={trophyStats}
+          onShareTrophy={(trophy) => {
+            setSelectedMedalForShare(trophy);
+            setShowShareModal(true);
+          }}
+        />
+      )}
+
+      {/* Sponsor / Ecosystem Showcase Banner */}
+      <OpenSrcBanner className="passport-banner" />
 
       {/* #1: Medal Grid */}
       <div className="passport-grid">

@@ -73,6 +73,7 @@ export default function RegionBadges({ regionStats, activeRegion, onSelectRegion
                 <span>
                   {reg.raceCount} {reg.raceCount === 1 ? "finish" : "finishes"}
                 </span>
+                <span className="region-foot-dot" aria-hidden="true">•</span>
                 <span>
                   {reg.caughtMedals}/{reg.totalMedals} medals
                 </span>

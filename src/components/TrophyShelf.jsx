@@ -1,14 +1,24 @@
-import React, { useState } from "react";
-import { CheckCircle2, HelpCircle, Lock, Trophy } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { CheckCircle2, ChevronDown, ChevronUp, HelpCircle, Lock, Share2, Trophy } from "lucide-react";
 import InfoModal from "./InfoModal.jsx";
 
-export default function TrophyShelf({ trophyStats }) {
+export default function TrophyShelf({ trophyStats, onShareTrophy }) {
   const [showInfo, setShowInfo] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all"); // "all" | "unlocked" | "locked"
+  const [collapsed, setCollapsed] = useState(false);
+
+  const lockedCount = trophyStats.totalCount - trophyStats.unlockedCount;
+
+  const visibleTrophies = useMemo(() => {
+    if (statusFilter === "unlocked") return trophyStats.trophies.filter((t) => t.unlocked);
+    if (statusFilter === "locked") return trophyStats.trophies.filter((t) => !t.unlocked);
+    return trophyStats.trophies;
+  }, [trophyStats.trophies, statusFilter]);
 
   return (
-    <section className="card trophy-section">
-      <div className="region-head">
-        <div>
+    <section className="card trophy-section" aria-label="Achievement Trophies">
+      <div className="region-head trophy-main-head">
+        <div className="trophy-head-left">
           <div className="card-title">
             <span className="card-title-icon">
               <Trophy size={16} />
@@ -25,42 +35,132 @@ export default function TrophyShelf({ trophyStats }) {
             </button>
           </div>
           <p className="card-explain" style={{ marginTop: 4, marginBottom: 0 }}>
-            Automatically unlocked from your Nova Scotia race history — milestones, streaks, and
-            distance challenges.
+            Automatically unlocked from your Nova Scotia race history — milestones, distances &amp; streaks.
           </p>
         </div>
-        <div className="region-score-pill">
-          <strong>{trophyStats.unlockedCount}</strong> / {trophyStats.totalCount} Unlocked
+
+        <div className="trophy-head-actions">
+          <div className="region-score-pill">
+            <strong>{trophyStats.unlockedCount}</strong> / {trophyStats.totalCount} Unlocked
+          </div>
+
+          {onShareTrophy && trophyStats.unlockedCount > 0 && (
+            <button
+              type="button"
+              className="trophy-head-share-btn"
+              onClick={() => onShareTrophy({ id: "shelf" })}
+              title="Share your Achievement Trophies"
+            >
+              <Share2 size={13} />
+              <span>Share</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            className="trophy-toggle-btn"
+            onClick={() => setCollapsed((c) => !c)}
+            title={collapsed ? "Expand trophies" : "Collapse trophies"}
+            aria-label={collapsed ? "Expand Achievement Trophies" : "Collapse Achievement Trophies"}
+          >
+            {collapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+            <span>{collapsed ? "Show" : "Hide"}</span>
+          </button>
         </div>
       </div>
 
-      <div className="trophy-grid">
-        {trophyStats.trophies.map((t) => (
-          <div key={t.id} className={`trophy-card ${t.unlocked ? "unlocked" : "locked"}`}>
-            <div className="trophy-icon-wrap">
-              <span className="trophy-icon">{t.icon}</span>
-            </div>
-            <div className="trophy-body">
-              <div className="trophy-title-row">
-                <span className="trophy-title">{t.title}</span>
-                {t.unlocked ? (
-                  <span className="trophy-status unlocked">
-                    <CheckCircle2 size={13} />
-                    <span>Unlocked</span>
-                  </span>
-                ) : (
-                  <span className="trophy-status locked">
-                    <Lock size={12} />
-                    <span>Locked</span>
-                  </span>
-                )}
-              </div>
-              <p className="trophy-desc">{t.desc}</p>
-              <div className="trophy-progress">{t.progress}</div>
+      {!collapsed && (
+        <>
+          {/* Segmented Filter Toggle: All | Unlocked | Locked */}
+          <div className="trophy-filter-bar">
+            <div className="graph-mode-tabs trophy-filter-tabs">
+              <button
+                type="button"
+                className={`graph-tab ${statusFilter === "all" ? "active" : ""}`}
+                onClick={() => setStatusFilter("all")}
+              >
+                All ({trophyStats.totalCount})
+              </button>
+              <button
+                type="button"
+                className={`graph-tab ${statusFilter === "unlocked" ? "active" : ""}`}
+                onClick={() => setStatusFilter("unlocked")}
+              >
+                🏆 Unlocked ({trophyStats.unlockedCount})
+              </button>
+              <button
+                type="button"
+                className={`graph-tab ${statusFilter === "locked" ? "active" : ""}`}
+                onClick={() => setStatusFilter("locked")}
+              >
+                🔒 Locked ({lockedCount})
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+
+          <div className="trophy-grid">
+            {visibleTrophies.map((t) => (
+              <div key={t.id} className={`trophy-card ${t.unlocked ? "unlocked" : "locked"}`}>
+                <div className="trophy-icon-wrap">
+                  <span className="trophy-icon">{t.icon}</span>
+                </div>
+                <div className="trophy-body">
+                  <div className="trophy-title-row">
+                    <span className="trophy-title">{t.title}</span>
+                    <div className="trophy-status-group">
+                      {t.unlocked ? (
+                        <>
+                          <span className="trophy-status unlocked">
+                            <CheckCircle2 size={13} />
+                            <span>Unlocked</span>
+                          </span>
+                          {onShareTrophy && (
+                            <button
+                              type="button"
+                              className="trophy-card-share-btn"
+                              onClick={() => onShareTrophy(t)}
+                              title={`Share ${t.title} trophy`}
+                              aria-label={`Share ${t.title} trophy`}
+                            >
+                              <Share2 size={11} />
+                              <span>Share</span>
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <span className="trophy-status locked">
+                          <Lock size={12} />
+                          <span>Locked</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <p className="trophy-desc">{t.desc}</p>
+                  <div className="trophy-progress">{t.progress}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {collapsed && (
+        <div className="trophy-collapsed-bar" onClick={() => setCollapsed(false)}>
+          <span className="trophy-collapsed-preview">
+            {trophyStats.trophies
+              .filter((t) => t.unlocked)
+              .slice(0, 6)
+              .map((t) => (
+                <span key={t.id} className="trophy-collapsed-icon" title={t.title}>
+                  {t.icon}
+                </span>
+              ))}
+          </span>
+          <span className="trophy-collapsed-text">
+            <strong>{trophyStats.unlockedCount}</strong> of {trophyStats.totalCount} trophies unlocked — click to expand
+          </span>
+        </div>
+      )}
 
       <InfoModal
         open={showInfo}

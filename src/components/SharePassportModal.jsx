@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Award, Check, Download, Facebook, Instagram, Link2, Share2 } from "lucide-react";
+import { Award, Check, Download, Facebook, Instagram, Link2, Loader2, Share2, Trophy } from "lucide-react";
 import InfoModal from "./InfoModal.jsx";
 import { renderPassportShareCard } from "../utils/shareCardCanvas";
 
@@ -16,6 +16,13 @@ function StravaIcon({ size = 14, className = "" }) {
       <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7.925 15.632h4.172z" />
     </svg>
   );
+}
+
+function resolveInitialId(item) {
+  if (!item) return "all";
+  if (item.title && item.id && item.id !== "shelf") return `trophy:${item.id}`;
+  if (item.id === "shelf") return "all";
+  return item.id || "all";
 }
 
 export default function SharePassportModal({
@@ -35,10 +42,12 @@ export default function SharePassportModal({
     [passport?.entries]
   );
 
-  const [selectedMedalId, setSelectedMedalId] = useState(() => {
-    if (initialMedal) return initialMedal.id;
-    return "all";
-  });
+  const unlockedTrophies = useMemo(
+    () => (trophyStats?.trophies ? trophyStats.trophies.filter((t) => t.unlocked) : []),
+    [trophyStats?.trophies]
+  );
+
+  const [selectedMedalId, setSelectedMedalId] = useState(() => resolveInitialId(initialMedal));
 
   const [previewUrl, setPreviewUrl] = useState("");
   const [blob, setBlob] = useState(null);
@@ -50,18 +59,21 @@ export default function SharePassportModal({
 
   useEffect(() => {
     if (open) {
-      if (initialMedal) {
-        setSelectedMedalId(initialMedal.id);
-      } else {
-        setSelectedMedalId("all");
-      }
+      setSelectedMedalId(resolveInitialId(initialMedal));
     }
   }, [open, initialMedal]);
 
+  const isTrophy = selectedMedalId.startsWith("trophy:");
+  const activeTrophy = useMemo(() => {
+    if (!isTrophy) return null;
+    const tId = selectedMedalId.replace(/^trophy:/, "");
+    return unlockedTrophies.find((t) => t.id === tId) || null;
+  }, [isTrophy, selectedMedalId, unlockedTrophies]);
+
   const activeMedal = useMemo(() => {
-    if (selectedMedalId === "all") return null;
+    if (selectedMedalId === "all" || isTrophy) return null;
     return caughtMedals.find((m) => m.id === selectedMedalId) || null;
-  }, [selectedMedalId, caughtMedals]);
+  }, [selectedMedalId, isTrophy, caughtMedals]);
 
   const shareOrigin = useMemo(() => {
     if (typeof window === "undefined") return "https://ns-running-results.opensrc.mx";
@@ -73,13 +85,18 @@ export default function SharePassportModal({
 
   const passportUrl = useMemo(() => {
     const params = new URLSearchParams({ name: runnerName, tab: "passport" });
-    if (activeMedal) {
+    if (activeTrophy) {
+      params.set("trophy", activeTrophy.id);
+    } else if (activeMedal) {
       params.set("medal", activeMedal.id);
     }
     return `${shareOrigin}/?${params.toString()}`;
-  }, [shareOrigin, runnerName, activeMedal]);
+  }, [shareOrigin, runnerName, activeTrophy, activeMedal]);
 
   const shareSummary = useMemo(() => {
+    if (activeTrophy) {
+      return `${runnerName} unlocked the "${activeTrophy.title}" Achievement Trophy! 🏆 Achievement: ${activeTrophy.desc} • Milestone: ${activeTrophy.progress} • Nova Scotia Race Passport`;
+    }
     if (activeMedal) {
       const tierName =
         activeMedal.tier === "gold"
@@ -90,9 +107,9 @@ export default function SharePassportModal({
       return `${runnerName} earned the ${activeMedal.name} Finisher Medal (${activeMedal.bestTime}) • ${tierName} on Nova Scotia Race Passport!`;
     }
     return `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title}`;
-  }, [activeMedal, runnerName, passport, regionStats, trophyStats]);
+  }, [activeTrophy, activeMedal, runnerName, passport, regionStats, trophyStats]);
 
-  // Silently generate & upload this runner's 1200x630 personalized OG preview card (medal or passport)
+  // Silently generate & upload this runner's 1200x630 personalized OG preview card (medal, trophy, or passport)
   useEffect(() => {
     if (!open || !runnerName) return;
     let cancelled = false;
@@ -104,6 +121,7 @@ export default function SharePassportModal({
       regionStats,
       trophyStats,
       selectedMedal: activeMedal,
+      selectedTrophy: activeTrophy,
       format: "og"
     })
       .then((res) => {
@@ -125,7 +143,7 @@ export default function SharePassportModal({
     return () => {
       cancelled = true;
     };
-  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats, activeMedal, shareSummary]);
+  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats, activeMedal, activeTrophy, shareSummary]);
 
   // Render selected card format (fb landscape 1200x630, 9:16 story, or 1:1 square)
   useEffect(() => {
@@ -139,6 +157,7 @@ export default function SharePassportModal({
       regionStats,
       trophyStats,
       selectedMedal: activeMedal,
+      selectedTrophy: activeTrophy,
       format
     })
       .then((res) => {
@@ -152,16 +171,20 @@ export default function SharePassportModal({
     return () => {
       cancelled = true;
     };
-  }, [open, format, activeMedal, runnerName, seasonLabel, passport, regionStats, trophyStats]);
+  }, [open, format, activeMedal, activeTrophy, runnerName, seasonLabel, passport, regionStats, trophyStats]);
 
   function handleDownload() {
     if (!previewUrl) return;
     const slug = runnerName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-    const medalSlug = activeMedal ? activeMedal.id : "passport-wall";
+    const itemSlug = activeTrophy
+      ? `trophy-${activeTrophy.id}`
+      : activeMedal
+        ? activeMedal.id
+        : "passport-wall";
     const ext = format === "fb" ? "jpg" : "png";
     const a = document.createElement("a");
     a.href = previewUrl;
-    a.download = `ns-race-${medalSlug}-${slug || "runner"}-${format}.${ext}`;
+    a.download = `ns-race-${itemSlug}-${slug || "runner"}-${format}.${ext}`;
     a.click();
   }
 
@@ -169,24 +192,32 @@ export default function SharePassportModal({
     if (!blob || !navigator.share) return;
     try {
       const slug = runnerName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-      const medalSlug = activeMedal ? activeMedal.id : "passport-wall";
+      const itemSlug = activeTrophy
+        ? `trophy-${activeTrophy.id}`
+        : activeMedal
+          ? activeMedal.id
+          : "passport-wall";
       const ext = format === "fb" ? "jpg" : "png";
-      const file = new File([blob], `ns-race-${medalSlug}-${slug || "runner"}-${format}.${ext}`, {
+      const file = new File([blob], `ns-race-${itemSlug}-${slug || "runner"}-${format}.${ext}`, {
         type: format === "fb" ? "image/jpeg" : "image/png"
       });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
-          title: activeMedal
-            ? `${runnerName}'s ${activeMedal.name} Medal`
-            : `${runnerName}'s Nova Scotia Race Passport`,
+          title: activeTrophy
+            ? `${runnerName}'s ${activeTrophy.title} Trophy`
+            : activeMedal
+              ? `${runnerName}'s ${activeMedal.name} Medal`
+              : `${runnerName}'s Nova Scotia Race Passport`,
           text: shareSummary,
           files: [file]
         });
       } else {
         await navigator.share({
-          title: activeMedal
-            ? `${runnerName}'s ${activeMedal.name} Medal`
-            : `${runnerName}'s Nova Scotia Race Passport`,
+          title: activeTrophy
+            ? `${runnerName}'s ${activeTrophy.title} Trophy`
+            : activeMedal
+              ? `${runnerName}'s ${activeMedal.name} Medal`
+              : `${runnerName}'s Nova Scotia Race Passport`,
           text: shareSummary,
           url: passportUrl
         });
@@ -209,20 +240,22 @@ export default function SharePassportModal({
     <InfoModal
       open={open}
       title={
-        activeMedal
-          ? `Share ${activeMedal.name} Finisher Medal`
-          : "Share Your NS Race Passport"
+        activeTrophy
+          ? `Share ${activeTrophy.title} Trophy`
+          : activeMedal
+            ? `Share ${activeMedal.name} Finisher Medal`
+            : "Share Your NS Race Passport"
       }
-      icon={<Share2 size={18} />}
+      icon={activeTrophy ? <Trophy size={18} /> : <Share2 size={18} />}
       onClose={onClose}
     >
       <div className="share-image-panel">
-        {/* Medal Selection Filter: Share Finisher Medal or Full Medal Wall */}
-        {caughtMedals.length > 0 && (
+        {/* Item Selection Filter: Medal Wall, Finisher Medals, or Achievement Trophies */}
+        {(caughtMedals.length > 0 || unlockedTrophies.length > 0) && (
           <div className="share-target-bar">
             <span className="share-target-label">
               <Award size={14} />
-              <span>Finisher Medal to Share:</span>
+              <span>Target to Share:</span>
             </span>
             <select
               className="share-target-select"
@@ -233,6 +266,7 @@ export default function SharePassportModal({
               <option value="all">
                 🏆 Full Medal Wall ({passport.caughtCount} of {passport.totalCount} Caught)
               </option>
+
               {caughtMedals.length > 0 && (
                 <optgroup label="Your Finisher Medals">
                   {caughtMedals.map((m) => (
@@ -242,7 +276,37 @@ export default function SharePassportModal({
                   ))}
                 </optgroup>
               )}
+
+              {unlockedTrophies.length > 0 && (
+                <optgroup label="🏆 Your Achievement Trophies">
+                  {unlockedTrophies.map((t) => (
+                    <option key={`trophy:${t.id}`} value={`trophy:${t.id}`}>
+                      {t.icon} {t.title}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
             </select>
+          </div>
+        )}
+
+        {/* Dedicated Achievement Trophy Description Box */}
+        {activeTrophy && (
+          <div className="share-trophy-highlight-box" role="region" aria-label="Trophy achievement details">
+            <div className="share-trophy-highlight-head">
+              <span className="share-trophy-highlight-icon" aria-hidden="true">{activeTrophy.icon}</span>
+              <div className="share-trophy-highlight-meta">
+                <span className="share-trophy-highlight-badge">Official Achievement</span>
+                <h4 className="share-trophy-highlight-title">{activeTrophy.title}</h4>
+              </div>
+            </div>
+            <p className="share-trophy-highlight-desc">
+              <strong>Requirement:</strong> {activeTrophy.desc}
+            </p>
+            <div className="share-trophy-highlight-milestone">
+              <Check size={13} />
+              <span>{activeTrophy.progress}</span>
+            </div>
           </div>
         )}
 
@@ -274,13 +338,20 @@ export default function SharePassportModal({
         {/* Live Preview Frame */}
         <div className={`share-preview-frame ${format}`}>
           {rendering || !previewUrl ? (
-            <div className="share-preview-loading">
-              Generating your {format === "fb" ? "Facebook share card" : "medal card"}...
+            <div className="share-preview-loading" role="status" aria-live="polite">
+              <Loader2 size={32} className="share-spin" />
+              <span>
+                {selectedMedalId === "all"
+                  ? `Generating Full Medal Wall ${format === "fb" ? "post card" : format === "story" ? "story" : "square"}...`
+                  : activeTrophy
+                    ? `Generating ${activeTrophy.title} trophy card...`
+                    : `Generating ${activeMedal ? activeMedal.name : "finisher"} medal card...`}
+              </span>
             </div>
           ) : (
             <img
               src={previewUrl}
-              alt={`${runnerName} ${activeMedal ? activeMedal.name : "Race Passport"} share card`}
+              alt={`${runnerName} ${activeTrophy ? activeTrophy.title : activeMedal ? activeMedal.name : "Race Passport"} share card`}
             />
           )}
         </div>
@@ -290,9 +361,11 @@ export default function SharePassportModal({
           <div className="share-fb-card-meta">
             <div className="fb-meta-domain">NS-RUNNING-RESULTS.OPENSRC.MX</div>
             <div className="fb-meta-title">
-              {activeMedal
-                ? `${runnerName}'s ${activeMedal.name} Medal — Nova Scotia Race Passport`
-                : `${runnerName}'s Nova Scotia Race Passport`}
+              {activeTrophy
+                ? `${runnerName}'s ${activeTrophy.title} Trophy — Nova Scotia Race Passport`
+                : activeMedal
+                  ? `${runnerName}'s ${activeMedal.name} Medal — Nova Scotia Race Passport`
+                  : `${runnerName}'s Nova Scotia Race Passport`}
             </div>
             <div className="fb-meta-desc">{shareSummary}</div>
           </div>
@@ -317,13 +390,23 @@ export default function SharePassportModal({
             onClick={handleDownload}
             disabled={!previewUrl || rendering}
             title="Download for Strava or Instagram"
+            aria-label="Download for Strava / Instagram"
           >
-            <Download size={16} />
-            <span className="share-btn-inline-icons" aria-hidden="true">
-              <StravaIcon size={14} />
-              <Instagram size={14} />
-            </span>
-            <span>Download for Strava / Instagram</span>
+            {rendering ? (
+              <>
+                <Loader2 size={16} className="share-spin" />
+                <span>Generating Card...</span>
+              </>
+            ) : (
+              <>
+                <Download size={16} />
+                <span className="share-btn-inline-icons" aria-hidden="true">
+                  <StravaIcon size={14} />
+                  <Instagram size={14} />
+                </span>
+                <span>Download for Strava / Instagram</span>
+              </>
+            )}
           </button>
 
           {canNativeShare && (
@@ -343,7 +426,11 @@ export default function SharePassportModal({
         <div className="share-link-section">
           <div className="share-link-header">
             <span className="share-link-label">
-              {activeMedal ? `Direct Link to ${activeMedal.name} Medal` : "Direct Passport Link"}
+              {activeTrophy
+                ? `Direct Link to ${activeTrophy.title} Trophy`
+                : activeMedal
+                  ? `Direct Link to ${activeMedal.name} Medal`
+                  : "Direct Passport Link"}
             </span>
             {ogSynced && (
               <span className="share-sync-badge">
@@ -367,7 +454,10 @@ export default function SharePassportModal({
 
         <p className="im-footnote">
           Share directly to <strong>Facebook</strong>, download for your <strong>Instagram Story</strong>, or upload as a{" "}
-          <strong>Strava activity photo</strong>.
+          <strong>Strava activity photo</strong>. Powered by{" "}
+          <a href="https://app.opensrc.mx/" target="_blank" rel="noopener noreferrer">
+            app.opensrc.mx
+          </a>.
         </p>
       </div>
     </InfoModal>

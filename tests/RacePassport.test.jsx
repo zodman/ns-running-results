@@ -7,6 +7,7 @@ import RegionBadges from "../src/components/RegionBadges.jsx";
 import TrophyShelf from "../src/components/TrophyShelf.jsx";
 import RacePassport from "../src/components/RacePassport.jsx";
 import TimelineGraph from "../src/components/TimelineGraph.jsx";
+import OpenSrcBanner from "../src/components/OpenSrcBanner.jsx";
 import {
   evaluatePassport,
   evaluateRegions,
@@ -171,11 +172,32 @@ describe("RegionBadges & TrophyShelf", () => {
     expect(screen.getByText("Capture Nova Scotia — Region Rules")).toBeInTheDocument();
   });
 
-  it("renders unlocked & locked trophies and opens Trophies Details modal", () => {
-    render(<TrophyShelf trophyStats={trophyStats} />);
+  it("renders unlocked & locked trophies, toggles filters, and opens Trophies Details modal", () => {
+    const onShareTrophy = vi.fn();
+    render(<TrophyShelf trophyStats={trophyStats} onShareTrophy={onShareTrophy} />);
     expect(screen.getByText("5K Club")).toBeInTheDocument();
+    expect(screen.getByText("First Marathon")).toBeInTheDocument();
+    expect(screen.getByText("First Half Marathon")).toBeInTheDocument();
+    expect(screen.getByText("Century Club (100K)")).toBeInTheDocument();
     expect(screen.getByText("Back-to-Back Warrior")).toBeInTheDocument();
 
+    // Filter toggle
+    const unlockedTab = screen.getByRole("button", { name: /Unlocked/i });
+    expect(unlockedTab).toBeInTheDocument();
+    fireEvent.click(unlockedTab);
+
+    // Share button on unlocked trophy
+    const trophyShareBtns = screen.getAllByRole("button", { name: /Share .* trophy/i });
+    expect(trophyShareBtns.length).toBeGreaterThan(0);
+    fireEvent.click(trophyShareBtns[0]);
+    expect(onShareTrophy).toHaveBeenCalled();
+
+    // Collapse toggle
+    const toggleBtn = screen.getByRole("button", { name: /Collapse Achievement Trophies/i });
+    fireEvent.click(toggleBtn);
+    expect(screen.getByText(/click to expand/i)).toBeInTheDocument();
+
+    // Details modal
     fireEvent.click(screen.getByTitle("How Achievement Trophies work"));
     expect(screen.getByText("Achievement Trophies — How to Unlock")).toBeInTheDocument();
   });
@@ -261,5 +283,15 @@ describe("TimelineGraph", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Pace" }));
     expect(onModeChange).toHaveBeenCalledWith("pace");
+  });
+});
+
+describe("OpenSrcBanner", () => {
+  it("renders app.opensrc.mx promotional banner with link and logo", () => {
+    render(<OpenSrcBanner />);
+    expect(screen.getByText(/OPEN-SOURCE ATHLETIC ECOSYSTEM/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/app\.opensrc\.mx/i).length).toBeGreaterThan(0);
+    const links = screen.getAllByRole("link");
+    expect(links.some((l) => l.getAttribute("href") === "https://app.opensrc.mx/")).toBe(true);
   });
 });
