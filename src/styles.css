@@ -1722,6 +1722,399 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   background: rgba(239, 68, 68, 0.08);
 }
 
+/* Runner Mode Switcher & NS Race Passport (Medal Wall) */
+.runner-mode-bar {
+  display: inline-flex;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.runner-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-family: "Oswald", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.runner-mode-btn:hover {
+  color: var(--text);
+}
+
+.runner-mode-btn.active {
+  background: var(--rns-yellow);
+  color: #040b17;
+}
+
+[data-theme="light"] .runner-mode-btn.active {
+  background: var(--rns-blue);
+  color: #ffffff;
+}
+
+.runner-mode-badge {
+  font-family: "Jost", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(100, 161, 201, 0.22);
+}
+
+.runner-mode-btn.active .runner-mode-badge {
+  background: rgba(4, 11, 23, 0.18);
+}
+
+[data-theme="light"] .runner-mode-btn.active .runner-mode-badge {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.passport-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.passport-hero {
+  background: var(--accent-hero);
+  color: #ffffff;
+  border: 1px solid rgba(100, 161, 201, 0.3);
+}
+
+.passport-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.passport-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Oswald", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fef000;
+  margin-bottom: 6px;
+}
+
+.passport-hero h2 {
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+.passport-hero p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: rgba(248, 250, 252, 0.9);
+  max-width: 560px;
+}
+
+.passport-hero strong {
+  color: #fef000;
+}
+
+.passport-score-box {
+  background: rgba(4, 11, 23, 0.36);
+  border: 1px solid rgba(254, 240, 0, 0.35);
+  border-radius: 18px;
+  padding: 14px 22px;
+  text-align: center;
+  min-width: 150px;
+}
+
+.passport-score-big {
+  font-family: "Oswald", sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: #fef000;
+  line-height: 1;
+}
+
+.passport-score-big span {
+  font-size: 20px;
+  color: rgba(248, 250, 252, 0.72);
+}
+
+.passport-score-pct {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64a1c9;
+  margin-top: 4px;
+}
+
+.passport-progress-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(4, 11, 23, 0.38);
+  overflow: hidden;
+  margin: 20px 0 18px;
+}
+
+.passport-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8, #fef000);
+  transition: width 0.5s ease;
+}
+
+.passport-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.passport-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.passport-medal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.passport-medal-card.caught {
+  cursor: pointer;
+  border-color: rgba(254, 240, 0, 0.45);
+  background: linear-gradient(180deg, rgba(3, 112, 185, 0.16) 0%, var(--surface) 60%);
+}
+
+.passport-medal-card.caught:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(254, 240, 0, 0.14);
+}
+
+.passport-medal-card.caught.tier-gold {
+  border-color: #fef000;
+  box-shadow: 0 0 0 1px rgba(254, 240, 0, 0.35), var(--shadow);
+}
+
+.passport-medal-card.caught.tier-silver {
+  border-color: #cbd5e1;
+}
+
+.passport-medal-card.locked {
+  opacity: 0.58;
+  border-style: dashed;
+}
+
+.passport-medal-card.locked:hover {
+  opacity: 0.85;
+}
+
+.pm-top-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.pm-region {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--rns-sky);
+}
+
+[data-theme="light"] .pm-region {
+  color: var(--rns-blue);
+}
+
+.pm-tier-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Oswald", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.pm-tier-pill.gold {
+  background: #fef000;
+  color: #040b17;
+}
+
+.pm-tier-pill.silver {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.pm-tier-pill.bronze {
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+}
+
+[data-theme="light"] .pm-tier-pill.bronze {
+  background: rgba(3, 112, 185, 0.14);
+  color: #0370b9;
+}
+
+.pm-lock-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.pm-emblem-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.pm-emblem {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 7px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 3px solid rgba(254, 240, 0, 0.7);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35);
+}
+
+.pm-emblem.silhouette {
+  background: var(--bg);
+  border-color: var(--border);
+  filter: grayscale(100%);
+  opacity: 0.65;
+  box-shadow: none;
+}
+
+.pm-emblem img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pm-short {
+  font-family: "Oswald", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+
+.pm-emblem.silhouette .pm-short {
+  color: var(--text-muted);
+}
+
+.pm-check-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #040b17;
+  color: #fef000;
+  display: grid;
+  place-items: center;
+}
+
+.pm-name {
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+
+.pm-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.pm-stats {
+  margin-top: auto;
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px solid var(--divider);
+}
+
+.pm-best-time {
+  font-family: "Oswald", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--rns-yellow);
+  line-height: 1.1;
+}
+
+[data-theme="light"] .pm-best-time {
+  color: var(--rns-blue);
+}
+
+.pm-years {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.pm-locked-hint {
+  margin-top: auto;
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px solid var(--divider);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
 .site-footer {
   margin-top: 40px;
   padding: 22px 16px 8px;
