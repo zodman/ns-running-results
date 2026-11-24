@@ -1,14 +1,4 @@
-# Stage 1: Build React + Vite frontend
-FROM node:22-alpine AS frontend
-WORKDIR /build
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY index.html vite.config.js ./
-COPY public ./public
-COPY src ./src
-RUN npm run build
-
-# Stage 2: PocketBase single-binary server serving both /api/* and React static dist/
+# Single-stage PocketBase server serving both /api/* and pre-built React dist/
 FROM alpine:3.21
 ARG PB_VERSION=0.40.6
 
@@ -19,7 +9,7 @@ RUN apk add --no-cache ca-certificates curl unzip tzdata && \
     rm -f /tmp/pb.zip
 
 WORKDIR /app
-COPY --from=frontend /build/dist /app/pb_public
+COPY dist /app/pb_public
 COPY pocketbase/pb_migrations /app/pb_migrations
 COPY pocketbase/pb_hooks /app/pb_hooks
 COPY data/route541_all /app/data/route541_all
