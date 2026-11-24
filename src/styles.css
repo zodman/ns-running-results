@@ -2919,3 +2919,371 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   font-size: 12px;
   color: var(--text-muted);
 }
+
+/* =========================================================
+   SHARE PASSPORT BUTTON & MODAL
+========================================================= */
+.share-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid #fef000;
+  background: #fef000;
+  color: #040b17;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.share-hero-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(254, 240, 0, 0.35);
+}
+
+.share-mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.share-mode-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: "Oswald", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.share-mode-tab.active {
+  background: var(--rns-blue);
+  border-color: var(--rns-blue);
+  color: #ffffff;
+}
+
+.share-format-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.share-fmt-btn {
+  flex: 1;
+  min-width: 150px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.share-fmt-btn.active {
+  border-color: var(--rns-yellow);
+  background: rgba(254, 240, 0, 0.14);
+  color: var(--text);
+}
+
+.share-preview-frame {
+  width: 100%;
+  background: #040b17;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.share-preview-frame.story {
+  max-height: 410px;
+}
+
+.share-preview-frame.square {
+  max-height: 360px;
+}
+
+.share-preview-frame img {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  display: block;
+}
+
+.share-preview-loading {
+  padding: 64px 20px;
+  color: #93c5fd;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.share-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.share-primary-btn {
+  flex: 1;
+  min-width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #fef000;
+  color: #040b17;
+  font-family: "Oswald", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.share-primary-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.share-primary-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.share-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.share-secondary-btn:hover {
+  border-color: var(--rns-blue);
+  color: var(--rns-blue);
+}
+
+.share-code-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.share-code-box.multiline {
+  align-items: flex-start;
+}
+
+.share-code-box code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  color: var(--text);
+  word-break: break-all;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.share-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.share-copy-btn:hover {
+  border-color: var(--rns-blue);
+  color: var(--rns-blue);
+}
+
+/* =========================================================
+   MOBILE-FIRST RESPONSIVE POLISH (PASSPORT & SHARE MODAL)
+========================================================= */
+@media (max-width: 640px) {
+  /* Bottom-sheet modal UX on mobile */
+  .info-modal-backdrop {
+    padding: 0;
+    align-items: end;
+  }
+
+  .info-modal-card {
+    max-width: 100%;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+  }
+
+  .info-modal-head {
+    padding: 14px 16px;
+  }
+
+  .info-modal-title h3 {
+    font-size: 18px;
+  }
+
+  .info-modal-body {
+    padding: 14px 16px 24px;
+  }
+
+  .share-mode-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .share-mode-tab,
+  .share-fmt-btn,
+  .share-primary-btn,
+  .share-secondary-btn,
+  .share-copy-btn {
+    min-height: 44px;
+  }
+
+  .share-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .share-primary-btn,
+  .share-secondary-btn {
+    width: 100%;
+  }
+
+  .share-preview-frame.story {
+    max-height: 320px;
+  }
+
+  .share-preview-frame img {
+    max-height: 310px;
+  }
+
+  /* Passport Hero & Ring on mobile */
+  .passport-hero {
+    padding: 18px 16px;
+  }
+
+  .passport-hero-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .passport-eyebrow-row {
+    justify-content: center;
+  }
+
+  .passport-rank-row {
+    justify-content: center;
+  }
+
+  .passport-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .passport-filter-selects {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .passport-filters .year-select {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .passport-filters .graph-mode-tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .passport-filters .graph-tab {
+    min-height: 40px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  /* 2-up compact medals & regions on phones */
+  .passport-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .passport-medal-card {
+    padding: 12px 10px;
+  }
+
+  .pm-name {
+    font-size: 14px;
+  }
+
+  .pm-best-time {
+    font-size: 18px;
+  }
+
+  .region-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .region-card {
+    padding: 11px 10px;
+  }
+
+  .region-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .trophy-grid {
+    grid-template-columns: 1fr;
+  }
+}

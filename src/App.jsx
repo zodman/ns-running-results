@@ -100,11 +100,19 @@ export default function App() {
     window.history.replaceState({}, "", nextUrl.toString());
   }
 
+  const [isEmbed, setIsEmbed] = useState(false);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlName = params.get("name");
     const urlYear = params.get("year") || "all";
     const urlView = params.get("view");
+    const urlTab = params.get("tab");
+    const embedMode = params.get("embed") === "1";
+    setIsEmbed(embedMode);
+    if (urlTab === "passport") {
+      setRunnerTab("passport");
+    }
     if (urlView === "community") {
       setView("community");
     } else if (urlName) {
@@ -208,8 +216,10 @@ export default function App() {
 
   return (
     <div className="container">
-      {/* Top Bar */}
-      <header className="topbar">
+      {!isEmbed && (
+        <>
+          {/* Top Bar */}
+          <header className="topbar">
         <div className="brand">
           <div className="avatar">{initials(primaryRunner)}</div>
           <div className="brand-info">
@@ -288,11 +298,13 @@ export default function App() {
           <ArrowRight size={15} />
         </button>
       </form>
+        </>
+      )}
 
       {statusMsg && <div className="status-banner">{statusMsg}</div>}
 
       {/* Runner View Switcher: Dashboard vs NS Race Passport */}
-      {races.length > 0 && (
+      {!isEmbed && races.length > 0 && (
         <div className="runner-mode-bar">
           <button
             type="button"

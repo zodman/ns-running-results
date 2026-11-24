@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Award, HelpCircle, Lock, MapPin, Sparkles } from "lucide-react";
+import { Award, HelpCircle, Lock, MapPin, Share2, Sparkles } from "lucide-react";
 import {
   PASSPORT_RANKS,
   evaluatePassport,
@@ -10,6 +10,7 @@ import RegionBadges from "./RegionBadges.jsx";
 import TrophyShelf from "./TrophyShelf.jsx";
 import RaceMedal from "./RaceMedal.jsx";
 import InfoModal from "./InfoModal.jsx";
+import SharePassportModal from "./SharePassportModal.jsx";
 
 const SHOW_REGIONS = true;
 const SHOW_TROPHIES = true;
@@ -19,6 +20,7 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
   const [regionFilter, setRegionFilter] = useState("all");
   const [seasonFilter, setSeasonFilter] = useState("all"); // all | "2026" | "2025" ...
   const [showMedalInfo, setShowMedalInfo] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const availableSeasons = useMemo(() => {
     const yrs = new Set();
@@ -86,6 +88,15 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
               >
                 <HelpCircle size={14} />
                 <span>Details</span>
+              </button>
+              <button
+                type="button"
+                className="share-hero-btn"
+                onClick={() => setShowShareModal(true)}
+                title="Share your Race Passport as an image or web embed"
+              >
+                <Share2 size={14} />
+                <span>Share</span>
               </button>
             </div>
             <h2>{runnerName}&apos;s Medal Wall</h2>
@@ -303,6 +314,17 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
           </article>
         ))}
       </div>
+      {/* Share Passport Modal (PNG Image + Link & Web Embed) */}
+      <SharePassportModal
+        open={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        runnerName={runnerName}
+        seasonFilter={seasonFilter}
+        passport={passport}
+        regionStats={regionStats}
+        trophyStats={trophyStats}
+      />
+
       {/* #1 Medal Wall Details Modal */}
       <InfoModal
         open={showMedalInfo}
