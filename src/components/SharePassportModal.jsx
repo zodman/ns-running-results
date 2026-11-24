@@ -17,6 +17,7 @@ export default function SharePassportModal({
   const [previewUrl, setPreviewUrl] = useState("");
   const [blob, setBlob] = useState(null);
   const [rendering, setRendering] = useState(false);
+  const [ogSynced, setOgSynced] = useState(false);
   const [copiedKey, setCopiedKey] = useState("");
 
   const seasonLabel = seasonFilter === "all" ? "All-Time" : `${seasonFilter} Season`;
@@ -29,15 +30,52 @@ export default function SharePassportModal({
       : origin;
   }, []);
 
+  // /share?name=... serves per-runner dynamic og:image & og:title for Facebook/WhatsApp/X,
+  // then immediately redirects humans into /?name=...&tab=passport
   const passportUrl = useMemo(() => {
-    const params = new URLSearchParams({ name: runnerName, tab: "passport" });
-    return `${shareOrigin}/?${params.toString()}`;
+    const params = new URLSearchParams({ name: runnerName });
+    return `${shareOrigin}/share?${params.toString()}`;
   }, [shareOrigin, runnerName]);
 
   const embedUrl = useMemo(() => {
     const params = new URLSearchParams({ name: runnerName, tab: "passport", embed: "1" });
     return `${shareOrigin}/?${params.toString()}`;
   }, [shareOrigin, runnerName]);
+
+  // Silently generate & upload this runner's 1200x630 personalized OG preview card when modal opens
+  useEffect(() => {
+    if (!open || !runnerName) return;
+    let cancelled = false;
+    setOgSynced(false);
+    renderPassportShareCard({
+      runnerName,
+      seasonLabel,
+      passport,
+      regionStats,
+      trophyStats,
+      format: "og"
+    })
+      .then((res) => {
+        if (cancelled || !res?.jpegBase64) return;
+        const summary = `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title}`;
+        return fetch("/api/ns-share-card", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: runnerName,
+            summary,
+            imageBase64: res.jpegBase64
+          })
+        });
+      })
+      .then((r) => {
+        if (!cancelled && r && r.ok) setOgSynced(true);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats]);
 
   const iframeSnippet = `<iframe src="${embedUrl}" width="100%" height="780" style="border:0;border-radius:16px;overflow:hidden;" loading="lazy" title="${runnerName} — Nova Scotia Race Passport"></iframe>`;
 

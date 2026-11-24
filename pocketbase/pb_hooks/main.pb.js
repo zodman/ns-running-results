@@ -907,3 +907,179 @@ routerAdd("POST", "/api/ns-optout", (e) => {
 
   return e.json(200, { optedOut: true, name, removed });
 });
+
+
+// ============================================================================
+// PER-RUNNER DYNAMIC OPEN GRAPH SHARE CARDS (Facebook / WhatsApp / X / iMessage)
+// ============================================================================
+
+routerAdd("POST", "/api/ns-share-card", (e) => {
+  const body = e.requestInfo().body || {};
+  const name = String(body.name || "").trim();
+  const summary = String(body.summary || "").trim().slice(0, 320);
+  let imageB64 = String(body.imageBase64 || "").trim();
+
+  if (!name || !imageB64) {
+    return e.json(400, { error: "Missing name or imageBase64" });
+  }
+  // Strip optional data URL prefix
+  const commaIdx = imageB64.indexOf(",");
+  if (commaIdx !== -1) {
+    imageB64 = imageB64.slice(commaIdx + 1);
+  }
+  // Guard against oversized payloads (~2MB base64 max)
+  if (imageB64.length > 2600000) {
+    return e.json(413, { error: "Image too large" });
+  }
+
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const norm = normalize(name);
+  const now = Date.now();
+
+  let col;
+  try {
+    col = e.app.findCollectionByNameOrId("share_cards");
+  } catch (_) {
+    return e.json(500, { error: "share_cards collection not initialized" });
+  }
+
+  let rec;
+  try {
+    rec = e.app.findFirstRecordByFilter("share_cards", "runner_norm = {:n}", { n: norm });
+  } catch (_) {
+    rec = new Record(col);
+  }
+
+  rec.set("runner_norm", norm);
+  rec.set("runner_name", name);
+  rec.set("summary", summary);
+  rec.set("image_b64", imageB64);
+  rec.set("updated_ms", now);
+  e.app.save(rec);
+
+  const enc = encodeURIComponent(name);
+  return e.json(200, {
+    ok: true,
+    updatedMs: now,
+    sharePath: "/share?name=" + enc,
+    imagePath: "/api/ns-og-image?name=" + enc + "&v=" + now
+  });
+});
+
+routerAdd("GET", "/api/ns-og-image", (e) => {
+  const name = String(e.request.url.query().get("name") || "").trim();
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const decodeBase64Bytes = (b64) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const clean = b64.replace(/[^A-Za-z0-9+/=]/g, "");
+    const out = [];
+    for (let i = 0; i < clean.length; i += 4) {
+      const c1 = chars.indexOf(clean[i]);
+      const c2 = chars.indexOf(clean[i + 1]);
+      const c3 = clean[i + 2] === "=" ? -1 : chars.indexOf(clean[i + 2]);
+      const c4 = clean[i + 3] === "=" ? -1 : chars.indexOf(clean[i + 3]);
+      if (c1 < 0 || c2 < 0) break;
+      out.push((c1 << 2) | (c2 >> 4));
+      if (c3 >= 0) out.push(((c2 & 15) << 4) | (c3 >> 2));
+      if (c4 >= 0) out.push(((c3 & 3) << 6) | c4);
+    }
+    return out;
+  };
+
+  if (name) {
+    try {
+      const rec = e.app.findFirstRecordByFilter("share_cards", "runner_norm = {:n}", {
+        n: normalize(name)
+      });
+      const b64 = rec.getString("image_b64");
+      if (b64) {
+        const bytes = decodeBase64Bytes(b64);
+        e.response.header().set("Cache-Control", "public, max-age=3600");
+        return e.blob(200, "image/jpeg", bytes);
+      }
+    } catch (_) {}
+  }
+
+  // Fallback to static OG banner if runner has not generated a personalized card yet
+  return e.redirect(302, "/og-passport.jpg");
+});
+
+routerAdd("GET", "/share", (e) => {
+  const name = String(e.request.url.query().get("name") || "").trim();
+  const escHtml = (s) =>
+    String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const normalize = (s) =>
+    String(s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
+  const proto = e.request.header.get("X-Forwarded-Proto") || "https";
+  const host = e.request.header.get("X-Forwarded-Host") || e.request.host || "ns-running-results.opensrc.mx";
+  const base = proto + "://" + host;
+
+  let displayName = name || "Nova Scotia Runner";
+  let description =
+    "Collect 32 iconic Nova Scotia finisher medals, capture all 7 running regions, and track official Atlantic Chip & Route541 results.";
+  let imageUrl = base + "/og-passport.jpg";
+  let imageType = "image/jpeg";
+
+  if (name) {
+    try {
+      const rec = e.app.findFirstRecordByFilter("share_cards", "runner_norm = {:n}", {
+        n: normalize(name)
+      });
+      if (rec.getString("runner_name")) displayName = rec.getString("runner_name");
+      if (rec.getString("summary")) description = rec.getString("summary");
+      const v = rec.getInt("updated_ms") || Date.now();
+      imageUrl = base + "/api/ns-og-image?name=" + encodeURIComponent(displayName) + "&v=" + v;
+    } catch (_) {}
+  }
+
+  const title = displayName + " — Nova Scotia Race Passport";
+  const shareUrl = base + "/share?name=" + encodeURIComponent(displayName);
+  const appUrl = "/?name=" + encodeURIComponent(displayName) + "&tab=passport";
+
+  const html =
+    '<!doctype html><html lang="en"><head><meta charset="UTF-8" />' +
+    "<title>" + escHtml(title) + "</title>" +
+    '<meta property="og:type" content="website" />' +
+    '<meta property="og:site_name" content="NS Running Results" />' +
+    '<meta property="og:url" content="' + escHtml(shareUrl) + '" />' +
+    '<meta property="og:title" content="' + escHtml(title) + '" />' +
+    '<meta property="og:description" content="' + escHtml(description) + '" />' +
+    '<meta property="og:image" content="' + escHtml(imageUrl) + '" />' +
+    '<meta property="og:image:secure_url" content="' + escHtml(imageUrl) + '" />' +
+    '<meta property="og:image:type" content="' + imageType + '" />' +
+    '<meta property="og:image:width" content="1200" />' +
+    '<meta property="og:image:height" content="630" />' +
+    '<meta name="twitter:card" content="summary_large_image" />' +
+    '<meta name="twitter:title" content="' + escHtml(title) + '" />' +
+    '<meta name="twitter:description" content="' + escHtml(description) + '" />' +
+    '<meta name="twitter:image" content="' + escHtml(imageUrl) + '" />' +
+    '<meta http-equiv="refresh" content="0;url=' + escHtml(appUrl) + '" />' +
+    "</head><body style=\"background:#040b17;color:#f8fafc;font-family:sans-serif;display:grid;place-items:center;min-height:100vh;\">" +
+    '<p>Opening <a style="color:#fef000" href="' + escHtml(appUrl) + '">' + escHtml(title) + "</a>...</p>" +
+    "<script>window.location.replace(" + JSON.stringify(appUrl) + ");</script>" +
+    "</body></html>";
+
+  return e.html(200, html);
+});
