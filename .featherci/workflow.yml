@@ -64,11 +64,42 @@ steps:
         SSH_OPTS="-i ~/.ssh/id_deploy -p $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
         SCP_OPTS="-i ~/.ssh/id_deploy -P $DEPLOY_PORT -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=no"
 
-        # Upload pre-built Docker image artifact, delete locally, load & run on opensrc.mx, delete remotely
+        # Upload pre-built Docker image artifact, then remove the local copy
         ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "mkdir -p ${DEPLOY_PATH}"
         scp $SCP_OPTS "$ARTIFACT" "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/${ARTIFACT}"
         rm -f "$ARTIFACT"
 
-        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "set -e && cd ${DEPLOY_PATH} && gunzip -c ${ARTIFACT} | docker load && rm -f ${ARTIFACT} && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped --network host -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results:latest /usr/local/bin/pocketbase serve --http=127.0.0.1:8092 --dir=/app/pb_data --publicDir=/app/pb_public --migrationsDir=/app/pb_migrations --hooksDir=/app/pb_hooks && docker image prune -f"
+        # Load the Docker image, restart the container, and clean up old files on opensrc.mx
+        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "
+          set -e
+          cd '${DEPLOY_PATH}'
+
+          # 1. Unzip and load the pre-built Docker image into Docker
+          gunzip -c '${ARTIFACT}' | docker load
+
+          # 2. Delete the uploaded .tar.gz artifact to save disk space
+          rm -f '${ARTIFACT}'
+
+          # 3. Stop and remove the previous container (ignore error if first deploy)
+          docker rm -f ns-running-results || true
+
+          # 4. Start the new PocketBase + React container on 127.0.0.1:8092
+          docker run -d \
+            --name ns-running-results \
+            --restart unless-stopped \
+            --network host \
+            -v ns_running_pb_data:/app/pb_data \
+            -e TZ=America/Halifax \
+            ns-running-results:latest \
+            /usr/local/bin/pocketbase serve \
+              --http=127.0.0.1:8092 \
+              --dir=/app/pb_data \
+              --publicDir=/app/pb_public \
+              --migrationsDir=/app/pb_migrations \
+              --hooksDir=/app/pb_hooks
+
+          # 5. Remove old unused Docker image layers to save disk space
+          docker image prune -f
+        "
 
         echo "Deployed pre-built Docker image to opensrc.mx:8092 and deleted artifact on both sides."
