@@ -8,6 +8,9 @@ on:
 steps:
   - name: build-frontend
     image: node:22-alpine
+    env:
+      NO_COLOR: "1"
+      FORCE_COLOR: "0"
     commands:
       - npm ci
       - npm run build
@@ -17,6 +20,9 @@ steps:
     docker: true
     depends_on:
       - build-frontend
+    env:
+      NO_COLOR: "1"
+      BUILDKIT_PROGRESS: "plain"
     commands:
       - |
         set -e
@@ -29,6 +35,8 @@ steps:
     image: alpine:3.21
     depends_on:
       - build-image
+    env:
+      NO_COLOR: "1"
     commands:
       - |
         set -e
