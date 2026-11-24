@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Moon, Search, Sun, UserX, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Award, LayoutGrid, Moon, Search, Sun, UserX, Users } from "lucide-react";
 import { optOutRunner, searchRunner } from "./lib/pocketbase";
 import CommunityDashboard from "./CommunityDashboard.jsx";
 import SiteFooter from "./SiteFooter.jsx";
@@ -9,6 +9,8 @@ import RaceDetailsColumn from "./components/RaceDetailsColumn.jsx";
 import RaceFeedColumn from "./components/RaceFeedColumn.jsx";
 import CategoryFilterBar from "./components/CategoryFilterBar.jsx";
 import BottomNav from "./components/BottomNav.jsx";
+import RacePassport from "./components/RacePassport.jsx";
+import { evaluatePassport } from "./utils/passportCatalog";
 import {
   CATEGORY_ORDER,
   computeHistoryStats,
@@ -24,6 +26,7 @@ export default function App() {
   const [year, setYear] = useState("all");
   const [filterTab, setFilterTab] = useState("all");
   const [graphMode, setGraphMode] = useState("time");
+  const [runnerTab, setRunnerTab] = useState("dashboard"); // dashboard | passport
   const [saveToCommunity, setSaveToCommunity] = useState(true);
   const [optOutDone, setOptOutDone] = useState(false);
   const [races, setRaces] = useState([]);
@@ -149,6 +152,7 @@ export default function App() {
 
   const totalKm = useMemo(() => races.reduce((acc, r) => acc + (r.km || 0), 0), [races]);
   const historyStats = useMemo(() => computeHistoryStats(races), [races]);
+  const passportSummary = useMemo(() => evaluatePassport(races), [races]);
 
   const primaryRunner = races[0]?.participant || activeQuery;
   const primaryCity = races.find((r) => r.city)?.city || "Nova Scotia";
@@ -287,63 +291,103 @@ export default function App() {
 
       {statusMsg && <div className="status-banner">{statusMsg}</div>}
 
-      {/* Distance Category Classifier Bar */}
+      {/* Runner View Switcher: Dashboard vs NS Race Passport */}
       {races.length > 0 && (
-        <CategoryFilterBar
+        <div className="runner-mode-bar">
+          <button
+            type="button"
+            className={`runner-mode-btn ${runnerTab === "dashboard" ? "active" : ""}`}
+            onClick={() => setRunnerTab("dashboard")}
+          >
+            <LayoutGrid size={16} />
+            <span>Race Dashboard</span>
+          </button>
+          <button
+            type="button"
+            className={`runner-mode-btn ${runnerTab === "passport" ? "active" : ""}`}
+            onClick={() => setRunnerTab("passport")}
+          >
+            <Award size={16} />
+            <span>NS Race Passport</span>
+            <span className="runner-mode-badge">
+              {passportSummary.caughtCount}/{passportSummary.totalCount}
+            </span>
+          </button>
+        </div>
+      )}
+
+      {races.length > 0 && runnerTab === "passport" ? (
+        <RacePassport
+          runnerName={primaryRunner}
           races={races}
+          onSelectRace={(idx) => {
+            setSelectedIdx(idx);
+            setRunnerTab("dashboard");
+          }}
+        />
+      ) : (
+        <>
+          {/* Distance Category Classifier Bar */}
+          {races.length > 0 && (
+            <CategoryFilterBar
+              races={races}
+              categoryCounts={categoryCounts}
+              filterTab={filterTab}
+              onSelectTab={setFilterTab}
+            />
+          )}
+
+          {/* Full-Width Top Progression Graph */}
+          {races.length > 0 && selected && (
+            <TimelineGraph
+              races={filteredRaces}
+              selected={selected}
+              theme={theme}
+              graphMode={graphMode}
+              onGraphModeChange={setGraphMode}
+              filterTab={filterTab}
+              onToggleCategory={(cat) => setFilterTab((cur) => (cur === cat ? "all" : cat))}
+              onSelectRace={setSelectedIdx}
+            />
+          )}
+
+          {/* Two-Column Bento Dashboard */}
+          {races.length > 0 && selected && (
+            <main className="bento">
+              <RaceDetailsColumn
+                primaryRunner={primaryRunner}
+                races={races}
+                selected={selected}
+                pbRace={pbRace}
+                sortedBySpeed={sortedBySpeed}
+                sources={sources}
+                totalKm={totalKm}
+                historyStats={historyStats}
+                onSelectRace={setSelectedIdx}
+              />
+              <RaceFeedColumn
+                races={races}
+                visibleFeed={filteredRaces}
+                selected={selected}
+                chartRaces={chartRaces}
+                maxSec={maxSec}
+                totalKm={totalKm}
+                onSelectRace={setSelectedIdx}
+              />
+            </main>
+          )}
+        </>
+      )}
+
+      {/* Floating Bottom Nav (Race Dashboard only) */}
+      {runnerTab === "dashboard" && (
+        <BottomNav
+          totalCount={races.length}
           categoryCounts={categoryCounts}
           filterTab={filterTab}
           onSelectTab={setFilterTab}
         />
       )}
-
-      {/* Full-Width Top Progression Graph */}
-      {races.length > 0 && selected && (
-        <TimelineGraph
-          races={filteredRaces}
-          selected={selected}
-          theme={theme}
-          graphMode={graphMode}
-          onGraphModeChange={setGraphMode}
-          filterTab={filterTab}
-          onToggleCategory={(cat) => setFilterTab((cur) => (cur === cat ? "all" : cat))}
-          onSelectRace={setSelectedIdx}
-        />
-      )}
-
-      {/* Two-Column Bento Dashboard */}
-      {races.length > 0 && selected && (
-        <main className="bento">
-          <RaceDetailsColumn
-            primaryRunner={primaryRunner}
-            races={races}
-            selected={selected}
-            pbRace={pbRace}
-            sortedBySpeed={sortedBySpeed}
-            sources={sources}
-            totalKm={totalKm}
-            historyStats={historyStats}
-            onSelectRace={setSelectedIdx}
-          />
-          <RaceFeedColumn
-            races={races}
-            visibleFeed={filteredRaces}
-            selected={selected}
-            chartRaces={chartRaces}
-            maxSec={maxSec}
-            totalKm={totalKm}
-            onSelectRace={setSelectedIdx}
-          />
-        </main>
-      )}
-
-      {/* Floating Bottom Nav */}
-      <BottomNav
-        totalCount={races.length}
-        categoryCounts={categoryCounts}
-        filterTab={filterTab}
-        onSelectTab={setFilterTab}
-      />
       <SiteFooter />
     </div>
   );
