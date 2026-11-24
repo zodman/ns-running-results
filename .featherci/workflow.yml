@@ -69,6 +69,6 @@ steps:
         scp $SCP_OPTS "$ARTIFACT" "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/${ARTIFACT}"
         rm -f "$ARTIFACT"
 
-        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "set -e && cd ${DEPLOY_PATH} && gunzip -c ${ARTIFACT} | docker load && rm -f ${ARTIFACT} && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8092:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results:latest && docker image prune -f"
+        ssh $SSH_OPTS "${DEPLOY_USER}@${DEPLOY_HOST}" "set -e && cd ${DEPLOY_PATH} && gunzip -c ${ARTIFACT} | docker load && rm -f ${ARTIFACT} && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped --network host -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results:latest /usr/local/bin/pocketbase serve --http=127.0.0.1:8092 --dir=/app/pb_data --publicDir=/app/pb_public --migrationsDir=/app/pb_migrations --hooksDir=/app/pb_hooks && docker image prune -f"
 
         echo "Deployed pre-built Docker image to opensrc.mx:8092 and deleted artifact on both sides."
