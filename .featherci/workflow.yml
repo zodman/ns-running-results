@@ -61,6 +61,6 @@ steps:
           -e "$SSH_CMD" \
           ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
 
-        $SSH_CMD "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH} && docker build -t ns-running-results . && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8090:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results"
+        $SSH_CMD "${DEPLOY_USER}@${DEPLOY_HOST}" "cd ${DEPLOY_PATH} && docker build -t ns-running-results . && (docker rm -f ns-running-results || true) && docker run -d --name ns-running-results --restart unless-stopped -p 127.0.0.1:8092:8090 -v ns_running_pb_data:/app/pb_data -e TZ=America/Halifax ns-running-results"
 
         echo "Deployed successfully to https://ns-running-results.opensrc.mx"
