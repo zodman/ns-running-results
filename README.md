@@ -22,11 +22,11 @@ Pushing to `main` triggers [`.featherci/workflow.yml`](.featherci/workflow.yml):
 3. PocketBase serves both `/api/*` and the compiled React app (`pb_public/`) on port `8090`, auto-migrating collections and auto-importing `data/route541_all/` on first boot.
 
 ### Required FeatherCI Secrets
-- `DEPLOY_SSH_KEY` — SSH private key with access to `opensrc.mx`
+- `DEPLOY_SSH_KEY` — SSH private key with access to `zodman@opensrc.mx`
 - `DEPLOY_HOST` *(optional, defaults to `opensrc.mx`)*
-- `DEPLOY_USER` *(optional, defaults to `root`)*
+- `DEPLOY_USER` *(optional, defaults to `zodman`)*
 - `DEPLOY_PORT` *(optional, defaults to `22`)*
-- `DEPLOY_PATH` *(optional, defaults to `/opt/ns-running-results`)*
+- `DEPLOY_PATH` *(optional, defaults to `/home/zodman/apps/ns-running-results`)*
 
 ### Reverse Proxy (`ns-running-results.opensrc.mx`)
 - **Traefik:** labels are already included in `docker-compose.yml`.

@@ -22,9 +22,9 @@ steps:
         apk add --no-cache openssh-client rsync
 
         DEPLOY_HOST="${DEPLOY_HOST:-opensrc.mx}"
-        DEPLOY_USER="${DEPLOY_USER:-root}"
+        DEPLOY_USER="${DEPLOY_USER:-zodman}"
         DEPLOY_PORT="${DEPLOY_PORT:-22}"
-        DEPLOY_PATH="${DEPLOY_PATH:-/opt/ns-running-results}"
+        DEPLOY_PATH="${DEPLOY_PATH:-/home/zodman/apps/ns-running-results}"
 
         if [ -z "${DEPLOY_SSH_KEY:-}" ]; then
           echo "ERROR: DEPLOY_SSH_KEY secret is not set in FeatherCI."
