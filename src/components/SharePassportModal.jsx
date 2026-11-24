@@ -14,7 +14,17 @@ export default function SharePassportModal({
   initialMedal = null
 }) {
   const [format, setFormat] = useState("fb"); // "fb" | "story" | "square"
-  const [selectedMedalId, setSelectedMedalId] = useState(initialMedal?.id || "all");
+
+  const caughtMedals = useMemo(
+    () => (passport?.entries ? passport.entries.filter((e) => e.caught) : []),
+    [passport?.entries]
+  );
+
+  const [selectedMedalId, setSelectedMedalId] = useState(() => {
+    if (initialMedal) return initialMedal.id;
+    return caughtMedals[0]?.id || "all";
+  });
+
   const [previewUrl, setPreviewUrl] = useState("");
   const [blob, setBlob] = useState(null);
   const [rendering, setRendering] = useState(false);
@@ -23,16 +33,17 @@ export default function SharePassportModal({
 
   const seasonLabel = seasonFilter === "all" ? "All-Time" : `${seasonFilter} Season`;
 
-  const caughtMedals = useMemo(
-    () => (passport?.entries ? passport.entries.filter((e) => e.caught) : []),
-    [passport?.entries]
-  );
-
   useEffect(() => {
     if (open) {
-      setSelectedMedalId(initialMedal?.id || "all");
+      if (initialMedal) {
+        setSelectedMedalId(initialMedal.id);
+      } else if (caughtMedals.length > 0) {
+        setSelectedMedalId((prev) => (prev && prev !== "all" ? prev : caughtMedals[0].id));
+      } else {
+        setSelectedMedalId("all");
+      }
     }
-  }, [open, initialMedal]);
+  }, [open, initialMedal, caughtMedals]);
 
   const activeMedal = useMemo(() => {
     if (selectedMedalId === "all") return null;
@@ -62,13 +73,13 @@ export default function SharePassportModal({
           ? "Gold Loyalist (3+ finishes)"
           : activeMedal.tier === "silver"
             ? "Silver Loyalist (2 finishes)"
-            : "Finisher";
+            : "Official Finisher";
       return `${runnerName} earned the ${activeMedal.name} Finisher Medal (${activeMedal.bestTime}) • ${tierName} on Nova Scotia Race Passport!`;
     }
     return `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title}`;
   }, [activeMedal, runnerName, passport, regionStats, trophyStats]);
 
-  // Silently generate & upload this runner's 1200x630 personalized OG preview card when modal opens
+  // Silently generate & upload this runner's 1200x630 personalized OG preview card (medal or passport)
   useEffect(() => {
     if (!open || !runnerName) return;
     let cancelled = false;
@@ -79,6 +90,7 @@ export default function SharePassportModal({
       passport,
       regionStats,
       trophyStats,
+      selectedMedal: activeMedal,
       format: "og"
     })
       .then((res) => {
@@ -88,7 +100,7 @@ export default function SharePassportModal({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: runnerName,
-            summary: `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title}`,
+            summary: shareSummary,
             imageBase64: res.jpegBase64
           })
         });
@@ -100,7 +112,7 @@ export default function SharePassportModal({
     return () => {
       cancelled = true;
     };
-  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats]);
+  }, [open, runnerName, seasonLabel, passport, regionStats, trophyStats, activeMedal, shareSummary]);
 
   // Render selected card format (fb landscape 1200x630, 9:16 story, or 1:1 square)
   useEffect(() => {
@@ -183,17 +195,21 @@ export default function SharePassportModal({
   return (
     <InfoModal
       open={open}
-      title="Share Your NS Race Passport & Medals"
+      title={
+        activeMedal
+          ? `Share ${activeMedal.name} Finisher Medal`
+          : "Share Your NS Race Passport"
+      }
       icon={<Share2 size={18} />}
       onClose={onClose}
     >
       <div className="share-image-panel">
-        {/* Medal Selection Filter: Share All Medals or Single Caught Medal */}
+        {/* Medal Selection Filter: Share Finisher Medal or Full Medal Wall */}
         {caughtMedals.length > 0 && (
           <div className="share-target-bar">
             <span className="share-target-label">
               <Award size={14} />
-              <span>What would you like to share?</span>
+              <span>Finisher Medal to Share:</span>
             </span>
             <select
               className="share-target-select"
@@ -201,16 +217,16 @@ export default function SharePassportModal({
               onChange={(e) => setSelectedMedalId(e.target.value)}
               aria-label="Select medal or wall to share"
             >
-              <option value="all">
-                🏆 Full Medal Wall ({passport.caughtCount} of {passport.totalCount} Caught)
-              </option>
-              <optgroup label="Individual Caught Medals">
+              <optgroup label="Your Finisher Medals">
                 {caughtMedals.map((m) => (
                   <option key={m.id} value={m.id}>
                     {m.tier === "gold" ? "🥇" : m.tier === "silver" ? "🥈" : "🥉"} {m.name} ({m.bestTime})
                   </option>
                 ))}
               </optgroup>
+              <option value="all">
+                🏆 Full Medal Wall ({passport.caughtCount} of {passport.totalCount} Caught)
+              </option>
             </select>
           </div>
         )}

@@ -217,7 +217,7 @@ describe("RacePassport", () => {
     // Open Share modal and verify Facebook share preview & direct link copy, ensuring web embed & badge are removed
     expect(screen.getByRole("button", { name: "Share on Facebook" })).toBeInTheDocument();
     fireEvent.click(screen.getByTitle("Share your Race Passport image or link"));
-    expect(screen.getByText(/Share Your NS Race Passport/i)).toBeInTheDocument();
+    expect(screen.getByText(/Share.*(?:Medal|Passport)/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Facebook \(1\.91:1/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Share on Facebook" })).toBeInTheDocument();
     expect(screen.getByText("NS-RUNNING-RESULTS.OPENSRC.MX")).toBeInTheDocument();
@@ -232,7 +232,7 @@ describe("RacePassport", () => {
     const medalShareButtons = screen.getAllByRole("button", { name: "Share" });
     expect(medalShareButtons.length).toBeGreaterThan(0);
     fireEvent.click(medalShareButtons[0]);
-    expect(screen.getByText(/Share Your NS Race Passport/i)).toBeInTheDocument();
+    expect(screen.getByText(/Share.*(?:Medal|Passport)/i)).toBeInTheDocument();
   });
 });
 
