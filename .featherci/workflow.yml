@@ -59,16 +59,8 @@ steps:
           printf "%s" "$DEPLOY_SSH_KEY" | tr -d ' \t\r\n' | base64 -d > ~/.ssh/id_deploy
         fi
         chmod 600 ~/.ssh/id_deploy
-        cat > ~/.ssh/config <<EOF
-        Host deploy
-          HostName ${DEPLOY_HOST}
-          User ${DEPLOY_USER}
-          Port ${DEPLOY_PORT}
-          IdentityFile ~/.ssh/id_deploy
-          BatchMode yes
-          ConnectTimeout 15
-          StrictHostKeyChecking no
-        EOF
+        printf "Host deploy\n  HostName %s\n  User %s\n  Port %s\n  IdentityFile ~/.ssh/id_deploy\n  BatchMode yes\n  ConnectTimeout 15\n  StrictHostKeyChecking no\n" \
+          "$DEPLOY_HOST" "$DEPLOY_USER" "$DEPLOY_PORT" > ~/.ssh/config
         chmod 600 ~/.ssh/config
 
         # Upload pre-built Docker image artifact, then remove the local copy
