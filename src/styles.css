@@ -1014,9 +1014,19 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   color: #64a1c9;
 }
 
+.feed-source-tag.route541 {
+  background: rgba(254, 240, 0, 0.16);
+  color: #fef000;
+}
+
 [data-theme="light"] .feed-source-tag {
   background: rgba(3, 112, 185, 0.12);
   color: #0370b9;
+}
+
+[data-theme="light"] .feed-source-tag.route541 {
+  background: rgba(234, 179, 8, 0.18);
+  color: #854d0e;
 }
 
 .feed-desc { font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-top: 4px; }
