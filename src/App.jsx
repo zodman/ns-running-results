@@ -10,7 +10,8 @@ import RaceFeedColumn from "./components/RaceFeedColumn.jsx";
 import CategoryFilterBar from "./components/CategoryFilterBar.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import RacePassport from "./components/RacePassport.jsx";
-import { evaluatePassport } from "./utils/passportCatalog";
+import { evaluatePassport, evaluateRegions, evaluateTrophies } from "./utils/passportCatalog";
+import { renderPassportShareCard } from "./utils/shareCardCanvas";
 import {
   CATEGORY_ORDER,
   computeHistoryStats,
@@ -161,8 +162,48 @@ export default function App() {
   const totalKm = useMemo(() => races.reduce((acc, r) => acc + (r.km || 0), 0), [races]);
   const historyStats = useMemo(() => computeHistoryStats(races), [races]);
   const passportSummary = useMemo(() => evaluatePassport(races), [races]);
+  const regionSummary = useMemo(
+    () => evaluateRegions(races, passportSummary),
+    [races, passportSummary]
+  );
+  const trophySummary = useMemo(
+    () => evaluateTrophies(races, passportSummary, regionSummary),
+    [races, passportSummary, regionSummary]
+  );
 
   const primaryRunner = races[0]?.participant || activeQuery;
+
+  // Automatically generate & cache this runner's 1200x630 personalized OG share card
+  // whenever any profile /?name=<name> loads (even before clicking the Passport tab!)
+  useEffect(() => {
+    if (view !== "runner" || !primaryRunner || !races.length || year !== "all") return;
+    let cancelled = false;
+    renderPassportShareCard({
+      runnerName: primaryRunner,
+      seasonLabel: "All-Time",
+      passport: passportSummary,
+      regionStats: regionSummary,
+      trophyStats: trophySummary,
+      format: "og"
+    })
+      .then((res) => {
+        if (cancelled || !res?.jpegBase64) return;
+        const summary = `${passportSummary.caughtCount}/${passportSummary.totalCount} NS Race Medals (${passportSummary.percent}%) • ${regionSummary.unlockedCount}/7 Regions • ${trophySummary.unlockedCount}/${trophySummary.totalCount} Trophies • ${passportSummary.rank.current.title}`;
+        return fetch("/api/ns-share-card", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: primaryRunner,
+            summary,
+            imageBase64: res.jpegBase64
+          })
+        });
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [view, primaryRunner, races.length, year, passportSummary, regionSummary, trophySummary]);
   const primaryCity = races.find((r) => r.city)?.city || "Nova Scotia";
   const primaryDiv = races.find((r) => r.division && r.division !== "—")?.division;
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));

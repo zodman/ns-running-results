@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Award, HelpCircle, Lock, MapPin, Share2, Sparkles } from "lucide-react";
 import {
   PASSPORT_RANKS,
@@ -6,7 +6,6 @@ import {
   evaluateRegions,
   evaluateTrophies
 } from "../utils/passportCatalog";
-import { renderPassportShareCard } from "../utils/shareCardCanvas";
 import RegionBadges from "./RegionBadges.jsx";
 import TrophyShelf from "./TrophyShelf.jsx";
 import RaceMedal from "./RaceMedal.jsx";
@@ -49,38 +48,6 @@ export default function RacePassport({ runnerName, races, onSelectRace }) {
     () => evaluateTrophies(seasonRaces, passport, regionStats),
     [seasonRaces, passport, regionStats]
   );
-
-  // Pre-generate & cache this runner's 1200x630 personalized OG card in the background
-  // so pasting /?name=...&tab=passport into Facebook immediately shows their own medal card
-  useEffect(() => {
-    if (!runnerName || seasonFilter !== "all" || !races.length) return;
-    let cancelled = false;
-    renderPassportShareCard({
-      runnerName,
-      seasonLabel: "All-Time",
-      passport,
-      regionStats,
-      trophyStats,
-      format: "og"
-    })
-      .then((res) => {
-        if (cancelled || !res?.jpegBase64) return;
-        const summary = `${passport.caughtCount}/${passport.totalCount} NS Race Medals (${passport.percent}%) • ${regionStats.unlockedCount}/7 Regions • ${trophyStats.unlockedCount}/${trophyStats.totalCount} Trophies • ${passport.rank.current.title}`;
-        return fetch("/api/ns-share-card", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: runnerName,
-            summary,
-            imageBase64: res.jpegBase64
-          })
-        });
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [runnerName, seasonFilter, races.length, passport, regionStats, trophyStats]);
 
   // SVG ring geometry (r = 56 => circumference ~ 351.86)
   const ringRadius = 56;
