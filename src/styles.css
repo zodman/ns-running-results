@@ -3610,3 +3610,18 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
     height: 40px;
   }
 }
+
+.footer-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  vertical-align: middle;
+}
+
+.footer-brand-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: contain;
+  display: inline-block;
+}

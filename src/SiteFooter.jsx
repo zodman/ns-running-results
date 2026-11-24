@@ -28,8 +28,14 @@ export default function SiteFooter() {
           GitHub Repo
         </a>
         <span> • </span>
-        <a href="https://app.opensrc.mx/" target="_blank" rel="noreferrer">
-          app.opensrc.mx
+        <a
+          className="footer-brand-link"
+          href="https://app.opensrc.mx/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <img src="/logos/opensrc.png" alt="app.opensrc.mx" className="footer-brand-icon" />
+          <span>app.opensrc.mx</span>
         </a>
       </div>
     </footer>
