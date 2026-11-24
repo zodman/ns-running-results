@@ -432,7 +432,7 @@ export async function renderPassportShareCard({
 }
 
 /**
- * Renders a 1200x630 landscape Open Graph card tailored for Facebook / X / WhatsApp link previews.
+ * Renders a 1200x630 broadcast-grade landscape Open Graph card tailored for Facebook / X / WhatsApp link previews.
  */
 async function renderOgLandscapeCard({
   runnerName,
@@ -448,147 +448,138 @@ async function renderOgLandscapeCard({
   canvas.height = H;
   const ctx = canvas.getContext("2d");
 
-  // Background
+  // 1. Rich Run NS Deep Navy -> Ocean Blue Gradient Background
   const bg = ctx.createLinearGradient(0, 0, W, H);
   bg.addColorStop(0, "#040b17");
-  bg.addColorStop(0.5, "#071d3d");
+  bg.addColorStop(0.55, "#072047");
   bg.addColorStop(1, "#0370b9");
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  const glow = ctx.createRadialGradient(W * 0.85, H * 0.2, 20, W * 0.85, H * 0.2, 420);
-  glow.addColorStop(0, "rgba(254, 240, 0, 0.16)");
-  glow.addColorStop(1, "rgba(254, 240, 0, 0)");
-  ctx.fillStyle = glow;
+  // Atmospheric athletic glows
+  const glow1 = ctx.createRadialGradient(W * 0.84, H * 0.28, 10, W * 0.84, H * 0.28, 360);
+  glow1.addColorStop(0, "rgba(254, 240, 0, 0.16)");
+  glow1.addColorStop(1, "rgba(254, 240, 0, 0)");
+  ctx.fillStyle = glow1;
   ctx.fillRect(0, 0, W, H);
 
-  // Top accent bar
+  const glow2 = ctx.createRadialGradient(W * 0.18, H * 0.85, 10, W * 0.18, H * 0.85, 420);
+  glow2.addColorStop(0, "rgba(56, 189, 248, 0.18)");
+  glow2.addColorStop(1, "rgba(56, 189, 248, 0)");
+  ctx.fillStyle = glow2;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle diagonal athletic speed stripes
+  ctx.save();
+  ctx.fillStyle = "rgba(255, 255, 255, 0.025)";
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.moveTo(640 + i * 90, 0);
+    ctx.lineTo(685 + i * 90, 0);
+    ctx.lineTo(545 + i * 90, H);
+    ctx.lineTo(500 + i * 90, H);
+    ctx.closePath();
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // Top kinetic accent bar
   const topBar = ctx.createLinearGradient(0, 0, W, 0);
   topBar.addColorStop(0, "#38bdf8");
   topBar.addColorStop(0.5, "#fef000");
   topBar.addColorStop(1, "#38bdf8");
   ctx.fillStyle = topBar;
-  ctx.fillRect(0, 0, W, 10);
+  ctx.fillRect(0, 0, W, 8);
 
-  const padX = 56;
+  const padX = 52;
 
-  // Eyebrow
+  // 2. Top-Left Identity Block
   const eyebrow = `NOVA SCOTIA RACE PASSPORT  •  ${seasonLabel.toUpperCase()}`;
-  ctx.font = "700 18px Oswald, Arial, sans-serif";
-  const eyeW = ctx.measureText(eyebrow).width + 36;
-  drawRoundedRect(ctx, padX, 42, eyeW, 36, 18);
-  ctx.fillStyle = "rgba(254, 240, 0, 0.15)";
+  ctx.font = "700 16px Oswald, Arial, sans-serif";
+  const eyeW = ctx.measureText(eyebrow).width + 32;
+  drawRoundedRect(ctx, padX, 34, eyeW, 32, 16);
+  ctx.fillStyle = "rgba(254, 240, 0, 0.14)";
   ctx.fill();
-  ctx.strokeStyle = "rgba(254, 240, 0, 0.5)";
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = "rgba(254, 240, 0, 0.45)";
+  ctx.lineWidth = 1.5;
   ctx.stroke();
   ctx.fillStyle = "#fef000";
   ctx.textBaseline = "middle";
-  ctx.fillText(eyebrow, padX + 18, 61);
+  ctx.fillText(eyebrow, padX + 16, 51);
 
   // Runner Name
   ctx.textBaseline = "top";
   ctx.fillStyle = "#ffffff";
-  ctx.font = "700 56px Oswald, Arial, sans-serif";
-  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), 660), padX, 94);
+  ctx.font = "700 62px Oswald, Arial, sans-serif";
+  ctx.fillText(truncateText(ctx, runnerName.toUpperCase(), 760), padX, 78);
 
-  // Rank pill + tier line
-  const rankText = `${passport.rank.current.icon}  ${passport.rank.current.title.toUpperCase()}`;
-  ctx.font = "700 22px Oswald, Arial, sans-serif";
-  const rankW = ctx.measureText(rankText).width + 36;
-  drawRoundedRect(ctx, padX, 166, rankW, 42, 21);
-  ctx.fillStyle = "rgba(254, 240, 0, 0.18)";
-  ctx.fill();
-  ctx.strokeStyle = "#fef000";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.fillStyle = "#fef000";
-  ctx.textBaseline = "middle";
-  ctx.fillText(rankText, padX + 18, 188);
-
-  // 3 compact KPI pills on left
+  // 3 Balanced KPI Cards spanning full left column (756px total)
+  const unlockedRegNames = regionStats.regions
+    .filter((r) => r.unlocked)
+    .map((r) => r.id)
+    .slice(0, 2)
+    .join(", ");
   const kpis = [
-    { label: "MEDALS", val: `${passport.caughtCount}/${passport.totalCount}` },
-    { label: "REGIONS", val: `${regionStats.unlockedCount}/${regionStats.totalRegions}` },
-    { label: "TROPHIES", val: `${trophyStats.unlockedCount}/${trophyStats.totalCount}` }
+    {
+      label: "MEDALS CAUGHT",
+      val: `${passport.caughtCount} / ${passport.totalCount}`,
+      sub: `${passport.percent}% of NS Passport`
+    },
+    {
+      label: "REGIONS CAPTURED",
+      val: `${regionStats.unlockedCount} / ${regionStats.totalRegions}`,
+      sub: unlockedRegNames || "Explore Nova Scotia"
+    },
+    {
+      label: "TROPHIES EARNED",
+      val: `${trophyStats.unlockedCount} / ${trophyStats.totalCount}`,
+      sub: `${passport.tiers.gold}G • ${passport.tiers.silver}S • ${passport.tiers.bronze}B`
+    }
   ];
+
+  const kpiW = 240;
+  const kpiGap = 18;
   kpis.forEach((k, i) => {
-    const kx = padX + i * 194;
-    drawRoundedRect(ctx, kx, 234, 178, 86, 16);
-    ctx.fillStyle = "rgba(4, 11, 23, 0.52)";
+    const kx = padX + i * (kpiW + kpiGap);
+    const ky = 166;
+    drawRoundedRect(ctx, kx, ky, kpiW, 110, 16);
+    ctx.fillStyle = "rgba(4, 11, 23, 0.56)";
     ctx.fill();
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.14)";
     ctx.lineWidth = 1.5;
     ctx.stroke();
+
     ctx.textBaseline = "top";
     ctx.fillStyle = "#93c5fd";
     ctx.font = "700 14px Oswald, Arial, sans-serif";
-    ctx.fillText(k.label, kx + 18, 248);
+    ctx.fillText(k.label, kx + 18, ky + 16);
+
     ctx.fillStyle = "#fef000";
-    ctx.font = "700 34px Oswald, Arial, sans-serif";
-    ctx.fillText(k.val, kx + 18, 268);
+    ctx.font = "700 36px Oswald, Arial, sans-serif";
+    ctx.fillText(k.val, kx + 18, ky + 36);
+
+    ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
+    ctx.font = "600 14px Jost, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, k.sub, kpiW - 32), kx + 18, ky + 82);
   });
 
-  // Top 5 caught medals row along bottom-left
-  const caught = passport.entries
-    .filter((e) => e.caught)
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-    .slice(0, 5);
-  const logos = await Promise.all(caught.map((m) => loadImage(m.logo)));
-
-  caught.forEach((m, i) => {
-    const mx = padX + i * 116 + 44;
-    const my = 418;
-    const r = 42;
-    const rim = m.tier === "gold" ? "#fef000" : m.tier === "silver" ? "#cbd5e1" : "#d97706";
-    ctx.beginPath();
-    ctx.arc(mx, my, r, 0, Math.PI * 2);
-    ctx.fillStyle = rim;
-    ctx.fill();
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(mx, my, r - 5, 0, Math.PI * 2);
-    ctx.clip();
-    const img = logos[i];
-    if (img) {
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(mx - r, my - r, r * 2, r * 2);
-      const scale = Math.min(((r - 5) * 1.65) / img.width, ((r - 5) * 1.65) / img.height);
-      ctx.drawImage(img, mx - (img.width * scale) / 2, my - (img.height * scale) / 2, img.width * scale, img.height * scale);
-    } else {
-      ctx.fillStyle = m.color || "#0370b9";
-      ctx.fillRect(mx - r, my - r, r * 2, r * 2);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "700 26px Oswald, Arial, sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(m.short, mx, my);
-    }
-    ctx.restore();
-
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = "rgba(248, 250, 252, 0.85)";
-    ctx.font = "600 13px Jost, Arial, sans-serif";
-    ctx.fillText(truncateText(ctx, m.name, 102), mx, my + r + 8);
-    ctx.textAlign = "left";
-  });
-
-  // Big Circular Progress Ring on Right
-  const ringCx = W - 210;
-  const ringCy = 266;
-  const ringR = 132;
+  // 3. Top-Right Circular Progress Ring + Rank Title Directly Underneath
+  const ringCx = W - 188;
+  const ringCy = 138;
+  const ringR = 88;
 
   ctx.beginPath();
-  ctx.arc(ringCx, ringCy, ringR + 18, 0, Math.PI * 2);
-  ctx.fillStyle = "rgba(4, 11, 23, 0.45)";
+  ctx.arc(ringCx, ringCy, ringR + 14, 0, Math.PI * 2);
+  ctx.fillStyle = "rgba(4, 11, 23, 0.48)";
   ctx.fill();
+  ctx.strokeStyle = "rgba(254, 240, 0, 0.2)";
+  ctx.lineWidth = 2;
+  ctx.stroke();
 
   ctx.beginPath();
   ctx.arc(ringCx, ringCy, ringR, 0, Math.PI * 2);
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
-  ctx.lineWidth = 18;
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.14)";
+  ctx.lineWidth = 14;
   ctx.stroke();
 
   const startA = -Math.PI / 2;
@@ -596,40 +587,199 @@ async function renderOgLandscapeCard({
   ctx.beginPath();
   ctx.arc(ringCx, ringCy, ringR, startA, endA);
   ctx.strokeStyle = "#fef000";
-  ctx.lineWidth = 18;
+  ctx.lineWidth = 14;
   ctx.lineCap = "round";
   ctx.stroke();
 
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = "700 68px Oswald, Arial, sans-serif";
-  ctx.fillText(`${passport.caughtCount}/${passport.totalCount}`, ringCx, ringCy - 18);
+  ctx.font = "700 46px Oswald, Arial, sans-serif";
+  ctx.fillText(`${passport.caughtCount}/${passport.totalCount}`, ringCx, ringCy - 12);
   ctx.fillStyle = "#93c5fd";
-  ctx.font = "700 30px Jost, Arial, sans-serif";
-  ctx.fillText(`${passport.percent}% COLLECTED`, ringCx, ringCy + 42);
+  ctx.font = "700 20px Jost, Arial, sans-serif";
+  ctx.fillText(`${passport.percent}%`, ringCx, ringCy + 30);
+
+  // Rank Badge centered right below the ring
+  const rankText = `${passport.rank.current.icon}  ${passport.rank.current.title.toUpperCase()}`;
+  ctx.font = "700 18px Oswald, Arial, sans-serif";
+  const rankW = Math.min(290, ctx.measureText(rankText).width + 36);
+  const rankX = ringCx - rankW / 2;
+  const rankY = 248;
+  drawRoundedRect(ctx, rankX, rankY, rankW, 38, 19);
+  ctx.fillStyle = "rgba(254, 240, 0, 0.18)";
+  ctx.fill();
+  ctx.strokeStyle = "#fef000";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = "#fef000";
+  ctx.textBaseline = "middle";
+  ctx.fillText(truncateText(ctx, rankText, rankW - 20), ringCx, rankY + 20);
   ctx.textAlign = "left";
 
-  // Footer
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(padX, H - 72);
-  ctx.lineTo(W - padX, H - 72);
+  // 4. Full-Width Collected Finisher Medals Showcase Panel
+  const panelX = padX;
+  const panelY = 304;
+  const panelW = W - padX * 2;
+  const panelH = 250;
+
+  drawRoundedRect(ctx, panelX, panelY, panelW, panelH, 20);
+  ctx.fillStyle = "rgba(4, 11, 23, 0.56)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.14)";
+  ctx.lineWidth = 1.5;
   ctx.stroke();
 
+  const caught = passport.entries
+    .filter((e) => e.caught)
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  const shown = caught.slice(0, 5);
+  const logos = await Promise.all(shown.map((m) => loadImage(m.logo)));
+
+  ctx.textBaseline = "top";
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "700 18px Oswald, Arial, sans-serif";
+  ctx.fillText(
+    caught.length
+      ? `COLLECTED FINISHER MEDALS (${caught.length} OF ${passport.totalCount})`
+      : "START COLLECTING NOVA SCOTIA MEDALS",
+    panelX + 22,
+    panelY + 16
+  );
+
+  // Right-aligned extra count or tier hint
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#93c5fd";
+  ctx.font = "600 15px Jost, Arial, sans-serif";
+  const rightHint =
+    caught.length > 5
+      ? `+${caught.length - 5} more medals on Passport`
+      : `🥇 ${passport.tiers.gold} Gold   🥈 ${passport.tiers.silver} Silver   🥉 ${passport.tiers.bronze} Bronze`;
+  ctx.fillText(rightHint, panelX + panelW - 22, panelY + 17);
+  ctx.textAlign = "left";
+
+  if (shown.length > 0) {
+    const slotW = (panelW - 44) / shown.length;
+    shown.forEach((m, i) => {
+      const midX = panelX + 22 + slotW * i + slotW / 2;
+      const topY = panelY + 50;
+
+      // V-shaped Run NS lanyard ribbon
+      ctx.fillStyle = "#0370b9";
+      ctx.beginPath();
+      ctx.moveTo(midX - 26, topY);
+      ctx.lineTo(midX - 10, topY);
+      ctx.lineTo(midX, topY + 30);
+      ctx.lineTo(midX - 11, topY + 30);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = "#02528a";
+      ctx.beginPath();
+      ctx.moveTo(midX + 26, topY);
+      ctx.lineTo(midX + 10, topY);
+      ctx.lineTo(midX, topY + 30);
+      ctx.lineTo(midX + 11, topY + 30);
+      ctx.closePath();
+      ctx.fill();
+
+      // Kinetic yellow ribbon stripes
+      ctx.fillStyle = "#fef000";
+      ctx.beginPath();
+      ctx.moveTo(midX - 19, topY);
+      ctx.lineTo(midX - 16, topY);
+      ctx.lineTo(midX - 5, topY + 30);
+      ctx.lineTo(midX - 8, topY + 30);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(midX + 19, topY);
+      ctx.lineTo(midX + 16, topY);
+      ctx.lineTo(midX + 5, topY + 30);
+      ctx.lineTo(midX + 8, topY + 30);
+      ctx.closePath();
+      ctx.fill();
+
+      // Metallic bevelled coin rim
+      const coinY = topY + 68;
+      const coinR = 44;
+      const rimGrad = ctx.createLinearGradient(midX - coinR, coinY - coinR, midX + coinR, coinY + coinR);
+      if (m.tier === "gold") {
+        rimGrad.addColorStop(0, "#fef9c3");
+        rimGrad.addColorStop(0.5, "#fef000");
+        rimGrad.addColorStop(1, "#a16207");
+      } else if (m.tier === "silver") {
+        rimGrad.addColorStop(0, "#ffffff");
+        rimGrad.addColorStop(0.5, "#cbd5e1");
+        rimGrad.addColorStop(1, "#64748b");
+      } else {
+        rimGrad.addColorStop(0, "#fde68a");
+        rimGrad.addColorStop(0.5, "#d97706");
+        rimGrad.addColorStop(1, "#78350f");
+      }
+
+      ctx.beginPath();
+      ctx.arc(midX, coinY, coinR, 0, Math.PI * 2);
+      ctx.fillStyle = rimGrad;
+      ctx.fill();
+
+      // Inner white medallion face + logo
+      const faceR = coinR - 6;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(midX, coinY, faceR, 0, Math.PI * 2);
+      ctx.clip();
+      const img = logos[i];
+      if (img) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(midX - faceR, coinY - faceR, faceR * 2, faceR * 2);
+        const scale = Math.min((faceR * 1.65) / img.width, (faceR * 1.65) / img.height);
+        ctx.drawImage(
+          img,
+          midX - (img.width * scale) / 2,
+          coinY - (img.height * scale) / 2,
+          img.width * scale,
+          img.height * scale
+        );
+      } else {
+        ctx.fillStyle = m.color || "#0370b9";
+        ctx.fillRect(midX - faceR, coinY - faceR, faceR * 2, faceR * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "700 26px Oswald, Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(m.short, midX, coinY);
+      }
+      ctx.restore();
+
+      // Race Name + Best Time underneath
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "700 16px Oswald, Arial, sans-serif";
+      ctx.fillText(truncateText(ctx, m.name, slotW - 14), midX, coinY + coinR + 10);
+
+      ctx.fillStyle = "#fef000";
+      ctx.font = "700 19px Oswald, Arial, sans-serif";
+      ctx.fillText(m.bestTime || "Finisher", midX, coinY + coinR + 33);
+      ctx.textAlign = "left";
+    });
+  }
+
+  // 5. Crisp Footer Bar
   ctx.textBaseline = "middle";
   ctx.fillStyle = "#fef000";
-  ctx.font = "700 22px Oswald, Arial, sans-serif";
-  ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 36);
+  ctx.font = "700 20px Oswald, Arial, sans-serif";
+  ctx.fillText("NS-RUNNING-RESULTS.OPENSRC.MX", padX, H - 34);
 
   ctx.textAlign = "right";
   ctx.fillStyle = "rgba(248, 250, 252, 0.72)";
-  ctx.font = "600 18px Jost, Arial, sans-serif";
-  ctx.fillText("Atlantic Chip • Route541", W - padX, H - 36);
+  ctx.font = "600 16px Jost, Arial, sans-serif";
+  ctx.fillText("Official Results • Atlantic Chip & Route541", W - padX, H - 34);
   ctx.textAlign = "left";
 
-  const jpegDataUrl = canvas.toDataURL("image/jpeg", 0.9);
-  const blob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.9));
+  const jpegDataUrl = canvas.toDataURL("image/jpeg", 0.92);
+  const blob = await new Promise((res) => canvas.toBlob(res, "image/jpeg", 0.92));
   return { dataUrl: jpegDataUrl, blob, jpegBase64: jpegDataUrl };
 }
