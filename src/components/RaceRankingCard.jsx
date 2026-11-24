@@ -32,7 +32,11 @@ export default function RaceRankingCard({ sortedBySpeed, selectedIdx, onSelectRa
             <div className="rank-meta">
               <div className="rank-name">{r.name}</div>
               <div className="rank-sub">
-                {r.subEvent || r.source} • {r.shortDate}
+                {r.subEvent ? `${r.subEvent} • ` : ""}
+                {r.shortDate} •{" "}
+                <span className="feed-source-tag" style={{ verticalAlign: "middle" }}>
+                  {r.source}
+                </span>
               </div>
             </div>
             <div className="rank-score">{r.officialTime}</div>
