@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { getCommunityOverview } from "./lib/pocketbase";
 import SiteFooter from "./SiteFooter.jsx";
+import LoadingProgress from "./components/LoadingProgress.jsx";
 
 export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSelectRunner }) {
   const [year, setYear] = useState("all");
@@ -85,7 +86,12 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
       </header>
 
       {error && <div className="status-banner">{error}</div>}
-      {loading && <div className="status-banner">Loading Nova Scotia community statistics...</div>}
+      {loading && (
+        <LoadingProgress
+          key={year}
+          title={`Loading ${year === "all" ? "all-time" : year} Nova Scotia community statistics`}
+        />
+      )}
 
       {!loading && data && (
         <>
