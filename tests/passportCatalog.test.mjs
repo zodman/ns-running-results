@@ -159,3 +159,59 @@ test("Course PR Crusher requires same distance and ignores Half -> 5K drops", ()
   const pr2 = t2.trophies.find((t) => t.id === "course-pr");
   assert.equal(pr2.unlocked, true, "Faster 5K in a later year on same race must unlock Course PR");
 });
+
+test("First Marathon requires racing 42.2K distance and not just running a 5K at Medavie Blue Nose Marathon", () => {
+  const blueNose5k = [
+    {
+      name: "Medavie Blue Nose Marathon",
+      subEvent: "5K",
+      category: "5K",
+      km: 5,
+      officialSec: 2312,
+      officialTime: "38:32",
+      iso: "2024-05-18T09:00:00-03:00",
+      timestamp: Date.parse("2024-05-18T09:00:00-03:00"),
+      raceLocation: "Halifax, NS",
+      shortLocation: "Halifax"
+    }
+  ];
+
+  const p1 = evaluatePassport(blueNose5k);
+  const r1 = evaluateRegions(blueNose5k, p1);
+  const t1 = evaluateTrophies(blueNose5k, p1, r1);
+  const firstMarathon1 = t1.trophies.find((t) => t.id === "first-marathon");
+
+  assert.equal(
+    firstMarathon1.unlocked,
+    false,
+    "Running a 5K at Medavie Blue Nose Marathon must NOT unlock First Marathon"
+  );
+  assert.equal(firstMarathon1.progress, "Finish a 42.2K Marathon in NS");
+
+  const blueNoseFull = [
+    {
+      name: "Medavie Blue Nose Marathon",
+      subEvent: "Full Marathon",
+      category: "Marathon",
+      km: 42.2,
+      officialSec: 13500,
+      officialTime: "3:45:00",
+      iso: "2024-05-19T08:00:00-03:00",
+      timestamp: Date.parse("2024-05-19T08:00:00-03:00"),
+      raceLocation: "Halifax, NS",
+      shortLocation: "Halifax"
+    }
+  ];
+
+  const p2 = evaluatePassport(blueNoseFull);
+  const r2 = evaluateRegions(blueNoseFull, p2);
+  const t2 = evaluateTrophies(blueNoseFull, p2, r2);
+  const firstMarathon2 = t2.trophies.find((t) => t.id === "first-marathon");
+
+  assert.equal(
+    firstMarathon2.unlocked,
+    true,
+    "Running 42.2K Full Marathon at Medavie Blue Nose Marathon DOES unlock First Marathon"
+  );
+  assert.match(firstMarathon2.progress, /Completed at Medavie Blue Nose Marathon \(3:45:00\)/);
+});

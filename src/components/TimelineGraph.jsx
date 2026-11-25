@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { BarChart3 } from "lucide-react";
 import {
   CATEGORY_COLORS,
@@ -42,19 +42,37 @@ export default function TimelineGraph({
     return { items, minV: Math.min(...vals), maxV: Math.max(...vals) };
   }, [allChrono, graphMode]);
 
-  if (!selected || !topGraphPoints.items.length) return null;
+  const wrapRef = useRef(null);
 
   const { items, minV, maxV } = topGraphPoints;
-  const W = Math.max(920, items.length * 116);
+  const isFew = items.length <= 6;
+  const W = isFew ? 600 : Math.max(720, items.length * 80);
   const H = 264;
-  const padL = 62;
-  const padR = 54;
+  const padL = isFew ? 44 : 62;
+  const padR = isFew ? 40 : 54;
   const padT = 32;
   const padB = 74;
   const innerW = W - padL - padR;
   const innerH = H - padT - padB;
   const span = maxV - minV || 1;
   const palette = theme === "dark" ? CATEGORY_COLORS : CATEGORY_COLORS_LIGHT;
+
+  useEffect(() => {
+    if (wrapRef.current && !isFew) {
+      const activePoint = wrapRef.current.querySelector('[data-active="true"]');
+      if (activePoint) {
+        const cx = parseFloat(activePoint.getAttribute("cx") || "0");
+        if (cx > 0) {
+          wrapRef.current.scrollTo({
+            left: Math.max(0, cx - wrapRef.current.clientWidth / 2),
+            behavior: "smooth"
+          });
+        }
+      }
+    }
+  }, [selected?.idx, isFew]);
+
+  if (!selected || !topGraphPoints.items.length) return null;
 
   const coords = items.map((p, i) => {
     const x = items.length === 1 ? padL + innerW / 2 : padL + (i / (items.length - 1)) * innerW;
@@ -142,15 +160,16 @@ export default function TimelineGraph({
         </div>
       </div>
 
-      <div className="top-graph-svg-wrap">
+      <div className="top-graph-svg-wrap" ref={wrapRef}>
         <svg
           className="top-graph-svg"
           width={W}
           height={H}
           viewBox={`0 0 ${W} ${H}`}
           style={{
-            width: items.length <= 6 ? "100%" : `${W}px`,
-            minWidth: `${Math.min(W, Math.max(460, items.length * 88))}px`
+            width: isFew ? "100%" : `${W}px`,
+            minWidth: isFew ? "0" : `${Math.min(W, Math.max(460, items.length * 68))}px`,
+            display: "block"
           }}
           role="img"
           aria-label="Race performance by distance over time"
@@ -215,6 +234,7 @@ export default function TimelineGraph({
                   cx={c.x}
                   cy={c.y}
                   r={isSel ? 6.5 : 5}
+                  data-active={isSel ? "true" : undefined}
                   fill={c.color}
                   stroke={theme === "dark" ? "#040b17" : "#ffffff"}
                   strokeWidth="2.2"

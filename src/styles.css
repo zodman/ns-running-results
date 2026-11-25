@@ -464,12 +464,22 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 /* Bento Grid */
 .bento {
   display: grid;
-  grid-template-columns: 1fr 1.12fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
   gap: 20px;
   align-items: start;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
-.col { display: flex; flex-direction: column; gap: 20px; }
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
 
 .card {
   background: var(--surface);
@@ -478,6 +488,9 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   padding: 24px;
   box-shadow: var(--shadow);
   transition: background 0.25s ease, border-color 0.25s ease;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Hero Banner Card — Run Nova Scotia Blue + Kinetic Yellow CTA */
@@ -487,6 +500,8 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   border: 1px solid rgba(100, 161, 201, 0.28);
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .hero-card::after {
@@ -639,6 +654,7 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 [data-theme="light"] .stats-header span:first-child { color: var(--rns-blue); }
@@ -2882,7 +2898,19 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
 }
 
 @media (max-width: 860px) {
-  .bento { grid-template-columns: 1fr; }
+  .bento {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 16px;
+  }
+  .col {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 16px;
+  }
   .comm-kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .big-number { font-size: 52px; }
   .landing-title { font-size: 36px; }
@@ -4087,13 +4115,85 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
     flex-shrink: 0;
   }
 
-  /* Dashboard Bento Cards padding */
+  /* Dashboard Bento Cards responsive polish */
   .card {
     padding: 16px 14px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-card h2 {
+    font-size: 22px;
+    line-height: 1.2;
+    max-width: 100%;
+    word-break: break-word;
+  }
+
+  .hero-cta {
+    padding: 7px 7px 7px 16px;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .feed-card {
+    padding: 12px 14px;
+  }
+
+  .feed-item {
+    gap: 12px;
+    padding: 14px 4px;
+    margin: 0;
+  }
+
+  .medal {
+    width: 50px;
+    height: 50px;
+  }
+
+  .medal-inner {
+    font-size: 13px;
+    padding: 4px;
+  }
+
+  .feed-metric {
+    font-size: 24px;
+  }
+
+  .big-number {
+    font-size: 46px;
+  }
+
+  .chart-card {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
   }
 }
 
 @media (max-width: 440px) {
+  .big-number {
+    font-size: 38px;
+  }
+
+  .summary-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .rank-item {
+    gap: 8px;
+    padding: 10px 4px;
+  }
+
+  .rank-mini-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .rank-name {
+    font-size: 13px;
+  }
   .region-card,
   .trophy-card {
     grid-template-columns: auto 1fr;

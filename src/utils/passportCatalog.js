@@ -586,11 +586,60 @@ export function evaluateRegions(races, passport) {
 }
 
 export function evaluateTrophies(races, passport, regionStats) {
+  // Accurately identify a 42.2K full marathon
+  // (Never check race title/name because festivals like 'Medavie Blue Nose Marathon' host 5K/10K/Half races)
+  const isFullMarathon = (r) => {
+    if (!r) return false;
+    const km = Number(r.km) || 0;
+    // Shorter distance or explicitly non-marathon category cannot be full marathon
+    if (km > 0 && km < 40) return false;
+    if (["5K", "10K", "Half Marathon", "Half"].includes(r.category)) return false;
+
+    // 1. Distance check (~42.2K)
+    if (km >= 41.5 && km <= 43.5) return true;
+
+    // 2. Category check
+    if (r.category === "Marathon") return true;
+
+    // 3. SubEvent check
+    const sub = String(r.subEvent || "").toLowerCase();
+    if (/full[\s-]*marathon|42\.2\s*k|\b42k\b/i.test(sub)) return true;
+    if (/\bmarathon\b/i.test(sub) && !/half/i.test(sub)) return true;
+
+    return false;
+  };
+
+  // Accurately identify a 21.1K half marathon
+  const isHalfMarathon = (r) => {
+    if (!r) return false;
+    const km = Number(r.km) || 0;
+    if (km > 0 && (km < 20 || km > 23)) return false;
+    if (["5K", "10K", "Marathon"].includes(r.category)) return false;
+
+    // 1. Distance check (~21.1K)
+    if (km >= 20.5 && km <= 22.5) return true;
+
+    // 2. Category check
+    if (r.category === "Half Marathon" || r.category === "Half") return true;
+
+    // 3. SubEvent check
+    const sub = String(r.subEvent || "").toLowerCase();
+    if (/half[\s-]*marathon|21\.1\s*k|\b21k\b|\bhalf\b/i.test(sub)) return true;
+
+    return false;
+  };
+
   // 1. Distance Grand Slam
   const standardDists = ["5K", "10K", "Half Marathon", "Marathon"];
   const grandSlamRaces = standardDists
     .map((d) => {
-      const matching = races.filter((r) => r.category === d);
+      const matching = races.filter((r) => {
+        if (d === "Marathon") return isFullMarathon(r);
+        if (d === "Half Marathon") return isHalfMarathon(r);
+        if (d === "10K") return r.category === "10K" || (r.km >= 9.8 && r.km <= 10.5);
+        if (d === "5K") return r.category === "5K" || (r.km >= 4.8 && r.km <= 5.5);
+        return r.category === d;
+      });
       if (!matching.length) return null;
       const timed = matching.filter((r) => r.officialSec);
       return timed.length
@@ -598,7 +647,11 @@ export function evaluateTrophies(races, passport, regionStats) {
         : matching[0];
     })
     .filter(Boolean);
-  const doneDists = grandSlamRaces.map((r) => r.category);
+  const doneDists = grandSlamRaces.map((r) => {
+    if (isFullMarathon(r)) return "Marathon";
+    if (isHalfMarathon(r)) return "Half Marathon";
+    return r.category;
+  });
 
   // 2. 5K Club
   const fiveKRaces = races
@@ -608,13 +661,13 @@ export function evaluateTrophies(races, passport, regionStats) {
 
   // 2b. First Half Marathon Finisher (21.1K)
   const halfRaces = races
-    .filter((r) => r.category === "Half" || (r.km >= 21 && r.km <= 22) || /half\s*marathon/i.test(`${r.name} ${r.subEvent || ""}`))
+    .filter(isHalfMarathon)
     .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)); // Earliest first
   const firstHalf = halfRaces[0] || null;
 
   // 2c. First Full Marathon Finisher (42.2K)
   const marathonRaces = races
-    .filter((r) => r.category === "Marathon" || (r.km >= 42 && r.km <= 43) || (/\bmarathon\b/i.test(`${r.name} ${r.subEvent || ""}`) && !/half/i.test(`${r.name} ${r.subEvent || ""}`)))
+    .filter(isFullMarathon)
     .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)); // Earliest first
   const firstMarathon = marathonRaces[0] || null;
 
