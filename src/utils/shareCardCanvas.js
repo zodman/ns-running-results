@@ -830,9 +830,9 @@ async function renderSingleMedalCard({
   runnerName,
   seasonLabel,
   medal,
-  passport,
-  regionStats,
-  trophyStats,
+  passport = {},
+  regionStats = {},
+  trophyStats = {},
   format = "fb"
 }) {
   const isFb = format === "fb" || format === "og" || format === "facebook";
@@ -1172,8 +1172,9 @@ async function renderSingleTrophyCard({
   runnerName,
   seasonLabel,
   trophy,
-  passport,
-  trophyStats,
+  passport = {},
+  regionStats = {},
+  trophyStats = {},
   format = "fb"
 }) {
   const isFb = format === "fb" || format === "og" || format === "facebook";
@@ -1284,22 +1285,23 @@ async function renderSingleTrophyCard({
     // Runner Name Callout
     ctx.fillStyle = "#38bdf8";
     ctx.font = "700 24px Oswald, Arial, sans-serif";
-    ctx.fillText(`${runnerName.toUpperCase()} EARNED`, rx, 130);
+    ctx.fillText(`${runnerName.toUpperCase()} EARNED`, rx, 126);
 
-    // Trophy Title
+    // Trophy Title with Icon at level of bold title
+    const trophyHeadline = `${trophy.icon || "🏆"}  ${trophy.title.toUpperCase()}`;
     ctx.fillStyle = "#ffffff";
-    ctx.font = "800 56px Oswald, Arial, sans-serif";
-    ctx.fillText(truncateText(ctx, trophy.title.toUpperCase(), rw), rx, 168);
+    ctx.font = "800 54px Oswald, Arial, sans-serif";
+    ctx.fillText(truncateText(ctx, trophyHeadline, rw), rx, 162);
 
     // Label: ACHIEVEMENT REQUIREMENT
     ctx.fillStyle = "#fef000";
     ctx.font = "700 16px Oswald, Arial, sans-serif";
-    ctx.fillText("ACHIEVEMENT REQUIREMENT", rx, 238);
+    ctx.fillText("ACHIEVEMENT REQUIREMENT", rx, 236);
 
     // Description
     ctx.fillStyle = "rgba(248, 250, 252, 0.95)";
     ctx.font = "500 24px Jost, Arial, sans-serif";
-    ctx.fillText(truncateText(ctx, trophy.desc, rw), rx, 268);
+    ctx.fillText(truncateText(ctx, trophy.desc, rw), rx, 266);
 
     // Progress Box / Milestone
     const boxW = Math.min(rw, 720);
@@ -1311,10 +1313,13 @@ async function renderSingleTrophyCard({
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    ctx.fillStyle = "#38bdf8";
-    ctx.font = "700 21px Oswald, Arial, sans-serif";
+    ctx.fillStyle = "#fef000";
+    ctx.font = "700 18px Oswald, Arial, sans-serif";
     ctx.textBaseline = "middle";
-    ctx.fillText(`✓ Milestone: ${trophy.progress}`, rx + 24, 318 + boxH / 2);
+    ctx.fillText("MILESTONE REACHED:", rx + 20, 318 + boxH / 2);
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "700 24px Oswald, Arial, sans-serif";
+    ctx.fillText(`✓  ${trophy.progress}`, rx + 206, 318 + boxH / 2);
 
     // Runner Summary Banner
     const rankTitle = passport?.rank?.current?.title || "Nova Scotia Runner";
@@ -1425,10 +1430,10 @@ async function renderSingleTrophyCard({
 
     cy += pillH + (isStory ? 60 : 38);
 
-    // Trophy Title
+    // Trophy Title with Icon at level of bold title
     ctx.fillStyle = "#ffffff";
-    ctx.font = `800 ${isStory ? 76 : 52}px Oswald, Arial, sans-serif`;
-    ctx.fillText(trophy.title.toUpperCase(), W / 2, cy);
+    ctx.font = `800 ${isStory ? 72 : 48}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`${trophy.icon || "🏆"}  ${trophy.title.toUpperCase()}`, W / 2, cy);
     cy += isStory ? 58 : 40;
 
     // Achievement Label
@@ -1500,9 +1505,9 @@ async function renderSingleRegionCard({
   runnerName,
   seasonLabel,
   region,
-  passport,
-  regionStats,
-  trophyStats,
+  passport = {},
+  regionStats = {},
+  trophyStats = {},
   format = "fb"
 }) {
   const isFb = format === "fb" || format === "og" || format === "facebook";
@@ -1626,13 +1631,14 @@ async function renderSingleRegionCard({
         ctx.lineWidth = r.mastered ? 2 : 1.5;
         ctx.stroke();
 
-        ctx.font = "32px Apple Color Emoji, Segoe UI Emoji, sans-serif";
-        ctx.textBaseline = "top";
-        ctx.fillText(r.icon || "📍", cx + 14, cy + 14);
+        // Region Icon and Bold Region Name at exact same level
+        ctx.font = "26px Apple Color Emoji, Segoe UI Emoji, sans-serif";
+        ctx.textBaseline = "middle";
+        ctx.fillText(r.icon || "📍", cx + 14, cy + 26);
 
         ctx.fillStyle = r.mastered ? "#fef000" : r.unlocked ? "#ffffff" : "rgba(255, 255, 255, 0.5)";
         ctx.font = "700 20px Oswald, Arial, sans-serif";
-        ctx.fillText(truncateText(ctx, r.id.toUpperCase(), cardW - 68), cx + 58, cy + 18);
+        ctx.fillText(truncateText(ctx, r.id.toUpperCase(), cardW - 60), cx + 48, cy + 26);
 
         ctx.fillStyle = "rgba(248, 250, 252, 0.75)";
         ctx.font = "500 13px Jost, Arial, sans-serif";
@@ -1707,10 +1713,11 @@ async function renderSingleRegionCard({
       ctx.font = "700 24px Oswald, Arial, sans-serif";
       ctx.fillText(`${runnerName.toUpperCase()} CAPTURED`, rx, 116);
 
-      // Region Title
+      // Region Title with Icon at level of bold title
+      const regHeadline = `${region.icon || "📍"}  ${region.id.toUpperCase()} REGION`;
       ctx.fillStyle = "#ffffff";
-      ctx.font = "800 62px Oswald, Arial, sans-serif";
-      ctx.fillText(truncateText(ctx, `${region.id.toUpperCase()} REGION`, rw), rx, 146);
+      ctx.font = "800 58px Oswald, Arial, sans-serif";
+      ctx.fillText(truncateText(ctx, regHeadline, rw), rx, 146);
 
       // Towns line
       ctx.fillStyle = "#fef000";
@@ -1851,10 +1858,10 @@ async function renderSingleRegionCard({
 
     cy += pillH + (isStory ? 60 : 38);
 
-    // Region Title
+    // Region Title with Icon at level of bold title
     ctx.fillStyle = "#ffffff";
-    ctx.font = `800 ${isStory ? 76 : 52}px Oswald, Arial, sans-serif`;
-    ctx.fillText(`${region.id.toUpperCase()} REGION`, W / 2, cy);
+    ctx.font = `800 ${isStory ? 72 : 48}px Oswald, Arial, sans-serif`;
+    ctx.fillText(`${region.icon || "📍"}  ${region.id.toUpperCase()} REGION`, W / 2, cy);
     cy += isStory ? 58 : 40;
 
     // Towns

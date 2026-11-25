@@ -1,15 +1,15 @@
 import React from "react";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Headphones, Sparkles } from "lucide-react";
 
 export default function OpenSrcBanner({ className = "" }) {
   return (
-    <aside className={`opensrc-big-banner ${className}`} aria-label="app.opensrc.mx ecosystem">
+    <aside className={`opensrc-big-banner ${className}`} aria-label="app.opensrc.mx GlazeRun ecosystem">
       <div className="opensrc-banner-glow" aria-hidden="true" />
       <div className="opensrc-banner-inner">
         <div className="opensrc-banner-left">
           <div className="opensrc-brand-badge">
             <Sparkles size={13} />
-            <span>OPEN-SOURCE ATHLETIC ECOSYSTEM</span>
+            <span>OPEN-SOURCE ATHLETIC ECOSYSTEM • AI RUNNING COACH</span>
           </div>
 
           <div className="opensrc-brand-row">
@@ -18,30 +18,31 @@ export default function OpenSrcBanner({ className = "" }) {
               target="_blank"
               rel="noopener noreferrer"
               className="opensrc-logo-link"
-              title="Visit app.opensrc.mx"
+              title="Discover GlazeRun at app.opensrc.mx"
             >
               <img
                 src="/logos/opensrc.png"
-                alt="app.opensrc.mx logo"
+                alt="GlazeRun by app.opensrc.mx logo"
                 className="opensrc-banner-logo"
               />
             </a>
 
             <div className="opensrc-text-group">
               <h3 className="opensrc-banner-title">
-                Proudly Built &amp; Powered by{" "}
+                Powered by{" "}
                 <a
                   href="https://app.opensrc.mx/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="opensrc-highlight-link"
                 >
-                  app.opensrc.mx
+                  GlazeRun • app.opensrc.mx
                 </a>
               </h3>
               <p className="opensrc-banner-desc">
-                From official Nova Scotia race passports to live Atlantic Chip &amp; Route541 analytics —
-                discover modern open-source software built for runners, race directors, and athletic communities.
+                The Minimalist Zen Running Companion built for Nova Scotia. Run with 6 athletic AI voice coaches
+                including David (Run Nova Scotia Grinder: <em>&ldquo;Built for the run. Made for Nova Scotia&rdquo;</em>) and Myles (Blue Nose: <em>&ldquo;Let&rsquo;s Giv&rsquo;er!&rdquo;</em>).
+                Features 100% offline audio, native Spotify music ducking, and pocket-shielded GPS splits.
               </p>
             </div>
           </div>
@@ -54,7 +55,8 @@ export default function OpenSrcBanner({ className = "" }) {
             rel="noopener noreferrer"
             className="opensrc-cta-btn"
           >
-            <span>Visit app.opensrc.mx</span>
+            <Headphones size={16} />
+            <span>Try GlazeRun</span>
             <ArrowUpRight size={17} />
           </a>
         </div>

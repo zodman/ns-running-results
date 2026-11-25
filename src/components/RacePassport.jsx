@@ -320,19 +320,6 @@ export default function RacePassport({
                           : "Caught"}
                     </span>
                   </span>
-                  <button
-                    type="button"
-                    className="pm-share-btn"
-                    title={`Share ${item.name} medal on Facebook`}
-                    aria-label={`Share ${item.name} medal on Facebook`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedMedalForShare(item);
-                      setShowShareModal(true);
-                    }}
-                  >
-                    <Facebook size={12} />
-                  </button>
                 </div>
               ) : (
                 <span className="pm-lock-pill">
@@ -360,6 +347,23 @@ export default function RacePassport({
             ) : (
               <div className="pm-locked-hint">Not yet raced • {item.month}</div>
             )}
+
+            {item.caught && (
+              <button
+                type="button"
+                className="pm-share-btn pm-card-bottom-share"
+                title={`Share ${item.name} medal`}
+                aria-label={`Share ${item.name} medal`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedMedalForShare(item);
+                  setShowShareModal(true);
+                }}
+              >
+                <Share2 size={11} />
+                <span>Share</span>
+              </button>
+            )}
           </article>
         ))}
       </div>
@@ -377,6 +381,21 @@ export default function RacePassport({
         trophyStats={trophyStats}
         initialMedal={selectedMedalForShare}
       />
+
+      {/* Floating Bottom-Right Share Button */}
+      <button
+        type="button"
+        className="floating-share-btn"
+        onClick={() => {
+          setSelectedMedalForShare(null);
+          setShowShareModal(true);
+        }}
+        title="Share your Nova Scotia Race Passport"
+        aria-label="Share your Nova Scotia Race Passport"
+      >
+        <Share2 size={20} />
+        <span className="floating-share-label">Share Passport</span>
+      </button>
 
       {/* #1 Medal Wall Details Modal */}
       <InfoModal

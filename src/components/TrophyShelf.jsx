@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { CheckCircle2, ChevronDown, ChevronUp, HelpCircle, Lock, Share2, Trophy } from "lucide-react";
+import { ChevronDown, ChevronUp, HelpCircle, Lock, Share2, Trophy } from "lucide-react";
 import InfoModal from "./InfoModal.jsx";
 
 export default function TrophyShelf({ trophyStats, onShareTrophy }) {
@@ -101,32 +101,42 @@ export default function TrophyShelf({ trophyStats, onShareTrophy }) {
           <div className="trophy-grid">
             {visibleTrophies.map((t) => (
               <div key={t.id} className={`trophy-card ${t.unlocked ? "unlocked" : "locked"}`}>
-                <div className="trophy-card-head">
-                  <div className="trophy-title-wrap">
-                    <span className="trophy-icon-disc" aria-hidden="true">{t.icon}</span>
-                    <strong className="trophy-title">{t.title}</strong>
+                <div className="trophy-card-visual">
+                  <span className="trophy-icon" aria-hidden="true">{t.icon}</span>
+                  {!t.unlocked && (
+                    <span className="trophy-status locked" title="Locked">
+                      <Lock size={12} />
+                      <span>Locked</span>
+                    </span>
+                  )}
+                </div>
+
+                <div className="trophy-card-content">
+                  <div className="trophy-card-head-row">
+                    <h4 className="trophy-title">{t.title}</h4>
                   </div>
-                  <div className="trophy-status-wrap">
-                    {t.unlocked ? (
-                      <span className="trophy-status unlocked">
-                        <CheckCircle2 size={12} />
-                        <span>Unlocked</span>
-                      </span>
-                    ) : (
-                      <span className="trophy-status locked">
-                        <Lock size={11} />
-                        <span>Locked</span>
-                      </span>
-                    )}
+                  <p className="trophy-desc">{t.desc}</p>
+                  <div className="trophy-progress-row">
+                    <span className="trophy-progress-label">Milestone</span>
+                    <span className="trophy-progress-val">{t.progress}</span>
                   </div>
                 </div>
 
-                <p className="trophy-desc">{t.desc}</p>
-
-                <div className="trophy-progress-row">
-                  <span className="trophy-progress-label">Progress:</span>
-                  <span className="trophy-progress-val">{t.progress}</span>
-                </div>
+                {t.unlocked && onShareTrophy && (
+                  <button
+                    type="button"
+                    className="pm-share-btn trophy-card-share-btn"
+                    title={`Share ${t.title} Trophy`}
+                    aria-label={`Share ${t.title} Trophy`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onShareTrophy(t);
+                    }}
+                  >
+                    <Share2 size={11} />
+                    <span>Share</span>
+                  </button>
+                )}
               </div>
             ))}
           </div>

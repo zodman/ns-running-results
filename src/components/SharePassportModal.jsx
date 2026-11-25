@@ -18,12 +18,15 @@ function StravaIcon({ size = 14, className = "" }) {
   );
 }
 
-function resolveInitialId(item) {
+function resolveInitialId(item, trophyStats) {
   if (!item) return "all";
   if (item.towns && item.id) return `region:${item.id}`;
   if (item.id === "regions:all") return "regions:all";
   if (item.title && item.id && item.id !== "shelf") return `trophy:${item.id}`;
-  if (item.id === "shelf") return "all";
+  if (item.id === "shelf") {
+    const firstUnlocked = trophyStats?.trophies?.find((t) => t.unlocked);
+    return firstUnlocked ? `trophy:${firstUnlocked.id}` : "all";
+  }
   return item.id || "all";
 }
 
@@ -49,7 +52,7 @@ export default function SharePassportModal({
     [trophyStats?.trophies]
   );
 
-  const [selectedMedalId, setSelectedMedalId] = useState(() => resolveInitialId(initialMedal));
+  const [selectedMedalId, setSelectedMedalId] = useState(() => resolveInitialId(initialMedal, trophyStats));
 
   const [previewUrl, setPreviewUrl] = useState("");
   const [blob, setBlob] = useState(null);
@@ -61,9 +64,9 @@ export default function SharePassportModal({
 
   useEffect(() => {
     if (open) {
-      setSelectedMedalId(resolveInitialId(initialMedal));
+      setSelectedMedalId(resolveInitialId(initialMedal, trophyStats));
     }
-  }, [open, initialMedal]);
+  }, [open, initialMedal, trophyStats]);
 
   const isRegion = selectedMedalId.startsWith("region:") || selectedMedalId === "regions:all";
   const isTrophy = selectedMedalId.startsWith("trophy:");
@@ -80,13 +83,21 @@ export default function SharePassportModal({
   const activeTrophy = useMemo(() => {
     if (!isTrophy) return null;
     const tId = selectedMedalId.replace(/^trophy:/, "");
-    return unlockedTrophies.find((t) => t.id === tId) || null;
-  }, [isTrophy, selectedMedalId, unlockedTrophies]);
+    return (
+      unlockedTrophies.find((t) => t.id === tId) ||
+      trophyStats?.trophies?.find((t) => t.id === tId) ||
+      null
+    );
+  }, [isTrophy, selectedMedalId, unlockedTrophies, trophyStats?.trophies]);
 
   const activeMedal = useMemo(() => {
     if (selectedMedalId === "all" || isTrophy || isRegion) return null;
-    return caughtMedals.find((m) => m.id === selectedMedalId) || null;
-  }, [selectedMedalId, isTrophy, isRegion, caughtMedals]);
+    return (
+      caughtMedals.find((m) => m.id === selectedMedalId) ||
+      passport?.entries?.find((m) => m.id === selectedMedalId) ||
+      null
+    );
+  }, [selectedMedalId, isTrophy, isRegion, caughtMedals, passport?.entries]);
 
   const shareOrigin = useMemo(() => {
     if (typeof window === "undefined") return "https://ns-running-results.opensrc.mx";

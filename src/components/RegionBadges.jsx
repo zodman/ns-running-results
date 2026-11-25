@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { CheckCircle2, HelpCircle, Lock, MapPin, Share2 } from "lucide-react";
+import { HelpCircle, Lock, MapPin, Share2 } from "lucide-react";
 import { NS_REGIONS } from "../utils/passportCatalog";
 import InfoModal from "./InfoModal.jsx";
 
 export default function RegionBadges({ regionStats, activeRegion, onSelectRegion, onShareRegion }) {
   const [showInfo, setShowInfo] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const lockedCount = Math.max(0, regionStats.totalRegions - regionStats.unlockedCount);
+
+  const visibleRegions = regionStats.regions.filter((reg) => {
+    if (statusFilter === "unlocked") return reg.unlocked;
+    if (statusFilter === "locked") return !reg.unlocked;
+    return true;
+  });
 
   return (
     <section className="card region-section">
@@ -56,47 +65,92 @@ export default function RegionBadges({ regionStats, activeRegion, onSelectRegion
         />
       </div>
 
+      {/* Segmented Filter Toggle: All | Unlocked | Locked */}
+      <div className="trophy-filter-bar">
+        <div className="graph-mode-tabs trophy-filter-tabs">
+          <button
+            type="button"
+            className={`graph-tab ${statusFilter === "all" ? "active" : ""}`}
+            onClick={() => setStatusFilter("all")}
+          >
+            All ({regionStats.totalRegions})
+          </button>
+          <button
+            type="button"
+            className={`graph-tab ${statusFilter === "unlocked" ? "active" : ""}`}
+            onClick={() => setStatusFilter("unlocked")}
+          >
+            📍 Unlocked ({regionStats.unlockedCount})
+          </button>
+          <button
+            type="button"
+            className={`graph-tab ${statusFilter === "locked" ? "active" : ""}`}
+            onClick={() => setStatusFilter("locked")}
+          >
+            🔒 Locked ({lockedCount})
+          </button>
+        </div>
+      </div>
+
       <div className="region-grid">
-        {regionStats.regions.map((reg) => {
+        {visibleRegions.map((reg) => {
           const isActive = activeRegion === reg.id;
           return (
-            <button
+            <div
               key={reg.id}
-              type="button"
+              role="button"
+              tabIndex={0}
               className={`region-card ${reg.unlocked ? "unlocked" : "locked"} ${reg.mastered ? "mastered" : ""} ${isActive ? "active" : ""}`}
               onClick={() => onSelectRegion(isActive ? "all" : reg.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSelectRegion(isActive ? "all" : reg.id);
+                }
+              }}
               title={`Click to filter Medal Wall to ${reg.id}`}
             >
-              <div className="region-card-head">
-                <div className="region-title-wrap">
-                  <span className="region-emoji" aria-hidden="true">{reg.icon}</span>
-                  <strong className="region-name">{reg.id}</strong>
+              <div className="region-card-visual">
+                <span className="region-emoji" aria-hidden="true">{reg.icon}</span>
+                {reg.mastered ? (
+                  <span className="pm-tier-pill gold">★ Mastered</span>
+                ) : !reg.unlocked ? (
+                  <span className="region-lock" title="Locked">
+                    <Lock size={12} />
+                    <span>Locked</span>
+                  </span>
+                ) : null}
+              </div>
+
+              <div className="region-card-content">
+                <div className="region-card-head-row">
+                  <h4 className="region-name">{reg.id}</h4>
                 </div>
-                <div className="region-status-wrap">
-                  {reg.mastered ? (
-                    <span className="pm-tier-pill gold">Mastered</span>
-                  ) : reg.unlocked ? (
-                    <span className="region-check" title="Captured">
-                      <CheckCircle2 size={15} />
-                    </span>
-                  ) : (
-                    <span className="region-lock" title="Locked">
-                      <Lock size={13} />
-                    </span>
-                  )}
+                <p className="region-towns" title={reg.towns}>{reg.towns}</p>
+                <div className="trophy-progress-row">
+                  <span className="trophy-progress-label">Finishes</span>
+                  <span className="trophy-progress-val">
+                    {reg.raceCount} {reg.raceCount === 1 ? "finish" : "finishes"} • {reg.caughtMedals}/{reg.totalMedals} medals
+                  </span>
                 </div>
               </div>
-              <div className="region-towns" title={reg.towns}>{reg.towns}</div>
-              <div className="region-foot">
-                <span className="region-finishes-badge">
-                  {reg.raceCount} {reg.raceCount === 1 ? "finish" : "finishes"}
-                </span>
-                <span className="region-foot-dot" aria-hidden="true">•</span>
-                <span className="region-medals-badge">
-                  {reg.caughtMedals}/{reg.totalMedals} medals
-                </span>
-              </div>
-            </button>
+
+              {reg.unlocked && onShareRegion && (
+                <button
+                  type="button"
+                  className="pm-share-btn region-card-share-btn"
+                  title={`Share ${reg.id} Region`}
+                  aria-label={`Share ${reg.id} Region`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onShareRegion(reg);
+                  }}
+                >
+                  <Share2 size={11} />
+                  <span>Share</span>
+                </button>
+              )}
+            </div>
           );
         })}
       </div>
