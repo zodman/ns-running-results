@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowRight, Moon, Search, Sun, Users } from "lucide-react";
 import SiteFooter from "../SiteFooter.jsx";
 import OpenSrcBanner from "./OpenSrcBanner.jsx";
+import TimingPartnersBanner from "./TimingPartnersBanner.jsx";
 
 export default function LandingPage({
   theme,
@@ -18,6 +19,7 @@ export default function LandingPage({
 }) {
   return (
     <div className="container">
+      <TimingPartnersBanner className="landing-top-banner" />
       <header className="topbar">
         <div className="brand">
           <div className="avatar">NS</div>

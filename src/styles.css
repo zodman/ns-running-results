@@ -4757,3 +4757,211 @@ h1, h2, h3, .landing-title, .big-number, .feed-metric, .chart-big, .progress-big
   }
 }
 
+/* =========================================================
+   Official Timing Partners Top Banner (Atlantic Chip & Route541)
+   ========================================================= */
+.timing-partners-banner {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(7, 25, 50, 0.95) 0%, rgba(13, 40, 79, 0.9) 100%);
+  border: 1px solid rgba(100, 161, 201, 0.28);
+  border-left: 4px solid #fef000;
+  box-shadow: 0 4px 14px rgba(2, 6, 23, 0.35);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="light"] .timing-partners-banner {
+  background: #ffffff;
+  border: 1px solid #bae6fd;
+  border-left: 4px solid #0370b9;
+  box-shadow: 0 4px 16px rgba(3, 112, 185, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.timing-partners-banner:hover {
+  border-color: rgba(254, 240, 0, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .timing-partners-banner:hover {
+  border-color: #38bdf8;
+  border-left-color: #0284c7;
+  box-shadow: 0 6px 20px rgba(3, 112, 185, 0.14);
+}
+
+.partners-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px;
+}
+
+.partners-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.partners-banner-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.35;
+  flex-wrap: wrap;
+}
+
+.partners-banner-title {
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .partners-banner-title {
+  color: #033d65;
+}
+
+.partners-banner-sep {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+[data-theme="light"] .partners-banner-sep {
+  color: #0370b9;
+  opacity: 0.8;
+}
+
+.partners-banner-desc {
+  color: rgba(248, 250, 252, 0.9);
+  font-size: 12.5px;
+}
+
+[data-theme="light"] .partners-banner-desc {
+  color: #1e293b;
+  font-weight: 450;
+}
+
+.partners-banner-right {
+  flex-shrink: 0;
+}
+
+.partners-links-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.partner-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(8, 20, 38, 0.85);
+  border: 1px solid rgba(100, 161, 201, 0.25);
+  text-decoration: none;
+  color: #f8fafc;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .partner-card-link {
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  color: #033d65;
+  box-shadow: 0 1px 3px rgba(3, 112, 185, 0.06);
+}
+
+.partner-card-link:hover {
+  transform: translateY(-1px);
+  border-color: #fef000;
+  box-shadow: 0 2px 10px rgba(254, 240, 0, 0.25);
+}
+
+[data-theme="light"] .partner-card-link:hover {
+  background: #0370b9;
+  border-color: #025a96;
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(3, 112, 185, 0.25);
+}
+
+.partner-logo-img {
+  height: 16px;
+  width: auto;
+  max-width: 44px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 1px 4px;
+  border-radius: 4px;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .partner-logo-img {
+  background: #ffffff;
+  border: 1px solid #bfdbfe;
+}
+
+.partner-name {
+  font-family: "Jost", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+[data-theme="light"] .partner-name {
+  color: #033d65;
+}
+
+[data-theme="light"] .partner-card-link:hover .partner-name {
+  color: #ffffff;
+}
+
+.partner-arrow {
+  color: var(--rns-sky);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.partner-card-link:hover .partner-arrow {
+  transform: translate(1px, -1px);
+  color: #fef000;
+}
+
+[data-theme="light"] .partner-arrow {
+  color: #0284c7;
+}
+
+[data-theme="light"] .partner-card-link:hover .partner-arrow {
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .partners-banner-inner {
+    padding: 8px 10px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .partners-banner-left {
+    gap: 6px;
+  }
+  .partners-banner-sep {
+    display: none;
+  }
+  .partners-banner-right {
+    width: 100%;
+  }
+  .partners-links-group {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+

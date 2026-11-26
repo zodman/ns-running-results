@@ -14,6 +14,7 @@ import { getCommunityOverview } from "./lib/pocketbase";
 import SiteFooter from "./SiteFooter.jsx";
 import LoadingProgress from "./components/LoadingProgress.jsx";
 import OpenSrcBanner from "./components/OpenSrcBanner.jsx";
+import TimingPartnersBanner from "./components/TimingPartnersBanner.jsx";
 
 export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSelectRunner }) {
   const [year, setYear] = useState("all");
@@ -56,6 +57,7 @@ export default function CommunityDashboard({ theme, onToggleTheme, onBack, onSel
 
   return (
     <div className="container">
+      <TimingPartnersBanner className="community-top-banner" />
       <header className="topbar">
         <div className="brand">
           <div className="avatar">NS</div>

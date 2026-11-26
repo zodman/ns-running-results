@@ -9,6 +9,7 @@ import RacePassport from "../src/components/RacePassport.jsx";
 import SharePassportModal from "../src/components/SharePassportModal.jsx";
 import TimelineGraph from "../src/components/TimelineGraph.jsx";
 import OpenSrcBanner from "../src/components/OpenSrcBanner.jsx";
+import TimingPartnersBanner from "../src/components/TimingPartnersBanner.jsx";
 import {
   evaluatePassport,
   evaluateRegions,
@@ -284,6 +285,36 @@ describe("TimelineGraph", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Pace" }));
     expect(onModeChange).toHaveBeenCalledWith("pace");
+  });
+});
+
+describe("TimingPartnersBanner", () => {
+  it("renders Atlantic Chip and Route541 banner with logos, attribution, and links", () => {
+    render(<TimingPartnersBanner />);
+    expect(screen.getByText(/Powered by Atlantic Chip & Route541/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Without Atlantic Chip and Route541, this website is not possible/i)
+    ).toBeInTheDocument();
+
+    const acLogo = screen.getByAltText("Atlantic Chip");
+    expect(acLogo).toHaveAttribute("src", "/logos/atlantic_chip.png");
+
+    const r541Logo = screen.getByAltText("Route541");
+    expect(r541Logo).toHaveAttribute("src", "/logos/route541.png");
+
+    const links = screen.getAllByRole("link");
+    expect(
+      links.some((l) =>
+        (l.getAttribute("href") || "").startsWith("https://www.atlanticchip.ca/") &&
+        (l.getAttribute("href") || "").includes("utm_source=ns_running_results")
+      )
+    ).toBe(true);
+    expect(
+      links.some((l) =>
+        (l.getAttribute("href") || "").startsWith("https://www.route541.com/") &&
+        (l.getAttribute("href") || "").includes("utm_source=ns_running_results")
+      )
+    ).toBe(true);
   });
 });
 

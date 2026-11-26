@@ -10,6 +10,7 @@ import RaceFeedColumn from "./components/RaceFeedColumn.jsx";
 import CategoryFilterBar from "./components/CategoryFilterBar.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import RacePassport from "./components/RacePassport.jsx";
+import TimingPartnersBanner from "./components/TimingPartnersBanner.jsx";
 import { evaluatePassport, evaluateRegions, evaluateTrophies } from "./utils/passportCatalog";
 import { renderPassportShareCard } from "./utils/shareCardCanvas";
 import {
@@ -261,6 +262,9 @@ export default function App() {
     <div className="container">
       {!isEmbed && (
         <>
+          {/* Timing Partners Banner */}
+          <TimingPartnersBanner className="runner-top-banner" />
+
           {/* Top Bar */}
           <header className="topbar">
         <div className="brand">
@@ -296,10 +300,6 @@ export default function App() {
               <span>{optOutDone ? "Removed from Community" : "Remove from Community"}</span>
             </button>
           )}
-          <div className="ac-chip-badge" title="Official results from Atlantic Chip & Route541">
-            <img src="/logos/atlantic_chip.png" alt="Atlantic Chip" />
-            <span>Atlantic Chip + Route541</span>
-          </div>
           <button className="theme-btn" type="button" onClick={toggleTheme}>
             {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
             <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
